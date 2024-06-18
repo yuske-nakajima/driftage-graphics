@@ -37,7 +37,7 @@ const SiteMainArea: FC<{ children: ReactNode } & Props> = ({
           'bg-transparent',
           'border-2',
           'border-gray-300',
-          'rounded-3xl',
+          // 'rounded-3xl',
           'h-5/6',
           'w-full',
           'p-2',
@@ -48,12 +48,13 @@ const SiteMainArea: FC<{ children: ReactNode } & Props> = ({
             'bg-white',
             'border-2',
             'border-gray-600',
-            'rounded-3xl',
+            // 'rounded-3xl',
             'h-full',
             'w-full',
             'flex',
             'justify-center',
             'items-center',
+            // z-index
           ].join(' ')}
         >
           {children}
