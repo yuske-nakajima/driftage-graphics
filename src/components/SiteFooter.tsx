@@ -2,12 +2,12 @@ const SiteFooter = () => {
   return (
     <>
       <footer
+        style={{ fontSize: '0.5rem' }}
         className={[
           'bg-transparent',
           'py-2',
           'flex',
           'justify-end',
-          'text-xs',
           'text-gray-600',
         ].join(' ')}
       >

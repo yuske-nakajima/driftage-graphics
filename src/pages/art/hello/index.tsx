@@ -27,7 +27,7 @@ const strokeCircle = (p5: P5CanvasInstance, r: number, point: Point) => {
 const particle = (p5: P5CanvasInstance, point: Point) => {
   p5.noStroke()
   p5.fill(255)
-  p5.ellipse(point.x, point.y, 10, 10)
+  p5.ellipse(point.x, point.y, 20, 20)
 }
 
 const line = (p5: P5CanvasInstance, startPoint: Point, endPoint: Point) => {
@@ -47,7 +47,16 @@ const sketch: Sketch = (p5) => {
   }
 
   p5.setup = () => {
-    p5.createCanvas(p5.windowWidth - 130 * 2, p5.windowHeight - 225 * 2)
+    let w: number = p5.windowWidth - 40 * 2
+    let h: number
+    if (p5.windowWidth >= 640) {
+      w = p5.windowWidth - 80 * 2
+      h = p5.windowHeight - 225 * 2
+    } else {
+      h = (p5.windowHeight / 3.2) * 2
+    }
+
+    p5.createCanvas(w, h)
     p5.colorMode(p5.HSB)
     p5.background(0, 0, 0)
 
@@ -76,17 +85,6 @@ const sketch: Sketch = (p5) => {
       }
 
       angleList[i] += SPEED
-    }
-
-    for (let y = 0; y < NUM; y++) {
-      for (let x = 0; x < NUM; x++) {
-        if (x === 0 || x === divNum || y === 0 || y === divNum) {
-          pointList.push({
-            x: (p5.width / divNum) * x,
-            y: (p5.height / divNum) * y,
-          })
-        }
-      }
     }
   }
 }

@@ -5,13 +5,14 @@ const SiteContainer: FC<{ children: ReactNode }> = ({ children }) => {
     <>
       <div
         className={[
-          'bg-gray-800',
+          'bg-gray-700',
           'h-screen',
           'flex',
           'flex-col',
           'justify-between',
-          'xl:px-20',
-          'sm:px-10',
+          'px-2',
+          'sm:px-4',
+          'md:px-8',
         ].join(' ')}
       >
         {children}

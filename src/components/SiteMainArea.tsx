@@ -16,8 +16,10 @@ const SiteMainArea: FC<{ children: ReactNode } & Props> = ({
         'bg-gray-200',
         'h-5/6',
         'border-8',
-        'border-gray-600',
-        'px-6',
+        'border-gray-900',
+        'px-2',
+        'md:px-6',
+        'shadow-lg',
       ].join(' ')}
     >
       <div
@@ -37,7 +39,6 @@ const SiteMainArea: FC<{ children: ReactNode } & Props> = ({
           'bg-transparent',
           'border-2',
           'border-gray-300',
-          // 'rounded-3xl',
           'h-5/6',
           'w-full',
           'p-2',
@@ -48,25 +49,25 @@ const SiteMainArea: FC<{ children: ReactNode } & Props> = ({
             'bg-white',
             'border-2',
             'border-gray-600',
-            // 'rounded-3xl',
             'h-full',
             'w-full',
             'flex',
             'justify-center',
             'items-center',
-            // z-index
           ].join(' ')}
         >
           {children}
         </div>
       </div>
-      <div className={['bg-transparent'].join(' ')}>
+      <div className={['bg-transparent', 'overflow-y-auto'].join(' ')}>
         <div
           className={[
             'grid',
             'grid-cols-[auto,1fr]',
             'gap-x-2',
             'py-2',
+            'text-sm',
+            'sm:text-md',
             'text-gray-400',
           ].join(' ')}
         >
