@@ -3,6 +3,7 @@ import SiteFooter from '@/components/SiteFooter'
 import SiteHeader from '@/components/SiteHeader'
 import SiteMainArea from '@/components/SiteMainArea'
 
+import { fitCreateCanvas } from '@/lib/functions'
 import { NextReactP5Wrapper } from '@p5-wrapper/next'
 import type { P5CanvasInstance, Sketch } from '@p5-wrapper/react'
 
@@ -47,16 +48,7 @@ const sketch: Sketch = (p5) => {
   }
 
   p5.setup = () => {
-    let w: number = p5.windowWidth - 40 * 2
-    let h: number
-    if (p5.windowWidth >= 640) {
-      w = p5.windowWidth - 80 * 2
-      h = p5.windowHeight - 225 * 2
-    } else {
-      h = (p5.windowHeight / 3.2) * 2
-    }
-
-    p5.createCanvas(w, h)
+    fitCreateCanvas(p5)
     p5.colorMode(p5.HSB)
     p5.background(0, 0, 0)
 
