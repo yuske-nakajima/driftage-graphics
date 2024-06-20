@@ -25,3 +25,15 @@ export const drawBlock = (p5: P5CanvasInstance, func: () => void) => {
   func()
   p5.pop()
 }
+
+export const noisyPoint = (
+  p5: P5CanvasInstance,
+  value: number,
+  moveLevel: number,
+): number => {
+  return (
+    p5.noise(p5.frameCount * p5.random(1, moveLevel)) *
+      p5.random(1, moveLevel) +
+    value
+  )
+}
