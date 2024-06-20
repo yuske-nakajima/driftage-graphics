@@ -4,8 +4,10 @@ const SiteContainer: FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <>
       <div
+        style={{
+          backgroundColor: '#4a4a55',
+        }}
         className={[
-          'bg-gray-700',
           'h-screen',
           'flex',
           'flex-col',

@@ -13,6 +13,9 @@ const SiteTitle = () => {
     >
       DRIFTAGE GRAPHICS
       <span
+        style={{
+          color: '#4f4f55',
+        }}
         className={[
           'text-xs',
           'sm:text-xs',
