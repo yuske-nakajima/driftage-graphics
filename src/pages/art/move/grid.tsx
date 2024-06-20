@@ -61,7 +61,7 @@ const sketch: Sketch = (p5) => {
         dotPointList.forEach((point) => {
           drawBlock(p5, () => {
             p5.fill(0, 0, 100)
-            p5.circle(point.x, point.y, 10)
+            p5.circle(point.x, point.y, p5.width / 100)
           })
         })
       })
