@@ -4,13 +4,9 @@ import SiteHeader from '@/components/SiteHeader'
 import SiteMainArea from '@/components/SiteMainArea'
 
 import { fitCreateCanvas } from '@/lib/functions'
+import { Point } from '@/lib/types'
 import { NextReactP5Wrapper } from '@p5-wrapper/next'
 import type { P5CanvasInstance, Sketch } from '@p5-wrapper/react'
-
-type Point = {
-  x: number
-  y: number
-}
 
 const NUM = 5
 const R = 300

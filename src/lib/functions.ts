@@ -12,3 +12,16 @@ export const fitCreateCanvas = (p5: P5CanvasInstance) => {
 
   p5.createCanvas(w, h)
 }
+
+/*
+ * ブロックを描画する
+ * @param p5 P5CanvasInstance
+ * @param func 描画する処理
+ * @returns void
+ * 渡した関数をpush/popで囲んで描画する。他の処理にスタイルが影響しないようにするため。
+ */
+export const drawBlock = (p5: P5CanvasInstance, func: () => void) => {
+  p5.push()
+  func()
+  p5.pop()
+}
