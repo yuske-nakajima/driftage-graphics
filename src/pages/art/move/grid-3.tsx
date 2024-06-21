@@ -19,6 +19,9 @@ const sketch: Sketch = (p5) => {
     endPoint: Vector
   }> = []
 
+  let smallPoint: number
+  let bigPoint: number
+
   p5.setup = () => {
     fitCreateCanvas(p5)
     p5.colorMode(p5.HSB)
@@ -67,6 +70,9 @@ const sketch: Sketch = (p5) => {
         endPoint: p5.createVector(0, yLineList[xLineList.length - 1 - xi]),
       })
     }
+
+    smallPoint = p5.max(4, p5.width / 100)
+    bigPoint = p5.max(10, p5.width / 50)
   }
 
   p5.draw = () => {
@@ -95,12 +101,12 @@ const sketch: Sketch = (p5) => {
             p5.circle(
               noisyPoint(p5, point.x, moveLevel),
               point.y,
-              p5.width / 50,
+              p5.min(20, bigPoint),
             )
           })
           drawBlock(p5, () => {
             p5.fill(0, 0, 100)
-            p5.circle(point.x, point.y, p5.width / 100)
+            p5.circle(point.x, point.y, p5.min(10, smallPoint))
           })
         })
       })
