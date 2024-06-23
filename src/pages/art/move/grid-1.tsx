@@ -1,4 +1,4 @@
-import DefaultSketch from '@/components/DefaultSketch'
+import DefaultSketch from '@/components/pages/DefaultSketch'
 import { drawBlock, fitCreateCanvas } from '@/lib/functions'
 import { SiteInfo } from '@/lib/types'
 import type { P5CanvasInstance, Sketch } from '@p5-wrapper/react'
