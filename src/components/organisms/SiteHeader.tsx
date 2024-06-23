@@ -1,10 +1,13 @@
 import SiteTitle from '@/components/molecules/SiteTitle'
+import Link from 'next/link'
 
 const index = () => {
   return (
     <>
       <header className={['bg-transparent', 'py-2'].join(' ')}>
-        <SiteTitle />
+        <Link href='/'>
+          <SiteTitle />
+        </Link>
       </header>
     </>
   )
