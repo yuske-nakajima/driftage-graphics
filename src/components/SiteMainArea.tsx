@@ -5,7 +5,7 @@ type Props = {
   description: string
 }
 
-const SiteMainArea: FC<{ children: ReactNode } & Props> = ({
+const index: FC<{ children: ReactNode } & Props> = ({
   children,
   name,
   description,
@@ -80,4 +80,4 @@ const SiteMainArea: FC<{ children: ReactNode } & Props> = ({
     </div>
   )
 }
-export default SiteMainArea
+export default index

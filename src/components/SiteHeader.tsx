@@ -1,6 +1,6 @@
 import SiteTitle from '@/components/SiteTitle'
 
-const SiteHeader = () => {
+const index = () => {
   return (
     <>
       <header className={['bg-transparent', 'py-2'].join(' ')}>
@@ -9,4 +9,4 @@ const SiteHeader = () => {
     </>
   )
 }
-export default SiteHeader
+export default index

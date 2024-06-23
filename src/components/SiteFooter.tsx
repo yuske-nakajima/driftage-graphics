@@ -1,4 +1,4 @@
-const SiteFooter = () => {
+const index = () => {
   return (
     <>
       <footer
@@ -18,4 +18,4 @@ const SiteFooter = () => {
     </>
   )
 }
-export default SiteFooter
+export default index

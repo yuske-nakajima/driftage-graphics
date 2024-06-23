@@ -1,4 +1,4 @@
-const SiteTitle = () => {
+const index = () => {
   return (
     <h1
       className={[
@@ -29,4 +29,4 @@ const SiteTitle = () => {
     </h1>
   )
 }
-export default SiteTitle
+export default index

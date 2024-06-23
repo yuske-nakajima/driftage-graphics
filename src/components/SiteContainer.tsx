@@ -1,6 +1,6 @@
 import { FC, ReactNode } from 'react'
 
-const SiteContainer: FC<{ children: ReactNode }> = ({ children }) => {
+const index: FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <>
       <div
@@ -22,4 +22,4 @@ const SiteContainer: FC<{ children: ReactNode }> = ({ children }) => {
     </>
   )
 }
-export default SiteContainer
+export default index
