@@ -1,12 +1,7 @@
-import SiteContainer from '@/components/SiteContainer'
-import SiteFooter from '@/components/SiteFooter'
-import SiteHeader from '@/components/SiteHeader'
-import SiteMainArea from '@/components/SiteMainArea'
-
+import DefaultSketch from '@/components/DefaultSketch'
 import { drawBlock, fitCreateCanvas } from '@/lib/functions'
-import { NextReactP5Wrapper } from '@p5-wrapper/next'
+import { SiteInfo } from '@/lib/types'
 import type { P5CanvasInstance, Sketch } from '@p5-wrapper/react'
-import { Vector } from 'p5'
 
 const moveLevel = 3
 
@@ -19,11 +14,8 @@ const noisyPoint = (p5: P5CanvasInstance, value: number): number => {
 }
 
 const sketch: Sketch = (p5) => {
-  const dotPointList: Array<Vector> = []
   const xLineList: Array<number> = []
   const yLineList: Array<number> = []
-
-  let smallPoint: number
 
   p5.setup = () => {
     fitCreateCanvas(p5)
@@ -38,11 +30,8 @@ const sketch: Sketch = (p5) => {
         if (x === 0) {
           yLineList.push(y * interval.y)
         }
-        dotPointList.push(p5.createVector(x * interval.x, y * interval.y))
       }
     }
-
-    smallPoint = p5.max(8, p5.width / 100)
   }
 
   p5.draw = () => {
@@ -59,31 +48,20 @@ const sketch: Sketch = (p5) => {
           p5.line(0, noisyPoint(p5, y), p5.width, noisyPoint(p5, y))
         })
       })
-
-      drawBlock(p5, () => {
-        p5.noStroke()
-        dotPointList.forEach((point) => {
-          drawBlock(p5, () => {
-            p5.fill(0, 0, 100)
-            p5.circle(point.x, point.y, p5.min(20, smallPoint))
-          })
-        })
-      })
     })
   }
 }
 
+const siteInfo: SiteInfo = {
+  title: '格子',
+  description: '揺れる格子',
+}
+
 const index = () => {
+  const { title, description } = siteInfo
+
   return (
-    <>
-      <SiteContainer>
-        <SiteHeader />
-        <SiteMainArea name={'grid'} description={'点を並べて'}>
-          <NextReactP5Wrapper sketch={sketch} />
-        </SiteMainArea>
-        <SiteFooter />
-      </SiteContainer>
-    </>
+    <DefaultSketch title={title} description={description} sketch={sketch} />
   )
 }
 export default index

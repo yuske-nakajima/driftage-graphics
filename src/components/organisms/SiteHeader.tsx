@@ -1,4 +1,4 @@
-import SiteTitle from '@/components/SiteTitle'
+import SiteTitle from '@/components/molecules/SiteTitle'
 
 const index = () => {
   return (

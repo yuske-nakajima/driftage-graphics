@@ -1,10 +1,6 @@
-import SiteContainer from '@/components/SiteContainer'
-import SiteFooter from '@/components/SiteFooter'
-import SiteHeader from '@/components/SiteHeader'
-import SiteMainArea from '@/components/SiteMainArea'
-
+import DefaultSketch from '@/components/DefaultSketch'
 import { drawBlock, fitCreateCanvas } from '@/lib/functions'
-import { NextReactP5Wrapper } from '@p5-wrapper/next'
+import { SiteInfo } from '@/lib/types'
 import type { Sketch } from '@p5-wrapper/react'
 import { Vector } from 'p5'
 
@@ -50,17 +46,16 @@ const sketch: Sketch = (p5) => {
   }
 }
 
+const siteInfo: SiteInfo = {
+  title: '揺れる点',
+  description: '点を並べて揺らしてみた',
+}
+
 const index = () => {
+  const { title, description } = siteInfo
+
   return (
-    <>
-      <SiteContainer>
-        <SiteHeader />
-        <SiteMainArea name={'grid'} description={'点を並べて'}>
-          <NextReactP5Wrapper sketch={sketch} />
-        </SiteMainArea>
-        <SiteFooter />
-      </SiteContainer>
-    </>
+    <DefaultSketch title={title} description={description} sketch={sketch} />
   )
 }
 export default index
