@@ -2,13 +2,15 @@ import { P5CanvasInstance } from '@p5-wrapper/react'
 
 export const fitCreateCanvas = (p5: P5CanvasInstance) => {
   let w: number = p5.windowWidth - 40 * 2
-  let h: number
+  const h = (p5.windowHeight - 80) / 1.43
+
   if (p5.windowWidth >= 640) {
     w = p5.windowWidth - 80 * 2
-    h = p5.windowHeight - 225 * 2
-  } else {
-    h = (p5.windowHeight / 3.2) * 2
   }
+
+  console.log('p5.windowWidth: ', p5.windowWidth)
+  console.log('p5.windowHeight: ', p5.windowHeight)
+  console.log(w / h)
 
   p5.createCanvas(w, h)
 }
