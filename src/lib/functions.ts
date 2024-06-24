@@ -1,4 +1,5 @@
 import { P5CanvasInstance } from '@p5-wrapper/react'
+import { Vector } from 'p5'
 
 export const fitCreateCanvas = (p5: P5CanvasInstance) => {
   let w: number = p5.windowWidth - 40 * 2
@@ -38,4 +39,33 @@ export const noisyPoint = (
       p5.random(1, moveLevel) +
     value
   )
+}
+
+export const noiseLine = (
+  p5: P5CanvasInstance,
+  start: Vector,
+  end: Vector,
+  moveLevel: number,
+) => {
+  // p5.lineは使わない
+  // startとendの間に点を打つ
+  const distance = start.dist(end)
+  console.log('distance: ', distance)
+  const noiseList: Vector[] = []
+  const noiseCount = p5.max(3, p5.floor(distance / 10))
+  console.log('noiseCount: ', noiseCount)
+  for (let i = 0; i < noiseCount; i++) {
+    let x = p5.lerp(start.x, end.x, i / noiseCount)
+    let y = p5.lerp(start.y, end.y, i / noiseCount)
+    if (i !== 0 && i !== noiseCount - 1) {
+      x = noisyPoint(p5, x, moveLevel)
+      y = noisyPoint(p5, y, moveLevel)
+    }
+    noiseList.push(p5.createVector(x, y))
+  }
+  p5.beginShape()
+  noiseList.forEach((v) => {
+    p5.vertex(v.x, v.y)
+  })
+  p5.endShape()
 }

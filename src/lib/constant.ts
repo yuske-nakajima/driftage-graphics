@@ -17,4 +17,12 @@ export const PAGE_LIST: PageListItem[] = [
     title: 'ひし形格子と点',
     href: 'art/move/grid-3',
   },
+  {
+    title: '真ん中から線を引く',
+    href: 'art/line/mouse/straight',
+  },
+  {
+    title: '真ん中からまっすぐではない線を引く',
+    href: 'art/line/mouse/noise',
+  },
 ]
