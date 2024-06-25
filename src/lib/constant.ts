@@ -1,4 +1,5 @@
 import { PageListItem } from '@/lib/types'
+import { siteInfo as artLineSimpleStraightSiteInfo } from '@/pages/art/line/simple/straight'
 
 export const PAGE_LIST: PageListItem[] = [
   {
@@ -24,5 +25,9 @@ export const PAGE_LIST: PageListItem[] = [
   {
     title: '真ん中からまっすぐではない線を引く',
     href: 'art/line/mouse/noise',
+  },
+  {
+    href: 'art/line/simple/straight',
+    ...artLineSimpleStraightSiteInfo,
   },
 ]
