@@ -6,7 +6,7 @@ import type { Sketch } from '@p5-wrapper/react'
 export const pageInfo: PageInfo = {
   title: '上からまっすぐじゃない線を引く',
   description: '等間隔にまっすぐじゃない線を引く',
-  href: 'art/line/simple/straight',
+  href: 'art/line/simple/noise',
 }
 
 const sketch: Sketch = (p5) => {
