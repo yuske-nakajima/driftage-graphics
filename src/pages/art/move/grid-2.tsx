@@ -1,8 +1,14 @@
 import DefaultSketch from '@/components/pages/DefaultSketch'
 import { drawBlock, fitCreateCanvas, noisyPoint } from '@/lib/functions'
-import { SiteInfo } from '@/lib/types'
+import { PageInfo } from '@/lib/types'
 import type { Sketch } from '@p5-wrapper/react'
 import { Vector } from 'p5'
+
+export const pageInfo: PageInfo = {
+  title: '格子と点',
+  description: '格子と点を揺らしてみた',
+  href: 'art/move/grid-2',
+}
 
 const moveLevel = 3
 
@@ -81,13 +87,8 @@ const sketch: Sketch = (p5) => {
   }
 }
 
-const siteInfo: SiteInfo = {
-  title: '格子と点',
-  description: '格子と点を揺らしてみた',
-}
-
 const index = () => {
-  const { title, description } = siteInfo
+  const { title, description } = pageInfo
 
   return (
     <DefaultSketch title={title} description={description} sketch={sketch} />

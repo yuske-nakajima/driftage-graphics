@@ -1,11 +1,12 @@
 import DefaultSketch from '@/components/pages/DefaultSketch'
 import { drawBlock, fitCreateCanvas } from '@/lib/functions'
-import { SiteInfo } from '@/lib/types'
+import { PageInfo } from '@/lib/types'
 import type { Sketch } from '@p5-wrapper/react'
 
-export const siteInfo: SiteInfo = {
+export const pageInfo: PageInfo = {
   title: '上から線を引く',
   description: '等間隔にまっすぐ線を引く',
+  href: 'art/line/simple/straight',
 }
 
 const sketch: Sketch = (p5) => {
@@ -28,7 +29,7 @@ const sketch: Sketch = (p5) => {
 }
 
 const index = () => {
-  const { title, description } = siteInfo
+  const { title, description } = pageInfo
 
   return (
     <DefaultSketch title={title} description={description} sketch={sketch} />

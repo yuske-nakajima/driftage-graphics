@@ -1,7 +1,13 @@
 import DefaultSketch from '@/components/pages/DefaultSketch'
 import { drawBlock, fitCreateCanvas } from '@/lib/functions'
-import { SiteInfo } from '@/lib/types'
+import { PageInfo } from '@/lib/types'
 import type { P5CanvasInstance, Sketch } from '@p5-wrapper/react'
+
+export const pageInfo: PageInfo = {
+  title: '格子',
+  description: '揺れる格子',
+  href: 'art/move/grid-1',
+}
 
 const moveLevel = 3
 
@@ -52,13 +58,8 @@ const sketch: Sketch = (p5) => {
   }
 }
 
-const siteInfo: SiteInfo = {
-  title: '格子',
-  description: '揺れる格子',
-}
-
 const index = () => {
-  const { title, description } = siteInfo
+  const { title, description } = pageInfo
 
   return (
     <DefaultSketch title={title} description={description} sketch={sketch} />

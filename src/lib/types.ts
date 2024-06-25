@@ -1,9 +1,5 @@
-export type SiteInfo = {
-  title: string
-  description: string
-}
-
-export type PageListItem = {
+export type PageInfo = {
   title: string
   href: string
+  description: string
 }

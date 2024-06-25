@@ -2,7 +2,7 @@ import Head from '@/components/atoms/Head'
 import SiteFooter from '@/components/organisms/SiteFooter'
 import SiteHeader from '@/components/organisms/SiteHeader'
 import SiteContainer from '@/components/templates/SiteContainer'
-import { PAGE_LIST } from '@/lib/constant'
+import { PAGE_LIST } from '@/lib/pageList'
 
 const index = () => {
   return (

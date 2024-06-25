@@ -1,8 +1,14 @@
 import DefaultSketch from '@/components/pages/DefaultSketch'
 import { fitCreateCanvas, noiseLine } from '@/lib/functions'
-import { SiteInfo } from '@/lib/types'
+import { PageInfo } from '@/lib/types'
 import type { Sketch } from '@p5-wrapper/react'
 import { Vector } from 'p5'
+
+export const pageInfo: PageInfo = {
+  title: 'マウスまでのまっすぐではない線',
+  description: '真ん中からまっすぐではない線を引く',
+  href: 'art/line/mouse/noise',
+}
 
 const sketch: Sketch = (p5) => {
   let center: Vector
@@ -30,13 +36,8 @@ const sketch: Sketch = (p5) => {
   }
 }
 
-const siteInfo: SiteInfo = {
-  title: 'マウスまでのまっすぐではない線',
-  description: '真ん中からまっすぐではない線を引く',
-}
-
 const index = () => {
-  const { title, description } = siteInfo
+  const { title, description } = pageInfo
 
   return (
     <DefaultSketch title={title} description={description} sketch={sketch} />
