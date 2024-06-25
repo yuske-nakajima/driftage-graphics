@@ -17,6 +17,7 @@ const sketch: Sketch = (p5) => {
   p5.setup = () => {
     fitCreateCanvas(p5)
     p5.colorMode(p5.HSB)
+    p5.frameRate(24)
 
     center = p5.createVector(p5.width / 2, p5.height / 2)
     mouse = p5.createVector(p5.width / 2, p5.height / 2)
