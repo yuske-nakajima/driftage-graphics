@@ -7,6 +7,7 @@ import { pageInfo as artMoveGrid1 } from '@/pages/art/move/grid-1'
 import { pageInfo as artMoveGrid2 } from '@/pages/art/move/grid-2'
 import { pageInfo as artMoveGrid3 } from '@/pages/art/move/grid-3'
 import { pageInfo as artMovePoint } from '@/pages/art/move/point'
+import { pageInfo as artShapeHeart } from '@/pages/art/shape/heart'
 
 export const PAGE_LIST: PageInfo[] = [
   artMovePoint,
@@ -17,4 +18,5 @@ export const PAGE_LIST: PageInfo[] = [
   artLineMouseNoise,
   artLineSimpleStraight,
   artLineSimpleNoise,
+  artShapeHeart,
 ]
