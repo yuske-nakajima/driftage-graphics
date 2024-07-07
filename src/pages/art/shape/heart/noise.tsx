@@ -7,7 +7,7 @@ import { Vector } from 'p5'
 export const pageInfo: PageInfo = {
   title: 'ハート',
   description: 'ハート！！！！！',
-  href: 'art/shape/heart',
+  href: 'art/shape/heart/noise',
 }
 
 const moveLevel = 10
