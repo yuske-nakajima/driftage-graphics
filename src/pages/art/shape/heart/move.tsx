@@ -8,7 +8,7 @@ import { Vector } from 'p5'
 export const pageInfo: PageInfo = {
   title: 'ハート',
   description: 'ハート！！！！！',
-  href: 'art/shape/heart/noise',
+  href: 'art/shape/heart/move',
 }
 
 const sketch: Sketch = (p5) => {
@@ -23,7 +23,7 @@ const sketch: Sketch = (p5) => {
     p5.frameRate(24)
 
     center = p5.createVector(p5.width / 2, p5.height / 2)
-    heart.set(center)
+    heart.set(center, 100)
   }
 
   p5.draw = () => {

@@ -22,26 +22,31 @@ export class Heart {
     this.rightControl2 = p5.createVector()
   }
 
-  public set(center: Vector) {
+  public set(center: Vector, size: number) {
     const p5 = this.p5
 
-    this.topPoint = p5.createVector(center.x, center.y - 100)
-    this.underPoint = p5.createVector(center.x, center.y + 100)
+    const fourthSize = size * 4
+    const doubleSize = size * 2
+    const halfSize = size / 2
+    const quoteSize = size / 4
+
+    this.topPoint = p5.createVector(center.x, center.y - halfSize)
+    this.underPoint = p5.createVector(center.x, center.y + halfSize + size)
     this.leftControl1 = p5.createVector(
-      p5.max(0, center.x - 50),
-      center.y - 200,
+      p5.max(0, center.x - quoteSize),
+      center.y - doubleSize,
     )
     this.leftControl2 = p5.createVector(
-      p5.max(0, center.x - 400),
-      center.y - 100,
+      p5.max(0, center.x - fourthSize),
+      center.y - halfSize,
     )
     this.rightControl1 = p5.createVector(
-      p5.min(p5.width, center.x + 50),
-      center.y - 200,
+      p5.min(p5.width, center.x + quoteSize),
+      center.y - doubleSize,
     )
     this.rightControl2 = p5.createVector(
-      p5.min(p5.width, center.x + 400),
-      center.y - 100,
+      p5.min(p5.width, center.x + fourthSize),
+      center.y - halfSize,
     )
   }
 
