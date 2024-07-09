@@ -16,8 +16,6 @@ type circleType = {
   hue: number
 }
 
-const circleSize: number = 100
-
 const sketch: Sketch = (p5) => {
   const hueSize: number = p5.ceil(360 / p5.random(2, 60))
   const hueList: number[] = []
@@ -25,10 +23,14 @@ const sketch: Sketch = (p5) => {
     hueList.push(i)
   }
 
+  let circleSize: number
+
   p5.setup = () => {
     fitCreateCanvas(p5)
     p5.colorMode(p5.HSB)
     p5.background(95)
+
+    circleSize = p5.min(50, p5.width / 10)
 
     const circleMaxX = Math.ceil(p5.width / circleSize) + 1
     const circleMaxY = Math.ceil(p5.height / circleSize) + 1
