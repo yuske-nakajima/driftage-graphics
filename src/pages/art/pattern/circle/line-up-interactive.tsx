@@ -56,7 +56,7 @@ const sketch: Sketch = (p5) => {
     },
     CIRCLE_SIZE: {
       value: 0,
-      displayText: '円の大きさ',
+      displayText: 'サイズ',
       up: () => {
         inputModeMap.CIRCLE_SIZE.value = p5.min(
           p5.width / 2,
@@ -87,7 +87,7 @@ const sketch: Sketch = (p5) => {
       },
     },
     HUE: {
-      value: 0,
+      value: p5.ceil(p5.random(0, 360)),
       displayText: '色相',
       up: () => {
         inputModeMap.HUE.value = (inputModeMap.HUE.value + 5) % 360
@@ -113,7 +113,7 @@ const sketch: Sketch = (p5) => {
     },
     BRIGHTNESS: {
       value: 80,
-      displayText: '明度',
+      displayText: '明るさ',
       up: () => {
         inputModeMap.BRIGHTNESS.value =
           (inputModeMap.BRIGHTNESS.value + 5) % 100
@@ -286,7 +286,10 @@ const sketch: Sketch = (p5) => {
     drawPattern(p5)
     if (displayMode.start < p5.frameCount && p5.frameCount < displayMode.end) {
       drawBlock(p5, () => {
-        p5.fill(0, 0, 100)
+        const progress = (p5.frameCount - displayMode.start) / 60
+        const brightness = inputModeMap.BRIGHTNESS.value > 70 ? 0 : 100
+
+        p5.fill(0, 0, brightness, 1 - progress)
         p5.textSize(30)
         p5.textAlign(p5.CENTER)
         p5.text(
