@@ -190,7 +190,7 @@ const sketch: Sketch = (p5) => {
     circles2 = [...circles1]
   }
 
-  const drawPattern = (p5: P5CanvasInstance) => {
+  const drawPattern = () => {
     drawBlock(p5, () => {
       p5.noStroke()
 
@@ -249,7 +249,7 @@ const sketch: Sketch = (p5) => {
     inputModeMap.CIRCLE_SIZE.value = p5.min(50, p5.width / 10)
 
     setupPattern()
-    drawPattern(p5)
+    drawPattern()
   }
 
   p5.keyPressed = () => {
@@ -270,20 +270,20 @@ const sketch: Sketch = (p5) => {
     else if (p5.keyCode === KEY_CODE.UP) {
       inputModeMap[mode].up()
       setupPattern()
-      drawPattern(p5)
+      drawPattern()
       setDisplayMode(p5)
     }
     // 下
     else if (p5.keyCode === KEY_CODE.DOWN) {
       inputModeMap[mode].down()
       setupPattern()
-      drawPattern(p5)
+      drawPattern()
       setDisplayMode(p5)
     }
   }
 
   p5.draw = () => {
-    drawPattern(p5)
+    drawPattern()
     if (displayMode.start < p5.frameCount && p5.frameCount < displayMode.end) {
       drawBlock(p5, () => {
         const progress = (p5.frameCount - displayMode.start) / 60
