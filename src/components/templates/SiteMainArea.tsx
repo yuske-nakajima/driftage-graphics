@@ -31,6 +31,10 @@ const index: FC<{ children: ReactNode } & Props> = ({
           'py-2',
           'text-gray-300',
         ].join(' ')}
+        onClick={() => {
+          // 強制的にリロードする
+          location.reload()
+        }}
       >
         yuske
       </div>
