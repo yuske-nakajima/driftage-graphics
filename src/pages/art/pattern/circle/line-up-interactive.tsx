@@ -2,7 +2,7 @@ import DefaultSketch from '@/components/pages/DefaultSketch'
 import { KEY_CODE } from '@/lib/constants'
 import { drawBlock, fitCreateCanvas } from '@/lib/functions'
 import { PageInfo } from '@/lib/types'
-import type { P5CanvasInstance, Sketch } from '@p5-wrapper/react'
+import type { Sketch } from '@p5-wrapper/react'
 import { Vector } from 'p5'
 
 export const pageInfo: PageInfo = {
@@ -156,12 +156,12 @@ const sketch: Sketch = (p5) => {
 
   let mode: InputMode = InputModeList.at(0) as InputMode
 
-  let displayMode: DisplayModeType = {
+  const displayMode: DisplayModeType = {
     start: 0,
     end: 0,
   }
 
-  const setDisplayMode = (p5: P5CanvasInstance) => {
+  const setDisplayMode = () => {
     displayMode.start = p5.frameCount
     displayMode.end = displayMode.start + 60
   }
@@ -265,6 +265,19 @@ const sketch: Sketch = (p5) => {
     })
   }
 
+  const displayModeText = () => {
+    drawBlock(p5, () => {
+      const progress = (p5.frameCount - displayMode.start) / 60
+      const brightness = inputModeMap.BRIGHTNESS.value > 70 ? 0 : 100
+
+      p5.fill(0, 0, brightness, 1 - progress)
+      p5.textSize(30)
+      p5.textAlign(p5.CENTER)
+      p5.text(inputModeMap[mode].displayText, p5.width / 2, p5.height / 2 - 30)
+      p5.text(inputModeMap[mode].value, p5.width / 2, p5.height / 2 + 30)
+    })
+  }
+
   p5.setup = () => {
     fitCreateCanvas(p5)
     p5.colorMode(p5.HSB)
@@ -282,47 +295,31 @@ const sketch: Sketch = (p5) => {
       mode = InputModeList.at(
         (InputModeList.indexOf(mode) + 1) % InputModeList.length,
       ) as InputMode
-      setDisplayMode(p5)
     } else if (p5.keyCode === KEY_CODE.LEFT) {
       mode = InputModeList.at(
         (InputModeList.indexOf(mode) - 1 + InputModeList.length) %
           InputModeList.length,
       ) as InputMode
-      setDisplayMode(p5)
     }
-    // 上
+    // 上 値を増やす
     else if (p5.keyCode === KEY_CODE.UP) {
       inputModeMap[mode].up()
       setupPattern()
       drawPattern()
-      setDisplayMode(p5)
     }
-    // 下
+    // 下 値を減らす
     else if (p5.keyCode === KEY_CODE.DOWN) {
       inputModeMap[mode].down()
       setupPattern()
       drawPattern()
-      setDisplayMode(p5)
     }
+    setDisplayMode()
   }
 
   p5.draw = () => {
     drawPattern()
     if (displayMode.start < p5.frameCount && p5.frameCount < displayMode.end) {
-      drawBlock(p5, () => {
-        const progress = (p5.frameCount - displayMode.start) / 60
-        const brightness = inputModeMap.BRIGHTNESS.value > 70 ? 0 : 100
-
-        p5.fill(0, 0, brightness, 1 - progress)
-        p5.textSize(30)
-        p5.textAlign(p5.CENTER)
-        p5.text(
-          inputModeMap[mode].displayText,
-          p5.width / 2,
-          p5.height / 2 - 30,
-        )
-        p5.text(inputModeMap[mode].value, p5.width / 2, p5.height / 2 + 30)
-      })
+      displayModeText()
     }
   }
 }
