@@ -21,6 +21,7 @@ const InputModeList: string[] = [
   'MOVE',
   'CIRCLE_SIZE',
   'COLOR_SIZE',
+  'RANGE',
   'HUE',
   'SATURATION',
   'BRIGHTNESS',
@@ -42,6 +43,8 @@ type InputModeMap = {
   }
 }
 
+const STEP = 10
+
 const sketch: Sketch = (p5) => {
   const inputModeMap: InputModeMap = {
     MOVE: {
@@ -60,13 +63,13 @@ const sketch: Sketch = (p5) => {
       up: () => {
         inputModeMap.CIRCLE_SIZE.value = p5.min(
           p5.width / 2,
-          inputModeMap.CIRCLE_SIZE.value + 10,
+          inputModeMap.CIRCLE_SIZE.value + STEP,
         )
       },
       down: () => {
         inputModeMap.CIRCLE_SIZE.value = p5.max(
           20,
-          inputModeMap.CIRCLE_SIZE.value - 10,
+          inputModeMap.CIRCLE_SIZE.value - STEP,
         )
       },
     },
@@ -86,15 +89,33 @@ const sketch: Sketch = (p5) => {
             : inputModeMap.COLOR_SIZE.value - 1
       },
     },
+    RANGE: {
+      value: 360,
+      displayText: '色相レンジ',
+      up: () => {
+        inputModeMap.RANGE.value =
+          inputModeMap.RANGE.value + STEP > 360
+            ? 10
+            : inputModeMap.RANGE.value + STEP
+      },
+      down: () => {
+        inputModeMap.RANGE.value =
+          inputModeMap.RANGE.value - STEP <= 0
+            ? 360
+            : inputModeMap.RANGE.value - STEP
+      },
+    },
     HUE: {
-      value: p5.ceil(p5.random(0, 360)),
+      value: 0,
       displayText: '色相',
       up: () => {
-        inputModeMap.HUE.value = (inputModeMap.HUE.value + 5) % 360
+        inputModeMap.HUE.value = (inputModeMap.HUE.value + STEP) % 360
       },
       down: () => {
         inputModeMap.HUE.value =
-          inputModeMap.HUE.value - 5 < 0 ? 360 : inputModeMap.HUE.value - 5
+          inputModeMap.HUE.value - STEP < 0
+            ? 360
+            : inputModeMap.HUE.value - STEP
       },
     },
     SATURATION: {
@@ -102,13 +123,13 @@ const sketch: Sketch = (p5) => {
       displayText: '彩度',
       up: () => {
         inputModeMap.SATURATION.value =
-          (inputModeMap.SATURATION.value + 5) % 100
+          (inputModeMap.SATURATION.value + STEP) % 100
       },
       down: () => {
         inputModeMap.SATURATION.value =
-          inputModeMap.SATURATION.value - 5 < 0
+          inputModeMap.SATURATION.value - STEP < 0
             ? 100
-            : inputModeMap.SATURATION.value - 5
+            : inputModeMap.SATURATION.value - STEP
       },
     },
     BRIGHTNESS: {
@@ -116,13 +137,13 @@ const sketch: Sketch = (p5) => {
       displayText: '明るさ',
       up: () => {
         inputModeMap.BRIGHTNESS.value =
-          (inputModeMap.BRIGHTNESS.value + 5) % 100
+          (inputModeMap.BRIGHTNESS.value + STEP) % 100
       },
       down: () => {
         inputModeMap.BRIGHTNESS.value =
-          inputModeMap.BRIGHTNESS.value - 5 < 0
+          inputModeMap.BRIGHTNESS.value - STEP < 0
             ? 100
-            : inputModeMap.BRIGHTNESS.value - 5
+            : inputModeMap.BRIGHTNESS.value - STEP
       },
     },
   }
@@ -146,10 +167,13 @@ const sketch: Sketch = (p5) => {
   }
 
   const setupPattern = () => {
-    const hueRange = p5.ceil(360 / inputModeMap.COLOR_SIZE.value)
+    const hueRange = p5.ceil(
+      inputModeMap.RANGE.value / inputModeMap.COLOR_SIZE.value,
+    )
     hueList = []
-    for (let i = inputModeMap.HUE.value; i < 720; i += hueRange) {
-      hueList.push(i % 360)
+    for (let i = 0; i < inputModeMap.COLOR_SIZE.value; i++) {
+      const value = inputModeMap.HUE.value + i * hueRange
+      hueList.push(value % 360)
     }
 
     circleMaxX = Math.ceil(p5.width / inputModeMap.CIRCLE_SIZE.value) + 1
