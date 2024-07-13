@@ -24,7 +24,7 @@ const index = () => {
           'ml-2',
         ].join(' ')}
       >
-        - 生成アート練習場 -
+        - Generative Art Lab -
       </span>
     </h1>
   )
