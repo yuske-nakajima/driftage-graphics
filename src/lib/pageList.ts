@@ -8,6 +8,7 @@ import { pageInfo as artMoveGrid2 } from '@/pages/art/move/grid-2'
 import { pageInfo as artMoveGrid3 } from '@/pages/art/move/grid-3'
 import { pageInfo as artMovePoint } from '@/pages/art/move/point'
 import { pageInfo as artPatternCircleLineUp } from '@/pages/art/pattern/circle/line-up'
+import { pageInfo as artPatternCircleLineUpInteractive } from '@/pages/art/pattern/circle/line-up-interactive'
 import { pageInfo as artPatternCircleLineUpMove } from '@/pages/art/pattern/circle/line-up-move'
 import { pageInfo as artShapeHeartMove } from '@/pages/art/shape/heart/move'
 
@@ -23,4 +24,5 @@ export const PAGE_LIST: PageInfo[] = [
   artShapeHeartMove,
   artPatternCircleLineUp,
   artPatternCircleLineUpMove,
+  artPatternCircleLineUpInteractive,
 ]
