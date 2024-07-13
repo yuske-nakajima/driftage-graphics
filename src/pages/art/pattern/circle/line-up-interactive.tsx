@@ -18,6 +18,7 @@ type circleType = {
 }
 
 const InputModeList: string[] = [
+  'MOVE',
   'CIRCLE_SIZE',
   'COLOR_SIZE',
   'HUE',
@@ -32,16 +33,101 @@ type DisplayModeType = {
   end: number
 }
 
+type InputModeMap = {
+  [key in InputMode]: {
+    value: number
+    displayText: string
+    up: () => void
+    down: () => void
+  }
+}
+
 const sketch: Sketch = (p5) => {
-  let hue: number
-  let saturation: number = 80
-  let brightness: number = 80
+  const inputModeMap: InputModeMap = {
+    MOVE: {
+      value: 0,
+      displayText: '向き',
+      up: () => {
+        inputModeMap.MOVE.value = (inputModeMap.MOVE.value + 1) % 2
+      },
+      down: () => {
+        inputModeMap.MOVE.value = inputModeMap.MOVE.value - 1 < 0 ? 1 : 0
+      },
+    },
+    CIRCLE_SIZE: {
+      value: 0,
+      displayText: '円の大きさ',
+      up: () => {
+        inputModeMap.CIRCLE_SIZE.value = p5.min(
+          p5.width / 2,
+          inputModeMap.CIRCLE_SIZE.value + 10,
+        )
+      },
+      down: () => {
+        inputModeMap.CIRCLE_SIZE.value = p5.max(
+          20,
+          inputModeMap.CIRCLE_SIZE.value - 10,
+        )
+      },
+    },
+    COLOR_SIZE: {
+      value: 2,
+      displayText: '色数',
+      up: () => {
+        inputModeMap.COLOR_SIZE.value =
+          inputModeMap.COLOR_SIZE.value + 1 > 10
+            ? 2
+            : inputModeMap.COLOR_SIZE.value + 1
+      },
+      down: () => {
+        inputModeMap.COLOR_SIZE.value =
+          inputModeMap.COLOR_SIZE.value - 1 < 2
+            ? 10
+            : inputModeMap.COLOR_SIZE.value - 1
+      },
+    },
+    HUE: {
+      value: 0,
+      displayText: '色相',
+      up: () => {
+        inputModeMap.HUE.value = (inputModeMap.HUE.value + 5) % 360
+      },
+      down: () => {
+        inputModeMap.HUE.value =
+          inputModeMap.HUE.value - 5 < 0 ? 360 : inputModeMap.HUE.value - 5
+      },
+    },
+    SATURATION: {
+      value: 80,
+      displayText: '彩度',
+      up: () => {
+        inputModeMap.SATURATION.value =
+          (inputModeMap.SATURATION.value + 5) % 100
+      },
+      down: () => {
+        inputModeMap.SATURATION.value =
+          inputModeMap.SATURATION.value - 5 < 0
+            ? 100
+            : inputModeMap.SATURATION.value - 5
+      },
+    },
+    BRIGHTNESS: {
+      value: 80,
+      displayText: '明度',
+      up: () => {
+        inputModeMap.BRIGHTNESS.value =
+          (inputModeMap.BRIGHTNESS.value + 5) % 100
+      },
+      down: () => {
+        inputModeMap.BRIGHTNESS.value =
+          inputModeMap.BRIGHTNESS.value - 5 < 0
+            ? 100
+            : inputModeMap.BRIGHTNESS.value - 5
+      },
+    },
+  }
 
-  let colorSize: number
   let hueList: number[]
-
-  let circleSize: number
-
   let circleMaxX: number
   let circleMaxY: number
   const circles1: circleType[][] = []
@@ -60,14 +146,14 @@ const sketch: Sketch = (p5) => {
   }
 
   const setupPattern = () => {
-    const hueRange = p5.ceil(360 / colorSize)
+    const hueRange = p5.ceil(360 / inputModeMap.COLOR_SIZE.value)
     hueList = []
-    for (let i = hue; i < 720; i += hueRange) {
+    for (let i = inputModeMap.HUE.value; i < 720; i += hueRange) {
       hueList.push(i % 360)
     }
 
-    circleMaxX = Math.ceil(p5.width / circleSize) + 1
-    circleMaxY = Math.ceil(p5.height / circleSize) + 1
+    circleMaxX = Math.ceil(p5.width / inputModeMap.CIRCLE_SIZE.value) + 1
+    circleMaxY = Math.ceil(p5.height / inputModeMap.CIRCLE_SIZE.value) + 1
 
     for (let x = 0; x < circleMaxX; x++) {
       for (let y = 0; y < circleMaxY; y++) {
@@ -90,17 +176,12 @@ const sketch: Sketch = (p5) => {
               continue
             }
           }
-          if (x > 1 && y > 0) {
-            if (circles1[x - 2][y - 1].hue === hue) {
-              continue
-            }
-          }
           break
         }
 
         circles1[x][y] = {
-          x: x * circleSize,
-          y: y * circleSize,
+          x: x * inputModeMap.CIRCLE_SIZE.value,
+          y: y * inputModeMap.CIRCLE_SIZE.value,
           hue,
         }
       }
@@ -113,32 +194,48 @@ const sketch: Sketch = (p5) => {
     drawBlock(p5, () => {
       p5.noStroke()
 
-      let circle1Position: Vector = p5.createVector(
-        -(circleSize / 2),
-        circleSize / 2,
-      )
-      // if (p5.random(1) < 0.5) {
-      //   circle1Position = p5.createVector(-(circleSize / 2), circleSize / 2)
-      // } else {
-      //   circle1Position = p5.createVector(circleSize / 2, circleSize / 2)
-      // }
+      let circle1Position: Vector
+      if (inputModeMap.MOVE.value === 0) {
+        circle1Position = p5.createVector(
+          -(inputModeMap.CIRCLE_SIZE.value / 2),
+          inputModeMap.CIRCLE_SIZE.value / 2,
+        )
+      } else {
+        circle1Position = p5.createVector(
+          inputModeMap.CIRCLE_SIZE.value / 2,
+          inputModeMap.CIRCLE_SIZE.value / 2,
+        )
+      }
 
       // 円を並べる
       for (let x = 0; x < circleMaxX; x++) {
         for (let y = 0; y < circleMaxY; y++) {
-          p5.fill(circles1[x][y].hue, saturation, brightness)
+          p5.fill(
+            circles1[x][y].hue,
+            inputModeMap.SATURATION.value,
+            inputModeMap.BRIGHTNESS.value,
+          )
           p5.ellipse(
             circles1[x][y].x + circle1Position.x,
             circles1[x][y].y + circle1Position.y,
-            circleSize,
-            circleSize,
+            inputModeMap.CIRCLE_SIZE.value,
+            inputModeMap.CIRCLE_SIZE.value,
           )
         }
       }
       for (let x = 0; x < circleMaxX; x++) {
         for (let y = 0; y < circleMaxY; y++) {
-          p5.fill(circles2[x][y].hue, saturation, brightness)
-          p5.ellipse(circles2[x][y].x, circles2[x][y].y, circleSize, circleSize)
+          p5.fill(
+            circles2[x][y].hue,
+            inputModeMap.SATURATION.value,
+            inputModeMap.BRIGHTNESS.value,
+          )
+          p5.ellipse(
+            circles2[x][y].x,
+            circles2[x][y].y,
+            inputModeMap.CIRCLE_SIZE.value,
+            inputModeMap.CIRCLE_SIZE.value,
+          )
         }
       }
     })
@@ -149,9 +246,7 @@ const sketch: Sketch = (p5) => {
     p5.colorMode(p5.HSB)
     p5.background(95)
 
-    hue = 0
-    colorSize = 10
-    circleSize = p5.min(50, p5.width / 10)
+    inputModeMap.CIRCLE_SIZE.value = p5.min(50, p5.width / 10)
 
     setupPattern()
     drawPattern(p5)
@@ -173,36 +268,14 @@ const sketch: Sketch = (p5) => {
     }
     // 上
     else if (p5.keyCode === KEY_CODE.UP) {
-      if (mode === 'CIRCLE_SIZE') {
-        circleSize = p5.min(p5.width / 2, circleSize + 10)
-      } else if (mode === 'COLOR_SIZE') {
-        colorSize = p5.min(60, colorSize + 1)
-      } else if (mode === 'HUE') {
-        hue = (hue + 5) % 360
-      } else if (mode === 'SATURATION') {
-        saturation = (saturation + 5) % 100
-      } else if (mode === 'BRIGHTNESS') {
-        brightness = (brightness + 5) % 100
-      }
-
+      inputModeMap[mode].up()
       setupPattern()
       drawPattern(p5)
       setDisplayMode(p5)
     }
     // 下
     else if (p5.keyCode === KEY_CODE.DOWN) {
-      if (mode === 'CIRCLE_SIZE') {
-        circleSize = p5.max(20, circleSize - 10)
-      } else if (mode === 'COLOR_SIZE') {
-        colorSize = p5.max(2, colorSize - 1)
-      } else if (mode === 'HUE') {
-        hue = (hue - 5) % 360 < 0 ? 360 : hue - 5
-      } else if (mode === 'SATURATION') {
-        saturation = (saturation - 5) % 100 < 0 ? 100 : saturation - 5
-      } else if (mode === 'BRIGHTNESS') {
-        brightness = (brightness - 5) % 100 < 0 ? 100 : brightness - 5
-      }
-
+      inputModeMap[mode].down()
       setupPattern()
       drawPattern(p5)
       setDisplayMode(p5)
@@ -213,31 +286,15 @@ const sketch: Sketch = (p5) => {
     drawPattern(p5)
     if (displayMode.start < p5.frameCount && p5.frameCount < displayMode.end) {
       drawBlock(p5, () => {
-        let displayModeText = ''
-        let valueText = ''
-
-        if (mode === 'CIRCLE_SIZE') {
-          displayModeText = '円の大きさ'
-          valueText = `${circleSize}`
-        } else if (mode === 'COLOR_SIZE') {
-          displayModeText = '色数'
-          valueText = `${colorSize}`
-        } else if (mode === 'HUE') {
-          displayModeText = '色相'
-          valueText = `${hue}`
-        } else if (mode === 'SATURATION') {
-          displayModeText = '彩度'
-          valueText = `${saturation}`
-        } else if (mode === 'BRIGHTNESS') {
-          displayModeText = '明度'
-          valueText = `${brightness}`
-        }
-
         p5.fill(0, 0, 100)
         p5.textSize(30)
         p5.textAlign(p5.CENTER)
-        p5.text(displayModeText, p5.width / 2, p5.height / 2 - 30)
-        p5.text(valueText, p5.width / 2, p5.height / 2 + 30)
+        p5.text(
+          inputModeMap[mode].displayText,
+          p5.width / 2,
+          p5.height / 2 - 30,
+        )
+        p5.text(inputModeMap[mode].value, p5.width / 2, p5.height / 2 + 30)
       })
     }
   }
