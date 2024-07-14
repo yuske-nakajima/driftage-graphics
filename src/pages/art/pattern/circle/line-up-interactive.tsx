@@ -124,11 +124,13 @@ const sketch: Sketch = (p5) => {
       displayText: '彩度',
       up: () => {
         inputModeMap.SATURATION.value =
-          (inputModeMap.SATURATION.value + STEP) % 100
+          inputModeMap.SATURATION.value + STEP > 100
+            ? 10
+            : inputModeMap.SATURATION.value + STEP
       },
       down: () => {
         inputModeMap.SATURATION.value =
-          inputModeMap.SATURATION.value - STEP < 0
+          inputModeMap.SATURATION.value - STEP < 10
             ? 100
             : inputModeMap.SATURATION.value - STEP
       },
@@ -138,11 +140,13 @@ const sketch: Sketch = (p5) => {
       displayText: '明るさ',
       up: () => {
         inputModeMap.BRIGHTNESS.value =
-          (inputModeMap.BRIGHTNESS.value + STEP) % 100
+          inputModeMap.BRIGHTNESS.value + STEP > 100
+            ? 10
+            : inputModeMap.BRIGHTNESS.value + STEP
       },
       down: () => {
         inputModeMap.BRIGHTNESS.value =
-          inputModeMap.BRIGHTNESS.value - STEP < 0
+          inputModeMap.BRIGHTNESS.value - STEP < 10
             ? 100
             : inputModeMap.BRIGHTNESS.value - STEP
       },
