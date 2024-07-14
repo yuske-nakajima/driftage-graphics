@@ -1,5 +1,5 @@
 import DefaultSketch from '@/components/pages/DefaultSketch'
-import { KEY_CODE } from '@/lib/constants'
+import { KEY_CODE, KEY_CODE_DISPLAY } from '@/lib/constants'
 import { drawBlock, fitCreateCanvas } from '@/lib/functions'
 import { PageInfo } from '@/lib/types'
 import type { Sketch } from '@p5-wrapper/react'
@@ -7,7 +7,8 @@ import { Vector } from 'p5'
 
 export const pageInfo: PageInfo = {
   title: '円を並べた模様（操作可能）',
-  description: '円を並べて拡張した',
+  description:
+    '円を並べて拡張した。左右キー: モード切り替え（向き・サイズ・色数・色相レンジ・色相・彩度・明るさ）、上下キー: 値変更',
   href: 'art/pattern/circle/line-up-interactive',
 }
 
@@ -273,6 +274,11 @@ const sketch: Sketch = (p5) => {
       p5.fill(0, 0, brightness, 1 - progress)
       p5.textSize(30)
       p5.textAlign(p5.CENTER)
+      p5.text(
+        KEY_CODE_DISPLAY.get(p5.keyCode)?.mark ?? '',
+        p5.width / 2,
+        p5.height / 2 - 90,
+      )
       p5.text(inputModeMap[mode].displayText, p5.width / 2, p5.height / 2 - 30)
       p5.text(inputModeMap[mode].value, p5.width / 2, p5.height / 2 + 30)
     })
