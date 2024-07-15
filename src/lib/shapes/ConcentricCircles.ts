@@ -2,7 +2,7 @@ import { Shape } from '@/lib/interface'
 import { P5CanvasInstance } from '@p5-wrapper/react'
 import { Vector } from 'p5'
 
-export class Circle implements Shape<number> {
+export class ConcentricCircles implements Shape<number> {
   position: Vector
   current: Vector
   size: number
