@@ -6,9 +6,10 @@ export class PointSquareDraw extends AbstractShapeDraw<number> {
     super(shapes)
   }
 
-  displayGrid() {
+  displayMoveGrid() {
     this.shapes.forEach((shape) => {
-      shape.draw()
+      const pointSquare = shape as PointSquare
+      pointSquare.moveDraw()
     })
   }
 }
