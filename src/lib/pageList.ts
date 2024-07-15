@@ -1,4 +1,6 @@
 import { PageInfo } from '@/lib/types'
+import { pageInfo as artCellPointLeftTopParallelogram } from '@/pages/art/cell/point/left-top-parallelogram'
+import { pageInfo as artCellPointLeftTopParallelogramMove } from '@/pages/art/cell/point/left-top-parallelogram-move'
 import { pageInfo as artCellPointLeftTopSquare } from '@/pages/art/cell/point/left-top-square'
 import { pageInfo as artCellPointLeftTopSquareMove } from '@/pages/art/cell/point/left-top-square-move'
 import { pageInfo as artJapanesePatternSeigaihaBasic } from '@/pages/art/japanese-pattern/seigaiha/basic'
@@ -33,4 +35,6 @@ export const PAGE_LIST: PageInfo[] = [
   artJapanesePatternSeigaihaMove,
   artCellPointLeftTopSquare,
   artCellPointLeftTopSquareMove,
+  artCellPointLeftTopParallelogram,
+  artCellPointLeftTopParallelogramMove,
 ]

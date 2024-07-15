@@ -1,23 +1,39 @@
+import { PointParallelogram } from '@/lib/shapes/PointParallelogram'
 import { PointSquare } from '@/lib/shapes/PointSquare'
+import { PointParallelogramDraw } from '@/lib/templates/PointParallelogramDraw'
 import { PointSquareDraw } from '@/lib/templates/PointSquareDraw'
 import { P5CanvasInstance } from '@p5-wrapper/react'
 
-export const common = (p5: P5CanvasInstance): PointSquareDraw => {
+export const pointSquareCommon = (p5: P5CanvasInstance): PointSquareDraw => {
   const pointSquareDraw = new PointSquareDraw([])
-  const circleSize = 100
-  const circleMaxX = Math.ceil(p5.width / circleSize) + 1
-  const circleMaxY = Math.ceil(p5.height / circleSize) + 1
+  const size = p5.width / 10
+  const maxX = Math.ceil(p5.width / size) + 1
+  const maxY = Math.ceil(p5.height / size) + 1
 
-  for (let y = 0; y < circleMaxY; y++) {
-    for (let x = 0; x < circleMaxX; x++) {
+  for (let y = 0; y < maxY; y++) {
+    for (let x = 0; x < maxX; x++) {
       pointSquareDraw.add(
-        new PointSquare(
-          p5,
-          p5.createVector(x * circleSize, y * circleSize),
-          circleSize,
-        ),
+        new PointSquare(p5, p5.createVector(x * size, y * size), size),
       )
     }
   }
   return pointSquareDraw
+}
+
+export const pointParallelogramCommon = (
+  p5: P5CanvasInstance,
+): PointSquareDraw => {
+  const pointParallelogramDraw = new PointParallelogramDraw([])
+  const size = p5.width / 10
+  const maxX = Math.ceil(p5.width / size) + 1
+  const maxY = Math.ceil(p5.height / size) + 1
+
+  for (let y = 0; y < maxY; y++) {
+    for (let x = 0; x < maxX; x++) {
+      pointParallelogramDraw.add(
+        new PointParallelogram(p5, p5.createVector(x * size, y * size), size),
+      )
+    }
+  }
+  return pointParallelogramDraw
 }

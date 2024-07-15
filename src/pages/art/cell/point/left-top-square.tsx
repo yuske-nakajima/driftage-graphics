@@ -1,6 +1,6 @@
 import DefaultSketch from '@/components/pages/DefaultSketch'
 import { fitCreateCanvas } from '@/lib/functions'
-import { common } from '@/lib/pages/art/cell/point/common'
+import { pointSquareCommon } from '@/lib/pages/art/cell/point/common'
 import { PageInfo } from '@/lib/types'
 import type { Sketch } from '@p5-wrapper/react'
 
@@ -15,7 +15,7 @@ const sketch: Sketch = (p5) => {
     fitCreateCanvas(p5)
     p5.colorMode(p5.HSB)
 
-    const pointSquareDraw = common(p5)
+    const pointSquareDraw = pointSquareCommon(p5)
     p5.background(95)
     pointSquareDraw.displayGrid()
   }
