@@ -1,12 +1,26 @@
 import { PAGE_LIST } from '@/lib/pageList'
 import { PageInfo } from '@/lib/types'
-import { SetStateAction } from 'react'
+import { ChangeEvent, SetStateAction } from 'react'
 
 type SearchBoxProps = {
   setListState: (value: SetStateAction<PageInfo[]>) => void
 }
 
 const index = ({ setListState }: SearchBoxProps) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const searchWord = e.target.value
+
+    if (searchWord === '') {
+      setListState(PAGE_LIST)
+      return
+    }
+
+    const newList = PAGE_LIST.filter((page) => {
+      return page.title.includes(searchWord)
+    })
+    setListState(newList)
+  }
+
   return (
     <div className={['p-2', 'border-b', 'border-gray-700'].join(' ')}>
       <input
@@ -25,19 +39,7 @@ const index = ({ setListState }: SearchBoxProps) => {
         ].join(' ')}
         type='text'
         placeholder='検索...'
-        onChange={(e) => {
-          const searchWord = e.target.value
-
-          if (searchWord === '') {
-            setListState(PAGE_LIST)
-            return
-          }
-
-          const newList = PAGE_LIST.filter((page) => {
-            return page.title.includes(searchWord)
-          })
-          setListState(newList)
-        }}
+        onChange={onChange}
       />
     </div>
   )
