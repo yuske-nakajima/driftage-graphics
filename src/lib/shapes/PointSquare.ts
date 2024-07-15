@@ -29,7 +29,7 @@ export class PointSquare implements Shape<number> {
     // 左上を基準に正方形を描画
     drawBlock(this.p5, () => {
       this.p5.rectMode(this.p5.CORNER)
-      this.p5.noFill()
+      this.p5.fill(0, 0, 100)
       this.p5.rect(position.x, position.y, this.size, this.size)
     })
 
