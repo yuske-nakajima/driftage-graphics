@@ -1,10 +1,14 @@
 import Head from '@/components/atoms/Head'
+import TitleSearchBox from '@/components/molecules/TitleSearchBox'
 import SiteFooter from '@/components/organisms/SiteFooter'
 import SiteHeader from '@/components/organisms/SiteHeader'
 import SiteContainer from '@/components/templates/SiteContainer'
 import { PAGE_LIST } from '@/lib/pageList'
+import { useState } from 'react'
 
 const index = () => {
+  const [pageListState, setPageListState] = useState(PAGE_LIST)
+
   return (
     <>
       <Head title={'DRIFTAGE GRAPHICS'} description={'生成アートの練習'}></Head>
@@ -15,7 +19,9 @@ const index = () => {
           className={['overflow-y-auto', 'max-h-[calc(100vh-20rem)]'].join(' ')}
         >
           <ul>
-            {PAGE_LIST.map((page) => (
+            <TitleSearchBox setListState={setPageListState} />
+
+            {pageListState.map((page) => (
               <li key={page.href}>
                 <a
                   className={[
