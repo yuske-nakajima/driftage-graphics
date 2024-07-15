@@ -1,8 +1,8 @@
 import DefaultSketch from '@/components/pages/DefaultSketch'
 import { fitCreateCanvas } from '@/lib/functions'
+import { common, draw } from '@/lib/pages/art/japanese-pattern/seigaiha/common'
 import { ConcentricCirclesDraw } from '@/lib/templates/ConcentricCirclesDraw'
 import { PageInfo } from '@/lib/types'
-import { common, draw } from '@/pages/art/japanese-pattern/seigaiha/_common'
 import type { Sketch } from '@p5-wrapper/react'
 
 export const pageInfo: PageInfo = {
