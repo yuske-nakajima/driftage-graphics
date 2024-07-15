@@ -1,4 +1,5 @@
 import { PageInfo } from '@/lib/types'
+import { pageInfo as artJapanesePatternSeigaihaBasic } from '@/pages/art/japanese-pattern/seigaiha/basic'
 import { pageInfo as artLineMouseNoise } from '@/pages/art/line/mouse/noise'
 import { pageInfo as artLineMouseStraight } from '@/pages/art/line/mouse/straight'
 import { pageInfo as artLineSimpleNoise } from '@/pages/art/line/simple/noise'
@@ -25,4 +26,5 @@ export const PAGE_LIST: PageInfo[] = [
   artPatternCircleLineUp,
   artPatternCircleLineUpMove,
   artPatternCircleLineUpInteractive,
+  artJapanesePatternSeigaihaBasic,
 ]
