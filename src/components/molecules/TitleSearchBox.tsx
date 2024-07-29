@@ -22,7 +22,7 @@ const index = ({ setListState }: SearchBoxProps) => {
   }
 
   return (
-    <div className={['p-2', 'border-b', 'border-gray-700'].join(' ')}>
+    <div className={['p-2'].join(' ')}>
       <input
         className={[
           'w-full',

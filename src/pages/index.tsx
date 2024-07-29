@@ -13,14 +13,14 @@ const index = () => {
     <>
       <Head title={'DRIFTAGE GRAPHICS'} description={'生成アートの練習'}></Head>
       <SiteContainer>
-        <SiteHeader />
-        {/*TODO: ページネーションを追加*/}
+        <div>
+          <SiteHeader />
+          <TitleSearchBox setListState={setPageListState} />
+        </div>
         <main
           className={['overflow-y-auto', 'max-h-[calc(100vh-20rem)]'].join(' ')}
         >
           <ul>
-            <TitleSearchBox setListState={setPageListState} />
-
             {pageListState.map((page) => (
               <li key={page.href}>
                 <a
