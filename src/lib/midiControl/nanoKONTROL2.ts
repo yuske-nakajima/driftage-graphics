@@ -17,7 +17,7 @@ const KEY = {
   UNIT_SLIDER: 0,
 }
 
-type Unit = {
+export type Unit = {
   solo: boolean
   mute: boolean
   rec: boolean
@@ -267,38 +267,51 @@ export const setup = async () => {
           const isPressed = accessData[2] === 127
 
           // 2値
-          if (key === KEY.TRACK_PREVIOUS && isPressed) {
-            data.trackPrevious = !data.trackPrevious
+          // 押している間のみ
+          if (key === KEY.TRACK_PREVIOUS) {
+            data.trackPrevious = isPressed
           }
-          if (key === KEY.TRACK_NEXT && isPressed) {
-            data.trackNext = !data.trackNext
+          if (key === KEY.TRACK_NEXT) {
+            data.trackNext = isPressed
           }
+          if (key === KEY.SET) {
+            data.set = isPressed
+          }
+          if (key === KEY.MAKER_PREVIOUS) {
+            data.makerPrevious = isPressed
+          }
+          if (key === KEY.MAKER_NEXT) {
+            data.makerNext = isPressed
+          }
+          if (key === KEY.STOP) {
+            data.stop = isPressed
+            data.rewind = false
+            data.fastForward = false
+            data.play = false
+            data.record = false
+          }
+
+          // 押したら反転
           if (key === KEY.CYCLE && isPressed) {
             data.cycle = !data.cycle
           }
-          if (key === KEY.SET && isPressed) {
-            data.set = !data.set
-          }
-          if (key === KEY.MAKER_PREVIOUS && isPressed) {
-            data.makerPrevious = !data.makerPrevious
-          }
-          if (key === KEY.MAKER_NEXT && isPressed) {
-            data.makerNext = !data.makerNext
-          }
           if (key === KEY.REWIND && isPressed) {
             data.rewind = !data.rewind
+            data.fastForward = false
           }
           if (key === KEY.FAST_FORWARD && isPressed) {
             data.fastForward = !data.fastForward
-          }
-          if (key === KEY.STOP && isPressed) {
-            data.stop = !data.stop
+            data.rewind = false
           }
           if (key === KEY.PLAY && isPressed) {
             data.play = !data.play
+            data.stop = false
+            data.record = false
           }
           if (key === KEY.RECORD && isPressed) {
             data.record = !data.record
+            data.stop = false
+            data.play = false
           }
 
           // unit

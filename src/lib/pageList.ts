@@ -6,6 +6,7 @@ import { pageInfo as artCellPointLeftTopRollingSquare2 } from '@/pages/art/cell/
 import { pageInfo as artCellPointLeftTopSquare } from '@/pages/art/cell/point/left-top-square'
 import { pageInfo as artCellPointLeftTopSquareMove } from '@/pages/art/cell/point/left-top-square-move'
 import { pageInfo as artControlMidiNanoKontrolDisplay } from '@/pages/art/control/midi/nano-kontrol2/display'
+import { pageInfo as artControlMidiNanoKontrolProduct } from '@/pages/art/control/midi/nano-kontrol2/product'
 import { pageInfo as artJapanesePatternSeigaihaBasic } from '@/pages/art/japanese-pattern/seigaiha/basic'
 import { pageInfo as artJapanesePatternSeigaihaMove } from '@/pages/art/japanese-pattern/seigaiha/move'
 import { pageInfo as artLineMouseNoise } from '@/pages/art/line/mouse/noise'
@@ -43,4 +44,5 @@ export const PAGE_LIST: PageInfo[] = [
   artCellPointLeftTopRollingSquare1,
   artCellPointLeftTopRollingSquare2,
   artControlMidiNanoKontrolDisplay,
+  artControlMidiNanoKontrolProduct,
 ]
