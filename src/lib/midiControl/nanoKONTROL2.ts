@@ -250,6 +250,10 @@ export class NanoKONTROL2 {
       unit: this.unit,
     }
   }
+
+  toJSON(): string {
+    return JSON.stringify(this.toObject())
+  }
 }
 
 export const setup = async () => {

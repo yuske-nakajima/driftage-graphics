@@ -339,8 +339,6 @@ export class MidiControlNanoKONTROL2 {
         return
       }
 
-      p5.background(95)
-
       const {
         trackPrevious,
         trackNext,
