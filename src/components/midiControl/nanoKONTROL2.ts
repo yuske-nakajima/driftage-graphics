@@ -3,18 +3,29 @@ import { NanoKONTROL2, Unit, UnitType } from '@/lib/midiControl/nanoKONTROL2'
 import { P5CanvasInstance } from '@p5-wrapper/react'
 import { Color, Vector } from 'p5'
 
+const PRODUCT_WIDTH = 1100
+const PRODUCT_HEIGHT = 310
+
 export class MidiControlNanoKONTROL2 {
-  private p5: P5CanvasInstance
-  private productMainColor: Color
+  private readonly p5: P5CanvasInstance
+  private readonly productMainColor: Color
   private readonly buttonNormalColor: Color
   private readonly buttonPushedColor: Color
-  private button1Size: Vector
-  private button2Size: Vector
+  private readonly button1Size: Vector
+  private readonly button2Size: Vector
   private readonly button3Size: Vector
-  private leftTop: Vector
-  private data: NanoKONTROL2 | undefined
-  private productWidth = 1100
-  private productHeight = 310
+  private readonly leftTop: Vector
+  private readonly data: NanoKONTROL2 | undefined
+
+  private readonly productWidth = PRODUCT_WIDTH
+  static get getWidth(): number {
+    return PRODUCT_WIDTH
+  }
+
+  private readonly productHeight = PRODUCT_HEIGHT
+  static get getHeight(): number {
+    return PRODUCT_HEIGHT
+  }
 
   constructor(
     p5: P5CanvasInstance,
@@ -34,14 +45,6 @@ export class MidiControlNanoKONTROL2 {
     this.button1Size = this.p5.createVector(60, 30)
     this.button2Size = this.p5.createVector(60, 60)
     this.button3Size = this.p5.createVector(30, 30)
-  }
-
-  static get getWidth(): number {
-    return 1100
-  }
-
-  static get getHeight(): number {
-    return 310
   }
 
   // component
