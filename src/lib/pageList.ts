@@ -7,6 +7,7 @@ import { pageInfo as artCellPointLeftTopSquare } from '@/pages/art/cell/point/le
 import { pageInfo as artCellPointLeftTopSquareMove } from '@/pages/art/cell/point/left-top-square-move'
 import { pageInfo as artClockCirclePie } from '@/pages/art/clock/circle/pie'
 import { pageInfo as artClockCircleSingle } from '@/pages/art/clock/circle/single'
+import { pageInfo as artClockCircleTube } from '@/pages/art/clock/circle/tube'
 import { pageInfo as artControlMidiNanoKontrolDisplay } from '@/pages/art/control/midi/nano-kontrol2/display'
 import { pageInfo as artControlMidiNanoKontrolProduct } from '@/pages/art/control/midi/nano-kontrol2/product'
 import { pageInfo as artControlMidiNanoKontrolProductBackPattern } from '@/pages/art/control/midi/nano-kontrol2/product-back-pattern'
@@ -51,4 +52,5 @@ export const PAGE_LIST: PageInfo[] = [
   artControlMidiNanoKontrolProductBackPattern,
   artClockCircleSingle,
   artClockCirclePie,
+  artClockCircleTube,
 ]
