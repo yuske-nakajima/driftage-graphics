@@ -98,6 +98,7 @@ const sketch: Sketch = (p5: P5CanvasInstance) => {
             centerPos.y + clockHandLength.millisecond * 1.1 * p5.sin(angle),
           )
           p5.textSize(24)
+          p5.textAlign(p5.CENTER, p5.CENTER)
           p5.text(i, pos.x, pos.y)
         }
       })
