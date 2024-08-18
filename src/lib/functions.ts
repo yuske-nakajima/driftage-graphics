@@ -1,3 +1,4 @@
+import { Time } from '@/lib/types'
 import { P5CanvasInstance } from '@p5-wrapper/react'
 import { Vector } from 'p5'
 
@@ -68,4 +69,14 @@ export const noiseLine = (
     p5.vertex(v.x, v.y)
   })
   p5.endShape()
+}
+
+export const nowTime = (): Time => {
+  const now = new Date()
+  return {
+    hour: now.getHours(),
+    minute: now.getMinutes(),
+    second: now.getSeconds(),
+    millisecond: now.getMilliseconds(),
+  }
 }
