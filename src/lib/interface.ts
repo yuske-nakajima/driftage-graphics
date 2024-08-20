@@ -13,3 +13,7 @@ export interface ShapeDraw<T> {
   add: (shape: Shape<T>) => void
   displayGrid: () => void
 }
+
+export interface Item {
+  draw: () => void
+}
