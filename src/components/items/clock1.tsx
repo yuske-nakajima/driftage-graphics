@@ -1,5 +1,5 @@
 import { drawBlock, nowTime } from '@/lib/functions'
-import { Item } from '@/lib/interface'
+import { Shape } from '@/lib/interface'
 import { Time } from '@/lib/types'
 import { P5CanvasInstance } from '@p5-wrapper/react'
 import { Vector } from 'p5'
@@ -9,34 +9,37 @@ type TextSize = {
   big: number
 }
 
-export class Clock1 implements Item {
-  private p5: P5CanvasInstance
-  private centerPos: Vector
+export class Clock1 implements Shape<number> {
+  public p5: P5CanvasInstance
+  public position: Vector
+  public size: number
+
   private clockHandLength: Time
   private baseCircle: number
   private textSize: TextSize
 
-  constructor(p5: P5CanvasInstance, position: Vector, length: number) {
+  constructor(p5: P5CanvasInstance, position: Vector, size: number) {
     this.p5 = p5
-    this.centerPos = position
+    this.position = position
+    this.size = size
     this.clockHandLength = {
-      hour: 0.5 * length,
-      minute: 0.7 * length,
-      second: 0.9 * length,
-      millisecond: 1.1 * length,
+      hour: 0.5 * size,
+      minute: 0.7 * size,
+      second: 0.9 * size,
+      millisecond: 1.1 * size,
     }
-    this.baseCircle = 0.3 * length
+    this.baseCircle = 0.3 * size
     this.textSize = {
-      small: length * 0.05,
-      big: length * 0.1,
+      small: size * 0.05,
+      big: size * 0.1,
     }
   }
 
   draw() {
-    const { p5, centerPos, clockHandLength, baseCircle, textSize } = this
+    const { p5, position, clockHandLength, baseCircle, textSize } = this
 
     drawBlock(p5, () => {
-      p5.background(95)
+      // p5.background(95)
 
       const now = nowTime()
       const { hour, minute, second, millisecond } = now
@@ -63,34 +66,34 @@ export class Clock1 implements Item {
         // 時計の針（ミリ秒）
         p5.fill(0, 0, 90)
         p5.arc(
-          centerPos.x,
-          centerPos.y,
+          position.x,
+          position.y,
           millisecond * 2,
           millisecond * 2,
           zeroMillisecondAngle,
           millisecondAngle,
         )
         p5.fill(95)
-        p5.circle(centerPos.x, centerPos.y, second * 2)
+        p5.circle(position.x, position.y, second * 2)
 
         // 時計の針（秒）
         p5.fill(0, 0, 80)
         p5.arc(
-          centerPos.x,
-          centerPos.y,
+          position.x,
+          position.y,
           second * 2,
           second * 2,
           zeroSecondAngle,
           secondAngle,
         )
         p5.fill(95)
-        p5.circle(centerPos.x, centerPos.y, minute * 2)
+        p5.circle(position.x, position.y, minute * 2)
 
         // 時計の針（分）
         p5.fill(0, 0, 40)
         p5.arc(
-          centerPos.x,
-          centerPos.y,
+          position.x,
+          position.y,
           minute * 2,
           minute * 2,
           zeroMinuteAngle,
@@ -98,13 +101,13 @@ export class Clock1 implements Item {
         )
 
         p5.fill(95)
-        p5.circle(centerPos.x, centerPos.y, hour * 2)
+        p5.circle(position.x, position.y, hour * 2)
 
         // 時計の針（時間）
         p5.fill(0, 0, 20)
         p5.arc(
-          centerPos.x,
-          centerPos.y,
+          position.x,
+          position.y,
           hour * 2,
           hour * 2,
           zeroHourAngle,
@@ -119,8 +122,8 @@ export class Clock1 implements Item {
           for (let i = 0; i < 12; i++) {
             const angle = p5.map(i, 0, 12, 0, p5.TWO_PI) - p5.HALF_PI
             const pos = p5.createVector(
-              centerPos.x + clockHandLength.millisecond * 1.1 * p5.cos(angle),
-              centerPos.y + clockHandLength.millisecond * 1.1 * p5.sin(angle),
+              position.x + clockHandLength.millisecond * 1.1 * p5.cos(angle),
+              position.y + clockHandLength.millisecond * 1.1 * p5.sin(angle),
             )
             p5.textSize(textSize.big)
             p5.textAlign(p5.CENTER, p5.CENTER)
@@ -136,11 +139,11 @@ export class Clock1 implements Item {
             const length = i % 5 === 0 ? 1 : 0.525
             const center = p5.createVector(
               i % 5 === 0
-                ? centerPos.x
-                : centerPos.x + clockHandLength.hour * p5.cos(angle),
+                ? position.x
+                : position.x + clockHandLength.hour * p5.cos(angle),
               i % 5 === 0
-                ? centerPos.y
-                : centerPos.y + clockHandLength.hour * p5.sin(angle),
+                ? position.y
+                : position.y + clockHandLength.hour * p5.sin(angle),
             )
 
             const pos = p5.createVector(
@@ -154,13 +157,13 @@ export class Clock1 implements Item {
         })
 
         p5.fill(100)
-        p5.circle(centerPos.x, centerPos.y, baseCircle * 2)
+        p5.circle(position.x, position.y, baseCircle * 2)
 
         drawBlock(p5, () => {
           p5.fill(0, 0, 0, 0.01)
           p5.stroke(0, 0, 0, 0.05)
           p5.strokeWeight(5)
-          p5.circle(centerPos.x, centerPos.y, baseCircle)
+          p5.circle(position.x, position.y, baseCircle)
         })
 
         // 内側に 0, 10, 20, 30, 40, 50 の数字を表示
@@ -170,8 +173,8 @@ export class Clock1 implements Item {
           for (let i = 0; i < 12; i++) {
             const angle = p5.map(i * 5, 0, 60, 0, p5.TWO_PI) - p5.HALF_PI
             const pos = p5.createVector(
-              centerPos.x + baseCircle * 0.8 * p5.cos(angle),
-              centerPos.y + baseCircle * 0.8 * p5.sin(angle),
+              position.x + baseCircle * 0.8 * p5.cos(angle),
+              position.y + baseCircle * 0.8 * p5.sin(angle),
             )
             p5.textSize(textSize.small)
             p5.textAlign(p5.CENTER, p5.CENTER)

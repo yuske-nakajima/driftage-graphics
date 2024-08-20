@@ -1,7 +1,7 @@
 import { Clock1 } from '@/components/items/clock1'
 import DefaultSketch from '@/components/pages/DefaultSketch'
 import { fitCreateCanvas } from '@/lib/functions'
-import { Item } from '@/lib/interface'
+import { Shape } from '@/lib/interface'
 import { PageInfo } from '@/lib/types'
 import type { P5CanvasInstance, Sketch } from '@p5-wrapper/react'
 
@@ -12,7 +12,7 @@ export const pageInfo: PageInfo = {
 }
 
 const sketch: Sketch = (p5: P5CanvasInstance) => {
-  let clock: Item
+  let clock: Shape<number>
 
   p5.setup = () => {
     fitCreateCanvas(p5)
