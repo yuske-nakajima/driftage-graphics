@@ -27,7 +27,7 @@ export class Clock1 implements Item {
     }
     this.baseCircle = 0.3 * length
     this.textSize = {
-      small: length * 0.03,
+      small: length * 0.05,
       big: length * 0.1,
     }
   }
