@@ -10,10 +10,6 @@ export const fitCreateCanvas = (p5: P5CanvasInstance) => {
     w = p5.windowWidth - 80 * 2
   }
 
-  console.log('p5.windowWidth: ', p5.windowWidth)
-  console.log('p5.windowHeight: ', p5.windowHeight)
-  console.log(w / h)
-
   p5.createCanvas(w, h)
 }
 
@@ -51,10 +47,8 @@ export const noiseLine = (
   // p5.lineは使わない
   // startとendの間に点を打つ
   const distance = start.dist(end)
-  console.log('distance: ', distance)
   const noiseList: Vector[] = []
   const noiseCount = p5.max(3, p5.floor(distance / 10))
-  console.log('noiseCount: ', noiseCount)
   for (let i = 0; i < noiseCount; i++) {
     let x = p5.lerp(start.x, end.x, i / noiseCount)
     let y = p5.lerp(start.y, end.y, i / noiseCount)
