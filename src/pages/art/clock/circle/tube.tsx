@@ -26,6 +26,7 @@ const sketch: Sketch = (p5: P5CanvasInstance) => {
   }
 
   p5.draw = () => {
+    p5.background(95)
     clock.draw()
   }
 }
