@@ -6,7 +6,6 @@ import type { Sketch } from '@p5-wrapper/react'
 
 export const pageInfo: PageInfo = {
   title: '【日本の文様】青海波',
-  description: '同心円の一部が扇状に重なり、波のように反復させた文様。',
   href: 'art/japanese-pattern/seigaiha/basic',
 }
 
@@ -24,10 +23,8 @@ const sketch: Sketch = (p5) => {
 }
 
 const index = () => {
-  const { title, description } = pageInfo
+  const { title } = pageInfo
 
-  return (
-    <DefaultSketch title={title} description={description} sketch={sketch} />
-  )
+  return <DefaultSketch title={title} sketch={sketch} />
 }
 export default index

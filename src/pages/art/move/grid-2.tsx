@@ -6,7 +6,6 @@ import { Vector } from 'p5'
 
 export const pageInfo: PageInfo = {
   title: '格子と点',
-  description: '格子と点を揺らしてみた',
   href: 'art/move/grid-2',
 }
 
@@ -88,10 +87,8 @@ const sketch: Sketch = (p5) => {
 }
 
 const index = () => {
-  const { title, description } = pageInfo
+  const { title } = pageInfo
 
-  return (
-    <DefaultSketch title={title} description={description} sketch={sketch} />
-  )
+  return <DefaultSketch title={title} sketch={sketch} />
 }
 export default index

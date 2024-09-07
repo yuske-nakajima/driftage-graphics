@@ -7,7 +7,6 @@ import type { Sketch } from '@p5-wrapper/react'
 
 export const pageInfo: PageInfo = {
   title: 'ぐるぐる回る-軌跡あり-',
-  description: 'ぐるぐる回る-軌跡あり-',
   href: 'art/cell/point/left-top-rolling-square2',
 }
 
@@ -28,10 +27,8 @@ const sketch: Sketch = (p5) => {
 }
 
 const index = () => {
-  const { title, description } = pageInfo
+  const { title } = pageInfo
 
-  return (
-    <DefaultSketch title={title} description={description} sketch={sketch} />
-  )
+  return <DefaultSketch title={title} sketch={sketch} />
 }
 export default index

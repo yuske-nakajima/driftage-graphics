@@ -6,7 +6,6 @@ import { Vector } from 'p5'
 
 export const pageInfo: PageInfo = {
   title: '円を並べた模様の中にクルクル',
-  description: '円を並べて拡張した模様の中にくるくる回る1/4を追加',
   href: 'art/pattern/circle/line-up-move',
 }
 
@@ -198,10 +197,8 @@ const sketch: Sketch = (p5) => {
 }
 
 const index = () => {
-  const { title, description } = pageInfo
+  const { title } = pageInfo
 
-  return (
-    <DefaultSketch title={title} description={description} sketch={sketch} />
-  )
+  return <DefaultSketch title={title} sketch={sketch} />
 }
 export default index

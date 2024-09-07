@@ -2,14 +2,9 @@ import { FC, ReactNode } from 'react'
 
 type Props = {
   title: string
-  description: string
 }
 
-const index: FC<{ children: ReactNode } & Props> = ({
-  children,
-  title,
-  description,
-}) => {
+const index: FC<{ children: ReactNode } & Props> = ({ children, title }) => {
   return (
     <div
       className={[
@@ -75,10 +70,7 @@ const index: FC<{ children: ReactNode } & Props> = ({
             'text-gray-400',
           ].join(' ')}
         >
-          <div>TITLE:</div>
           <div>{title}</div>
-          <div>DESCRIPTION:</div>
-          <div>{description}</div>
         </div>
       </div>
     </div>

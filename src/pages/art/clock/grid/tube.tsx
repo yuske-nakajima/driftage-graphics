@@ -7,7 +7,6 @@ import { P5CanvasInstance, Sketch } from '@p5-wrapper/react'
 
 export const pageInfo: PageInfo = {
   title: '回る時計-チューブ（グリッド）-',
-  description: '回る時計-チューブ（グリッド）-',
   href: 'art/clock/grid/tube',
 }
 
@@ -48,10 +47,8 @@ const sketch: Sketch = (p5) => {
 }
 
 const index = () => {
-  const { title, description } = pageInfo
+  const { title } = pageInfo
 
-  return (
-    <DefaultSketch title={title} description={description} sketch={sketch} />
-  )
+  return <DefaultSketch title={title} sketch={sketch} />
 }
 export default index

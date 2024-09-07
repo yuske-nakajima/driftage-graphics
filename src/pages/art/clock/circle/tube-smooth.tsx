@@ -6,7 +6,6 @@ import { Vector } from 'p5'
 
 export const pageInfo: PageInfo = {
   title: '回る時計-チューブ（スムーズ）-',
-  description: '回る時計-チューブ（スムーズ）-',
   href: 'art/clock/circle/tube-smooth',
 }
 
@@ -137,10 +136,8 @@ const sketch: Sketch = (p5: P5CanvasInstance) => {
 }
 
 const index = () => {
-  const { title, description } = pageInfo
+  const { title } = pageInfo
 
-  return (
-    <DefaultSketch title={title} description={description} sketch={sketch} />
-  )
+  return <DefaultSketch title={title} sketch={sketch} />
 }
 export default index

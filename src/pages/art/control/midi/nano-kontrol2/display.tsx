@@ -12,7 +12,6 @@ import { Vector } from 'p5'
 
 export const pageInfo: PageInfo = {
   title: 'midi信号を表示（nano kontrol）',
-  description: 'midi信号を表示（nano kontrol）',
   href: 'art/control/midi/nano-kontrol2/display',
 }
 
@@ -135,10 +134,8 @@ const sketch: Sketch = (p5) => {
 }
 
 const index = () => {
-  const { title, description } = pageInfo
+  const { title } = pageInfo
 
-  return (
-    <DefaultSketch title={title} description={description} sketch={sketch} />
-  )
+  return <DefaultSketch title={title} sketch={sketch} />
 }
 export default index

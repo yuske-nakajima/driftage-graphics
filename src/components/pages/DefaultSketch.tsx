@@ -8,17 +8,16 @@ import { P5CanvasInstance, SketchProps } from '@p5-wrapper/react'
 
 type Props = {
   title: string
-  description: string
   sketch: (p5: P5CanvasInstance<SketchProps>) => void
 }
 
-const index = ({ title, description, sketch }: Props) => {
+const index = ({ title, sketch }: Props) => {
   return (
     <>
-      <Head title={title} description={description} />
+      <Head title={title} description={title} />
       <SiteContainer>
         <SiteHeader />
-        <SiteMainArea title={title} description={description}>
+        <SiteMainArea title={title}>
           <NextReactP5Wrapper sketch={sketch} />
         </SiteMainArea>
         <SiteFooter />

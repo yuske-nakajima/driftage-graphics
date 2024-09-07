@@ -7,7 +7,6 @@ import type { Sketch } from '@p5-wrapper/react'
 
 export const pageInfo: PageInfo = {
   title: 'nanoKONTROL2 を描画',
-  description: 'nanoKONTROL2 を描画',
   href: 'art/control/midi/nano-kontrol2/product',
 }
 
@@ -47,10 +46,8 @@ const sketch: Sketch = (p5) => {
 }
 
 const index = () => {
-  const { title, description } = pageInfo
+  const { title } = pageInfo
 
-  return (
-    <DefaultSketch title={title} description={description} sketch={sketch} />
-  )
+  return <DefaultSketch title={title} sketch={sketch} />
 }
 export default index

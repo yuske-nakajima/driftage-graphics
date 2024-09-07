@@ -7,8 +7,6 @@ import { Vector } from 'p5'
 
 export const pageInfo: PageInfo = {
   title: '円を並べた模様（操作可能）',
-  description:
-    '円を並べて拡張した。左右キー: モード切り替え（向き・サイズ・色数・色相レンジ・色相・彩度・明るさ）、上下キー: 値変更',
   href: 'art/pattern/circle/line-up-interactive',
 }
 
@@ -335,10 +333,8 @@ const sketch: Sketch = (p5) => {
 }
 
 const index = () => {
-  const { title, description } = pageInfo
+  const { title } = pageInfo
 
-  return (
-    <DefaultSketch title={title} description={description} sketch={sketch} />
-  )
+  return <DefaultSketch title={title} sketch={sketch} />
 }
 export default index
