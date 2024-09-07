@@ -2,7 +2,18 @@ import { Time } from '@/lib/types'
 import { P5CanvasInstance } from '@p5-wrapper/react'
 import { Vector } from 'p5'
 
-export const fitCreateCanvas = (p5: P5CanvasInstance) => {
+export const fitCreateCanvas = (
+  p5: P5CanvasInstance,
+  canvasSize: Vector,
+  isFullScreen: boolean,
+): [Vector, boolean] => {
+  if (isFullScreen) {
+    if (canvasSize.x === p5.windowWidth && canvasSize.y === p5.windowHeight) {
+      return [canvasSize, false]
+    }
+    return [p5.createVector(p5.windowWidth, p5.windowHeight), true]
+  }
+
   let w: number = p5.windowWidth - 40 * 2
   const h = (p5.windowHeight - 80) / 1.43
 
@@ -10,7 +21,30 @@ export const fitCreateCanvas = (p5: P5CanvasInstance) => {
     w = p5.windowWidth - 80 * 2
   }
 
-  p5.createCanvas(w, h)
+  if (canvasSize.x === w && canvasSize.y === h) {
+    return [canvasSize, false]
+  }
+
+  return [p5.createVector(w, h), true]
+}
+
+export const initSetup = (
+  p5: P5CanvasInstance,
+  isFullScreen: boolean,
+  func: (canvasSize: Vector) => void,
+) => {
+  return (beforeCanvasSize: Vector): void => {
+    const [c, isCreatedCanvas] = fitCreateCanvas(
+      p5,
+      beforeCanvasSize,
+      isFullScreen,
+    )
+    if (!isCreatedCanvas) {
+      return
+    }
+    p5.createCanvas(c.x, c.y)
+    func(c)
+  }
 }
 
 /*

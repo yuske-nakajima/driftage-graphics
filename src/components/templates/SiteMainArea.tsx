@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import { FC, ReactNode } from 'react'
 
 type Props = {
@@ -5,6 +6,8 @@ type Props = {
 }
 
 const index: FC<{ children: ReactNode } & Props> = ({ children, title }) => {
+  const router = useRouter()
+
   return (
     <div
       className={[
@@ -26,12 +29,15 @@ const index: FC<{ children: ReactNode } & Props> = ({ children, title }) => {
           'py-2',
           'text-gray-300',
         ].join(' ')}
-        onClick={() => {
-          // 強制的にリロードする
-          location.reload()
+        onClick={async () => {
+          // フルスクリーン表示にする
+          await router.push({
+            pathname: router.pathname,
+            query: { 'full-screen': 'true' },
+          })
         }}
       >
-        yuske
+        full screen
       </div>
       <div
         className={[
