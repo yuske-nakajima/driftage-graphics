@@ -1,30 +1,52 @@
-import DefaultSketch from '@/components/pages/DefaultSketch'
-import { fitCreateCanvas } from '@/lib/functions'
+import DefaultPage from '@/components/pages/DefaultPage'
+import { initSetup } from '@/lib/functions'
 import { common, draw } from '@/lib/pages/art/japanese-pattern/seigaiha/common'
+import { ConcentricCirclesDraw } from '@/lib/templates/ConcentricCirclesDraw'
 import { PageInfo } from '@/lib/types'
-import type { Sketch } from '@p5-wrapper/react'
+import type { P5CanvasInstance, Sketch } from '@p5-wrapper/react'
+import { useSearchParams } from 'next/navigation'
+import { Vector } from 'p5'
 
 export const pageInfo: PageInfo = {
   title: '【日本の文様】青海波',
   href: 'art/japanese-pattern/seigaiha/basic',
 }
 
-const sketch: Sketch = (p5) => {
-  p5.setup = () => {
-    fitCreateCanvas(p5)
-    p5.colorMode(p5.HSB)
+const sketch = (isFullScreen: boolean): Sketch => {
+  return (p5: P5CanvasInstance) => {
+    let concentricCirclesDraw: ConcentricCirclesDraw
 
-    const concentricCirclesDraw = common(p5)
-
-    draw(p5, () => {
-      concentricCirclesDraw.displayGrid()
+    let canvasSize: Vector
+    const setup = initSetup(p5, isFullScreen, () => {
+      p5.colorMode(p5.HSB)
+      concentricCirclesDraw = common(p5)
     })
+
+    p5.setup = () => {
+      canvasSize = setup(p5.createVector(0, 0))
+    }
+
+    p5.draw = () => {
+      canvasSize = setup(canvasSize)
+
+      draw(p5, () => {
+        concentricCirclesDraw.displayGrid()
+      })
+    }
   }
 }
 
 const index = () => {
   const { title } = pageInfo
+  const searchParams = useSearchParams()
+  const isFullScreen = searchParams.get('full-screen') === 'true'
 
-  return <DefaultSketch title={title} sketch={sketch} />
+  return (
+    <DefaultPage
+      title={title}
+      sketch={sketch(isFullScreen)}
+      isFullScreen={isFullScreen}
+    />
+  )
 }
 export default index

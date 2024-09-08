@@ -1,9 +1,11 @@
 import { Clock1 } from '@/components/items/clock1'
-import DefaultSketch from '@/components/pages/DefaultSketch'
-import { fitCreateCanvas } from '@/lib/functions'
+import DefaultPage from '@/components/pages/DefaultPage'
+import { initSetup } from '@/lib/functions'
 import { ClockDraw } from '@/lib/templates/ClockDraw'
 import { PageInfo } from '@/lib/types'
 import { P5CanvasInstance, Sketch } from '@p5-wrapper/react'
+import { useSearchParams } from 'next/navigation'
+import { Vector } from 'p5'
 
 export const pageInfo: PageInfo = {
   title: '回る時計-チューブ（グリッド）-',
@@ -30,25 +32,41 @@ const clockDrawInit = (p5: P5CanvasInstance): ClockDraw => {
   return clockDraw
 }
 
-const sketch: Sketch = (p5) => {
-  let clockDraw: ClockDraw
+const sketch = (isFullScreen: boolean): Sketch => {
+  return (p5: P5CanvasInstance) => {
+    let clockDraw: ClockDraw
 
-  p5.setup = () => {
-    fitCreateCanvas(p5)
-    p5.colorMode(p5.HSB)
+    let canvasSize: Vector
+    const setup = initSetup(p5, isFullScreen, () => {
+      p5.colorMode(p5.HSB)
 
-    clockDraw = clockDrawInit(p5)
-  }
+      clockDraw = clockDrawInit(p5)
+    })
 
-  p5.draw = () => {
-    p5.background(95)
-    clockDraw.displayGrid()
+    p5.setup = () => {
+      canvasSize = setup(p5.createVector(0, 0))
+    }
+
+    p5.draw = () => {
+      canvasSize = setup(canvasSize)
+
+      p5.background(95)
+      clockDraw.displayGrid()
+    }
   }
 }
 
 const index = () => {
   const { title } = pageInfo
+  const searchParams = useSearchParams()
+  const isFullScreen = searchParams.get('full-screen') === 'true'
 
-  return <DefaultSketch title={title} sketch={sketch} />
+  return (
+    <DefaultPage
+      title={title}
+      sketch={sketch(isFullScreen)}
+      isFullScreen={isFullScreen}
+    />
+  )
 }
 export default index

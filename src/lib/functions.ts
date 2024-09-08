@@ -31,19 +31,21 @@ export const fitCreateCanvas = (
 export const initSetup = (
   p5: P5CanvasInstance,
   isFullScreen: boolean,
-  func: (canvasSize: Vector) => void,
+  func: () => void,
 ) => {
-  return (beforeCanvasSize: Vector): void => {
-    const [c, isCreatedCanvas] = fitCreateCanvas(
+  return (beforeCanvasSize: Vector): Vector => {
+    const [_canvasSize, isCreatedCanvas] = fitCreateCanvas(
       p5,
       beforeCanvasSize,
       isFullScreen,
     )
     if (!isCreatedCanvas) {
-      return
+      return beforeCanvasSize
     }
-    p5.createCanvas(c.x, c.y)
-    func(c)
+    p5.createCanvas(_canvasSize.x, _canvasSize.y)
+    func()
+
+    return _canvasSize
   }
 }
 

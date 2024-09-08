@@ -1,7 +1,7 @@
 import DefaultPage from '@/components/pages/DefaultPage'
 import { drawBlock, initSetup } from '@/lib/functions'
 import { PageInfo } from '@/lib/types'
-import type { Sketch } from '@p5-wrapper/react'
+import type { P5CanvasInstance, Sketch } from '@p5-wrapper/react'
 import { useSearchParams } from 'next/navigation'
 import { Vector } from 'p5'
 
@@ -13,12 +13,13 @@ export const pageInfo: PageInfo = {
 const moveLevel = 3
 
 const sketch = (isFullScreen: boolean): Sketch => {
-  return (p5) => {
+  return (p5: P5CanvasInstance) => {
     let dotPointList: Array<Vector>
 
     let canvasSize: Vector
-    const setup = initSetup(p5, isFullScreen, (c: Vector) => {
-      canvasSize = c
+    const setup = initSetup(p5, isFullScreen, () => {
+      p5.colorMode(p5.HSB)
+      p5.frameRate(12)
 
       const interval = p5.createVector(
         (p5.width - 1) / 20,
@@ -34,14 +35,11 @@ const sketch = (isFullScreen: boolean): Sketch => {
     })
 
     p5.setup = () => {
-      canvasSize = p5.createVector(0, 0)
-      setup(canvasSize)
-      p5.colorMode(p5.HSB)
-      p5.frameRate(12)
+      canvasSize = setup(p5.createVector(0, 0))
     }
 
     p5.draw = () => {
-      setup(canvasSize)
+      canvasSize = setup(canvasSize)
 
       drawBlock(p5, () => {
         p5.background(95)
