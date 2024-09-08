@@ -154,7 +154,6 @@ const midiSetup = async (
         //     }
         //   }
         // }
-        // pressedKeyListに入ってる番号を光らせる
 
         if (isPressed(event.data[2])) {
           pressedFunc(i)
@@ -162,8 +161,10 @@ const midiSetup = async (
           releasedFunc(i)
         }
 
-        for (const pressedKeyIndex of pressedKeyList) {
-          output.send([0x90, pressedKeyIndex, 127])
+        if (pressedKeyList.includes(i)) {
+          output.send([0x90, i, 127])
+        } else {
+          output.send([0x90, i, 0])
         }
       }
     }
@@ -179,24 +180,39 @@ const sketch = (isFullScreen: boolean): Sketch => {
     let displayText: string
     let centerPos: Vector
     const pressedKeyList: number[] = []
+    let backgroundColor: { h: number; s: number; b: number }
 
     const setup = initSetup(p5, isFullScreen, async () => {
       centerPos = p5.createVector(p5.width / 2, p5.height / 2)
+      backgroundColor = {
+        h: p5.random(0, 360),
+        s: p5.random(80, 100),
+        b: p5.random(80, 100),
+      }
 
       p5.colorMode(p5.HSB)
       p5.frameRate(24)
       await midiSetup(
         (i) => {
-          displayText = `Key ${i} is pressed`
+          displayText = ``
 
           if (!pressedKeyList.includes(i)) {
+            // displayText = `${i} を選択しました`
             pressedKeyList.push(i)
           } else {
+            // displayText = `${i} を除外しました`
             pressedKeyList.splice(pressedKeyList.indexOf(i), 1)
           }
+
+          // 背景色を変更する
+          backgroundColor = {
+            h: p5.random(0, 360),
+            s: p5.random(80, 100),
+            b: p5.random(80, 100),
+          }
         },
-        (i) => {
-          displayText = `Key ${i} is released`
+        (_) => {
+          displayText = ``
         },
         pressedKeyList,
       )
@@ -208,19 +224,31 @@ const sketch = (isFullScreen: boolean): Sketch => {
 
     p5.draw = () => {
       canvasSize = setup(canvasSize)
-      p5.background(95)
-
-      drawBlock(p5, () => {
-        p5.textSize(24)
-        p5.textAlign(p5.CENTER, p5.CENTER)
-        p5.text(displayText, centerPos.x, centerPos.y)
-      })
+      p5.background(backgroundColor.h, backgroundColor.s, backgroundColor.b)
+      p5.stroke(0)
 
       drawBlock(p5, () => {
         // グリッドの状態を表示
         const gridSize = 8
-        const gridWidth = p5.width / gridSize
-        const gridHeight = p5.height / gridSize
+        const gridAreaWidth = p5.width / 4
+        const gridWidth = gridAreaWidth / gridSize
+
+        const gridPos = p5.createVector(
+          centerPos.x - gridAreaWidth / 2,
+          centerPos.y - gridAreaWidth / 2,
+        )
+
+        drawBlock(p5, () => {
+          p5.fill(0, 0, 0)
+          p5.rect(
+            gridPos.x - 10,
+            gridPos.y - 10,
+            gridAreaWidth + 20,
+            gridAreaWidth + 20,
+          )
+        })
+
+        p5.strokeWeight(2)
         for (let row = 0; row < gridSize; row++) {
           for (let col = 0; col < gridSize; col++) {
             if (pressedKeyList.includes(dataGrid[row][col].value)) {
@@ -229,9 +257,34 @@ const sketch = (isFullScreen: boolean): Sketch => {
             } else {
               p5.fill(0, 0, 100)
             }
-            p5.rect(col * gridWidth, row * gridHeight, gridWidth, gridHeight)
+            p5.rect(
+              col * gridWidth + gridPos.x,
+              row * gridWidth + gridPos.y,
+              gridWidth,
+              gridWidth,
+            )
+
+            drawBlock(p5, () => {
+              p5.noStroke()
+              p5.fill(0, 0, 0)
+              p5.textAlign(p5.CENTER, p5.CENTER)
+              p5.textSize(gridWidth / 2)
+              p5.text(
+                `${dataGrid[row][col].value}`,
+                col * gridWidth + gridPos.x + gridWidth / 2,
+                row * gridWidth + gridPos.y + gridWidth / 2,
+              )
+            })
           }
         }
+      })
+
+      drawBlock(p5, () => {
+        p5.noStroke()
+        p5.fill(0, 0, 0, 0.5)
+        p5.textSize(p5.width / 10)
+        p5.textAlign(p5.CENTER, p5.CENTER)
+        p5.text(displayText, centerPos.x, centerPos.y)
       })
     }
   }
