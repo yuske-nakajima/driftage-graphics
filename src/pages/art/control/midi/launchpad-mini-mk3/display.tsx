@@ -130,24 +130,36 @@ const midiSetup = async (
       Array.from(access.inputs.values()).map((input) => {
         return {
           name: input.name,
+          id: input.id,
+        }
+      }),
+    )
+
+    console.table(
+      Array.from(access.outputs.values()).map((output) => {
+        return {
+          name: output.name,
+          id: output.id,
         }
       }),
     )
 
     const input = Array.from(access.inputs.values())
-      .filter((input) => input.name === 'Launchpad Mini MK3 LPMiniMK3 MIDI Out')
+      .filter((input) => input.id === '1170507471')
       .at(0)
     if (!input) {
-      return 'inputが見つかりません'
+      const errorMessage = `inputが見つかりません`
+      console.error(errorMessage)
+      return errorMessage
     }
 
     const output = Array.from(access.outputs.values())
-      .filter(
-        (output) => output.name === 'Launchpad Mini MK3 LPMiniMK3 MIDI In',
-      )
+      .filter((output) => output.id === '-2034809158')
       .at(0)
     if (!output) {
-      return 'outputが見つかりません'
+      const errorMessage = `outputが見つかりません`
+      console.error(errorMessage)
+      return errorMessage
     }
 
     for (let i = 36; i <= 99; i++) {
@@ -187,8 +199,9 @@ const midiSetup = async (
       }
     }
   } catch (e) {
-    console.error(e)
-    return 'エラーが発生しました'
+    const errorMessage = `MIDIデバイスの接続に失敗しました: ${e}`
+    console.error(errorMessage)
+    return errorMessage
   }
 }
 

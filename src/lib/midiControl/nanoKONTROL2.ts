@@ -164,20 +164,20 @@ class DtoNanoKONTROL2 {
   }
 }
 
-type NanoKONTROL2Type = {
-  trackPrevious: boolean
-  trackNext: boolean
-  cycle: boolean
-  set: boolean
-  makerPrevious: boolean
-  makerNext: boolean
-  rewind: boolean
-  fastForward: boolean
-  stop: boolean
-  play: boolean
-  record: boolean
-  unit: UnitList
-}
+// type NanoKONTROL2Type = {
+//   trackPrevious: boolean
+//   trackNext: boolean
+//   cycle: boolean
+//   set: boolean
+//   makerPrevious: boolean
+//   makerNext: boolean
+//   rewind: boolean
+//   fastForward: boolean
+//   stop: boolean
+//   play: boolean
+//   record: boolean
+//   unit: UnitList
+// }
 
 export class NanoKONTROL2 {
   private data: DtoNanoKONTROL2
@@ -234,26 +234,26 @@ export class NanoKONTROL2 {
     return this.data.unit
   }
 
-  toObject(): NanoKONTROL2Type {
-    return {
-      trackPrevious: this.trackPrevious,
-      trackNext: this.trackNext,
-      cycle: this.cycle,
-      set: this.set,
-      makerPrevious: this.makerPrevious,
-      makerNext: this.makerNext,
-      rewind: this.rewind,
-      fastForward: this.fastForward,
-      stop: this.stop,
-      play: this.play,
-      record: this.record,
-      unit: this.unit,
-    }
-  }
+  // toObject(): NanoKONTROL2Type {
+  //   return {
+  //     trackPrevious: this.trackPrevious,
+  //     trackNext: this.trackNext,
+  //     cycle: this.cycle,
+  //     set: this.set,
+  //     makerPrevious: this.makerPrevious,
+  //     makerNext: this.makerNext,
+  //     rewind: this.rewind,
+  //     fastForward: this.fastForward,
+  //     stop: this.stop,
+  //     play: this.play,
+  //     record: this.record,
+  //     unit: this.unit,
+  //   }
+  // }
 
-  toJSON(): string {
-    return JSON.stringify(this.toObject())
-  }
+  // toJSON(): string {
+  //   return JSON.stringify(this.toObject())
+  // }
 }
 
 export const setup = async () => {
@@ -264,7 +264,7 @@ export const setup = async () => {
     const access = await navigator.requestMIDIAccess() //.then(onMIDISuccess, onMIDIFailure)
 
     access.inputs.forEach((input) => {
-      if (input.name === 'nanoKONTROL2 SLIDER/KNOB') {
+      if (input.id === '-685240990') {
         input.onmidimessage = (e: WebMidi.MIDIMessageEvent) => {
           const accessData = e.data
           const key = accessData[1]
