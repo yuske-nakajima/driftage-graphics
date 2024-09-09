@@ -15,6 +15,16 @@ type Key = {
   isPressed: boolean
 }
 
+// const data = new Map<number, number>()
+// for (let i = 36; i <= 99; i++) {
+//   // 36-39は0
+//   // 40-43は1
+//   // ...
+//   // 96-99は15
+//   const key = Math.floor((i - 36) / 4)
+//   data.set(i, key)
+// }
+
 // type Coordinate = { x: number; y: number }
 // const directions: Coordinate[] = [
 //   { x: 1, y: 0 }, // 右
@@ -119,28 +129,13 @@ const isPressed = (data: number) => {
 }
 
 const midiSetup = async (
+  // p5: P5CanvasInstance,
   pressedFunc: (i: number) => void,
   releasedFunc: (i: number) => void,
   pressedKeyList: number[],
 ) => {
   try {
     const access = await navigator.requestMIDIAccess()
-
-    console.table(
-      Array.from(access.inputs.values()).map((input) => {
-        return {
-          name: input.name,
-        }
-      }),
-    )
-
-    console.table(
-      Array.from(access.outputs.values()).map((output) => {
-        return {
-          name: output.name,
-        }
-      }),
-    )
 
     const input = Array.from(access.inputs.values())
       .filter((input) => {
@@ -193,14 +188,28 @@ const midiSetup = async (
         //   }
         // }
 
-        if (isPressed(event.data[2])) {
+        const getData = event.data.at(2)
+        if (!getData) {
+          continue
+        }
+
+        if (isPressed(getData)) {
           pressedFunc(i)
         } else {
           releasedFunc(i)
         }
 
+        // const dataI = data.get(i)
+        // if (dataI === undefined) {
+        //   continue
+        // }
+
+        // const colorList = [
+        //   3, 5, 9, 13, 82, 41, 48, 122, 122, 48, 41, 82, 13, 9, 5, 3,
+        // ]
         if (pressedKeyList.includes(i)) {
-          output.send([0x90, i, 127])
+          // output.send([0x90, i, colorList[dataI]])
+          output.send([0x90, i, 41])
         } else {
           output.send([0x90, i, 0])
         }
@@ -232,6 +241,7 @@ const sketch = (isFullScreen: boolean): Sketch => {
       p5.colorMode(p5.HSB)
       p5.frameRate(24)
       await midiSetup(
+        // p5,
         (i) => {
           displayText = ``
 
@@ -291,10 +301,9 @@ const sketch = (isFullScreen: boolean): Sketch => {
         for (let row = 0; row < gridSize; row++) {
           for (let col = 0; col < gridSize; col++) {
             if (pressedKeyList.includes(dataGrid[row][col].value)) {
-              // hsbでオレンジのフィル
-              p5.fill(30, 100, 100)
+              p5.fill(200, 80, 100)
             } else {
-              p5.fill(0, 0, 100)
+              p5.fill(0, 0, 90)
             }
             p5.rect(
               col * gridWidth + gridPos.x,
@@ -318,13 +327,13 @@ const sketch = (isFullScreen: boolean): Sketch => {
         }
       })
 
-      drawBlock(p5, () => {
-        p5.noStroke()
-        p5.fill(0, 0, 0, 0.5)
-        p5.textSize(p5.width / 10)
-        p5.textAlign(p5.CENTER, p5.CENTER)
-        p5.text(displayText, centerPos.x, centerPos.y)
-      })
+      // drawBlock(p5, () => {
+      //   p5.noStroke()
+      //   p5.fill(0, 0, 0, 0.5)
+      //   p5.textSize(p5.width / 10)
+      //   p5.textAlign(p5.CENTER, p5.CENTER)
+      //   p5.text(displayText, centerPos.x, centerPos.y)
+      // })
     }
   }
 }
