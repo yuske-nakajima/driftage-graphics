@@ -264,7 +264,10 @@ export const setup = async () => {
     const access = await navigator.requestMIDIAccess() //.then(onMIDISuccess, onMIDIFailure)
 
     access.inputs.forEach((input) => {
-      if (input.id === '-685240990') {
+      if (
+        input.name === 'nanoKONTROL2 SLIDER/KNOB' || // mac
+        input.name === 'nanoKONTROL2' // windows
+      ) {
         input.onmidimessage = (e: WebMidi.MIDIMessageEvent) => {
           const accessData = e.data
           const key = accessData[1]

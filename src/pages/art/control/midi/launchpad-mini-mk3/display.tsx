@@ -130,7 +130,6 @@ const midiSetup = async (
       Array.from(access.inputs.values()).map((input) => {
         return {
           name: input.name,
-          id: input.id,
         }
       }),
     )
@@ -139,13 +138,17 @@ const midiSetup = async (
       Array.from(access.outputs.values()).map((output) => {
         return {
           name: output.name,
-          id: output.id,
         }
       }),
     )
 
     const input = Array.from(access.inputs.values())
-      .filter((input) => input.id === '1170507471')
+      .filter((input) => {
+        return (
+          input.name === 'Launchpad Mini MK3 LPMiniMK3 MIDI Out' || // mac
+          input.name === 'LPMiniMK3 MIDI' // windows
+        )
+      })
       .at(0)
     if (!input) {
       const errorMessage = `inputが見つかりません`
@@ -154,7 +157,12 @@ const midiSetup = async (
     }
 
     const output = Array.from(access.outputs.values())
-      .filter((output) => output.id === '-2034809158')
+      .filter((output) => {
+        return (
+          output.name === 'Launchpad Mini MK3 LPMiniMK3 MIDI In' || // mac
+          output.name === 'LPMiniMK3 MIDI' // windows
+        )
+      })
       .at(0)
     if (!output) {
       const errorMessage = `outputが見つかりません`
