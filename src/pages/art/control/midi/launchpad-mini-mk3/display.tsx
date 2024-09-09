@@ -146,7 +146,7 @@ const midiSetup = async (
       .filter((input) => {
         return (
           input.name === 'Launchpad Mini MK3 LPMiniMK3 MIDI Out' || // mac
-          input.name === 'LPMiniMK3 MIDI' // windows
+          input.name === 'MIDIIN2 (LPMiniMK3 MIDI)' // windows
         )
       })
       .at(0)
@@ -160,7 +160,7 @@ const midiSetup = async (
       .filter((output) => {
         return (
           output.name === 'Launchpad Mini MK3 LPMiniMK3 MIDI In' || // mac
-          output.name === 'LPMiniMK3 MIDI' // windows
+          output.name === 'MIDIOUT2 (LPMiniMK3 MIDI)' // windows
         )
       })
       .at(0)
