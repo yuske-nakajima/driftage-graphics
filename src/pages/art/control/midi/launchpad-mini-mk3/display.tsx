@@ -125,12 +125,30 @@ const midiSetup = async (
 ) => {
   try {
     const access = await navigator.requestMIDIAccess()
-    const output = Array.from(access.outputs.values()).filter(
-      (output) => output.name === 'Launchpad Mini MK3 LPMiniMK3 MIDI In',
-    )[0]
-    const input = Array.from(access.inputs.values()).filter(
-      (input) => input.name === 'Launchpad Mini MK3 LPMiniMK3 MIDI Out',
-    )[0]
+
+    console.table(
+      Array.from(access.inputs.values()).map((input) => {
+        return {
+          name: input.name,
+        }
+      }),
+    )
+
+    const input = Array.from(access.inputs.values())
+      .filter((input) => input.name === 'Launchpad Mini MK3 LPMiniMK3 MIDI Out')
+      .at(0)
+    if (!input) {
+      return 'inputが見つかりません'
+    }
+
+    const output = Array.from(access.outputs.values())
+      .filter(
+        (output) => output.name === 'Launchpad Mini MK3 LPMiniMK3 MIDI In',
+      )
+      .at(0)
+    if (!output) {
+      return 'outputが見つかりません'
+    }
 
     for (let i = 36; i <= 99; i++) {
       output.send([0x90, i, 0])
@@ -264,17 +282,17 @@ const sketch = (isFullScreen: boolean): Sketch => {
               gridWidth,
             )
 
-            drawBlock(p5, () => {
-              p5.noStroke()
-              p5.fill(0, 0, 0)
-              p5.textAlign(p5.CENTER, p5.CENTER)
-              p5.textSize(gridWidth / 2)
-              p5.text(
-                `${dataGrid[row][col].value}`,
-                col * gridWidth + gridPos.x + gridWidth / 2,
-                row * gridWidth + gridPos.y + gridWidth / 2,
-              )
-            })
+            // drawBlock(p5, () => {
+            //   p5.noStroke()
+            //   p5.fill(0, 0, 0)
+            //   p5.textAlign(p5.CENTER, p5.CENTER)
+            //   p5.textSize(gridWidth / 2)
+            //   p5.text(
+            //     `${dataGrid[row][col].value}`,
+            //     col * gridWidth + gridPos.x + gridWidth / 2,
+            //     row * gridWidth + gridPos.y + gridWidth / 2,
+            //   )
+            // })
           }
         }
       })
