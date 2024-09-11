@@ -15,24 +15,6 @@ type Key = {
   isPressed: boolean
 }
 
-// const data = new Map<number, number>()
-// for (let i = 36; i <= 99; i++) {
-//   // 36-39は0
-//   // 40-43は1
-//   // ...
-//   // 96-99は15
-//   const key = Math.floor((i - 36) / 4)
-//   data.set(i, key)
-// }
-
-// type Coordinate = { x: number; y: number }
-// const directions: Coordinate[] = [
-//   { x: 1, y: 0 }, // 右
-//   { x: -1, y: 0 }, // 左
-//   { x: 0, y: 1 }, // 下
-//   { x: 0, y: -1 }, // 上
-// ]
-
 const dataGrid: Key[][] = []
 const gridSize = 8
 
@@ -51,87 +33,12 @@ for (let row = 0; row < gridSize; row++) {
   dataGrid.unshift(r)
 }
 
-// const retractWave = (center: Coordinate, output: WebMidi.MIDIOutput) => {
-//   let queue: Coordinate[] = [center]
-//   const interval = setInterval(() => {
-//     const nextQueue: Coordinate[] = []
-//     for (const { x, y } of queue) {
-//       for (const { x: dx, y: dy } of directions) {
-//         const newX = x + dx
-//         const newY = y + dy
-//         // グリッドの範囲内かつまだtrueならfalseにする
-//         if (
-//           newX >= 0 &&
-//           newX < gridSize &&
-//           newY >= 0 &&
-//           newY < gridSize &&
-//           dataGrid[newY][newX].isPressed
-//         ) {
-//           dataGrid[newY][newX].isPressed = false
-//           output.send([0x90, dataGrid[newY][newX].value, 0])
-//           nextQueue.push({ x: newX, y: newY })
-//         }
-//       }
-//     }
-//     queue = nextQueue
-//
-//     // 全てがfalseになったら処理を停止
-//     if (queue.length === 0) {
-//       clearInterval(interval)
-//     }
-//   }, 25)
-// }
-
-// const spreadWave = async (center: Coordinate, output: WebMidi.MIDIOutput) => {
-//   // 初期化
-//   dataGrid.forEach((row) => {
-//     row.forEach((key) => {
-//       key.isPressed = false
-//       output.send([0x90, key.value, 0])
-//     })
-//   })
-//
-//   let queue: Coordinate[] = [center]
-//   dataGrid[center.y][center.x].isPressed = true
-//
-//   const interval = setInterval(() => {
-//     const nextQueue: Coordinate[] = []
-//     for (const { x, y } of queue) {
-//       for (const { x: dx, y: dy } of directions) {
-//         const newX = x + dx
-//         const newY = y + dy
-//         // グリッドの範囲内かつまだfalseならtrueにする
-//         if (
-//           newX >= 0 &&
-//           newX < gridSize &&
-//           newY >= 0 &&
-//           newY < gridSize &&
-//           !dataGrid[newY][newX].isPressed
-//         ) {
-//           dataGrid[newY][newX].isPressed = true
-//           output.send([0x90, dataGrid[newY][newX].value, 127])
-//           nextQueue.push({ x: newX, y: newY })
-//         }
-//       }
-//     }
-//     queue = nextQueue
-//
-//     // 全てがtrueになったら、今度はfalseにする
-//     if (queue.length === 0) {
-//       clearInterval(interval)
-//       retractWave(center, output)
-//     }
-//   }, 30)
-// }
-
 const isPressed = (data: number) => {
   return data === 127
 }
 
 const midiSetup = async (
-  // p5: P5CanvasInstance,
-  pressedFunc: (i: number) => void,
-  releasedFunc: (i: number) => void,
+  pressedCallback: (i: number) => void,
   pressedKeyList: number[],
 ) => {
   try {
@@ -170,46 +77,26 @@ const midiSetup = async (
     }
 
     input.onmidimessage = (event: WebMidi.MIDIMessageEvent) => {
+      const status = event.data.at(0)
+      const note = event.data.at(1)
+      const velocity = event.data.at(2)
+
+      // 有効なデータのみ処理する
+      if (!status || !note || !velocity) {
+        return
+      }
+
       for (let i = 36; i <= 99; i++) {
-        if (event.data[1] !== i) {
-          continue
-        }
-        // output.send([0x90, i, isPressed(event.data[2]) ? 127 : 0])
-        // if (isPressed(event.data[2])) {
-        //   for (const row of dataGrid) {
-        //     for (const key of row) {
-        //       if (key.value === i) {
-        //         spreadWave(
-        //           { x: row.indexOf(key), y: dataGrid.indexOf(row) },
-        //           output,
-        //         )
-        //       }
-        //     }
-        //   }
-        // }
-
-        const getData = event.data.at(2)
-        if (!getData) {
+        if (note !== i) {
           continue
         }
 
-        if (isPressed(getData)) {
-          pressedFunc(i)
-        } else {
-          releasedFunc(i)
+        if (isPressed(velocity)) {
+          pressedCallback(note)
         }
 
-        // const dataI = data.get(i)
-        // if (dataI === undefined) {
-        //   continue
-        // }
-
-        // const colorList = [
-        //   3, 5, 9, 13, 82, 41, 48, 122, 122, 48, 41, 82, 13, 9, 5, 3,
-        // ]
         if (pressedKeyList.includes(i)) {
-          // output.send([0x90, i, colorList[dataI]])
-          output.send([0x90, i, 41])
+          output.send([0x90, i, 41/* 色コード */])
         } else {
           output.send([0x90, i, 0])
         }
@@ -225,11 +112,13 @@ const midiSetup = async (
 const sketch = (isFullScreen: boolean): Sketch => {
   return (p5: P5CanvasInstance) => {
     let canvasSize: Vector
-    let displayText: string
     let centerPos: Vector
     const pressedKeyList: number[] = []
     let backgroundColor: { h: number; s: number; b: number }
 
+    // ----------
+    // セットアップ
+    // ----------
     const setup = initSetup(p5, isFullScreen, async () => {
       centerPos = p5.createVector(p5.width / 2, p5.height / 2)
       backgroundColor = {
@@ -241,15 +130,10 @@ const sketch = (isFullScreen: boolean): Sketch => {
       p5.colorMode(p5.HSB)
       p5.frameRate(24)
       await midiSetup(
-        // p5,
         (i) => {
-          displayText = ``
-
           if (!pressedKeyList.includes(i)) {
-            // displayText = `${i} を選択しました`
             pressedKeyList.push(i)
           } else {
-            // displayText = `${i} を除外しました`
             pressedKeyList.splice(pressedKeyList.indexOf(i), 1)
           }
 
@@ -260,9 +144,6 @@ const sketch = (isFullScreen: boolean): Sketch => {
             b: p5.random(80, 100),
           }
         },
-        (_) => {
-          displayText = ``
-        },
         pressedKeyList,
       )
     })
@@ -270,13 +151,17 @@ const sketch = (isFullScreen: boolean): Sketch => {
     p5.setup = () => {
       canvasSize = setup(p5.createVector(0, 0))
     }
+    // ----------
+    // セットアップ
+    // ----------
 
-    p5.draw = () => {
-      canvasSize = setup(canvasSize)
-      p5.background(backgroundColor.h, backgroundColor.s, backgroundColor.b)
-      p5.stroke(0)
-
+    // ----------
+    // 描画
+    // ----------
+    const drawGrid = () => {
       drawBlock(p5, () => {
+        p5.stroke(0)
+
         // グリッドの状態を表示
         const gridSize = 8
         const gridAreaWidth = p5.width / 4
@@ -312,29 +197,30 @@ const sketch = (isFullScreen: boolean): Sketch => {
               gridWidth,
             )
 
-            // drawBlock(p5, () => {
-            //   p5.noStroke()
-            //   p5.fill(0, 0, 0)
-            //   p5.textAlign(p5.CENTER, p5.CENTER)
-            //   p5.textSize(gridWidth / 2)
-            //   p5.text(
-            //     `${dataGrid[row][col].value}`,
-            //     col * gridWidth + gridPos.x + gridWidth / 2,
-            //     row * gridWidth + gridPos.y + gridWidth / 2,
-            //   )
-            // })
+            drawBlock(p5, () => {
+              p5.noStroke()
+              p5.fill(0, 0, 0)
+              p5.textAlign(p5.CENTER, p5.CENTER)
+              p5.textSize(gridWidth / 2)
+              p5.text(
+                `${dataGrid[row][col].value}`,
+                col * gridWidth + gridPos.x + gridWidth / 2,
+                row * gridWidth + gridPos.y + gridWidth / 2,
+              )
+            })
           }
         }
       })
-
-      // drawBlock(p5, () => {
-      //   p5.noStroke()
-      //   p5.fill(0, 0, 0, 0.5)
-      //   p5.textSize(p5.width / 10)
-      //   p5.textAlign(p5.CENTER, p5.CENTER)
-      //   p5.text(displayText, centerPos.x, centerPos.y)
-      // })
     }
+
+    p5.draw = () => {
+      canvasSize = setup(canvasSize)
+      p5.background(backgroundColor.h, backgroundColor.s, backgroundColor.b)
+      drawGrid()
+    }
+    // ----------
+    // 描画
+    // ----------
   }
 }
 
