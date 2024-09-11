@@ -10,36 +10,34 @@ export const pageInfo: PageInfo = {
   href: 'art/control/midi/launchpad-mini-mk3/display',
 }
 
+const GRID_SIZE = 8
+
 type Key = {
   value: number
+  calcValue: number
+  group: number
   isPressed: boolean
-}
-
-const dataGrid: Key[][] = []
-const gridSize = 8
-
-// 左側（黄色）部分の値の設定
-for (let row = 0; row < gridSize; row++) {
-  const gridHalf = gridSize / 2
-  const r: Key[] = []
-  for (let col = 0; col < gridSize; col++) {
-    let value = 36 + row * gridHalf + col
-    const isPressed = false
-    if (col >= gridHalf) {
-      value += 28
-    }
-    r.push({ value, isPressed })
-  }
-  dataGrid.unshift(r)
 }
 
 const isPressed = (data: number) => {
   return data === 127
 }
 
+const getPressedKeyList = (dataGrid: Key[][]): number[] => {
+  const result: number[] = []
+  for (const row of dataGrid) {
+    for (const col of row) {
+      if (col.isPressed) {
+        result.push(col.value)
+      }
+    }
+  }
+  return result
+}
+
 const midiSetup = async (
   pressedCallback: (i: number) => void,
-  pressedKeyList: number[],
+  dataGrid: Key[][],
 ) => {
   try {
     const access = await navigator.requestMIDIAccess()
@@ -95,8 +93,8 @@ const midiSetup = async (
           pressedCallback(note)
         }
 
-        if (pressedKeyList.includes(i)) {
-          output.send([0x90, i, 41/* 色コード */])
+        if (getPressedKeyList(dataGrid).includes(i)) {
+          output.send([0x90, i, 41 /* 色コード */])
         } else {
           output.send([0x90, i, 0])
         }
@@ -109,43 +107,78 @@ const midiSetup = async (
   }
 }
 
+const calcDataGrid = (dataGrid: Key[][]): Map<number, number> => {
+  const result = new Map<number, number>()
+  for (let i = 0; i < dataGrid.length * 2; i++) {
+    result.set(i, 0)
+  }
+  for (const item of dataGrid.flat()) {
+    const nowValue = result.get(item.group)
+    if (item.isPressed && nowValue !== undefined) {
+      result.set(item.group, nowValue + item.calcValue)
+    }
+  }
+  return result
+}
+
 const sketch = (isFullScreen: boolean): Sketch => {
   return (p5: P5CanvasInstance) => {
     let canvasSize: Vector
     let centerPos: Vector
-    const pressedKeyList: number[] = []
     let backgroundColor: { h: number; s: number; b: number }
+    const dataGrid: Key[][] = []
+
+    const setDataGridIsPressed = (value: number, isPressed: boolean) => {
+      for (let row = 0; row < dataGrid.length; row++) {
+        for (let col = 0; col < dataGrid.length; col++) {
+          if (dataGrid[row][col].value === value) {
+            dataGrid[row][col].isPressed = isPressed
+          }
+        }
+      }
+    }
 
     // ----------
     // セットアップ
     // ----------
     const setup = initSetup(p5, isFullScreen, async () => {
+      for (let row = 0; row < GRID_SIZE; row++) {
+        const gridHalf = GRID_SIZE / 2
+        const r: Key[] = []
+        for (let col = 0; col < GRID_SIZE; col++) {
+          let value = 36 + row * gridHalf + col
+          const calcValue = [8, 4, 2, 1][(value - 36) % 4]
+          let group = row
+          const isPressed = false
+          if (col >= gridHalf) {
+            value += 28
+            group += 8
+          }
+          r.push({ value, calcValue, group, isPressed })
+        }
+        dataGrid.unshift(r)
+      }
+
       centerPos = p5.createVector(p5.width / 2, p5.height / 2)
       backgroundColor = {
-        h: p5.random(0, 360),
-        s: p5.random(80, 100),
-        b: p5.random(80, 100),
+        h: 0,
+        s: 20,
+        b: 20,
       }
 
       p5.colorMode(p5.HSB)
       p5.frameRate(24)
-      await midiSetup(
-        (i) => {
-          if (!pressedKeyList.includes(i)) {
-            pressedKeyList.push(i)
-          } else {
-            pressedKeyList.splice(pressedKeyList.indexOf(i), 1)
-          }
+      await midiSetup((i) => {
+        setDataGridIsPressed(i, !getPressedKeyList(dataGrid).includes(i))
 
-          // 背景色を変更する
-          backgroundColor = {
-            h: p5.random(0, 360),
-            s: p5.random(80, 100),
-            b: p5.random(80, 100),
-          }
-        },
-        pressedKeyList,
-      )
+        // 背景色を変更する
+        const calcDataGridResult = calcDataGrid(dataGrid)
+        backgroundColor = {
+          h: p5.map(calcDataGridResult.get(0) ?? 0, 0, 15, 0, 360),
+          s: p5.map(calcDataGridResult.get(1) ?? 0, 0, 15, 20, 100),
+          b: p5.map(calcDataGridResult.get(2) ?? 0, 0, 15, 20, 100),
+        }
+      }, dataGrid)
     })
 
     p5.setup = () => {
@@ -185,7 +218,9 @@ const sketch = (isFullScreen: boolean): Sketch => {
         p5.strokeWeight(2)
         for (let row = 0; row < gridSize; row++) {
           for (let col = 0; col < gridSize; col++) {
-            if (pressedKeyList.includes(dataGrid[row][col].value)) {
+            if (
+              getPressedKeyList(dataGrid).includes(dataGrid[row][col].value)
+            ) {
               p5.fill(200, 80, 100)
             } else {
               p5.fill(0, 0, 90)
@@ -197,17 +232,18 @@ const sketch = (isFullScreen: boolean): Sketch => {
               gridWidth,
             )
 
-            drawBlock(p5, () => {
-              p5.noStroke()
-              p5.fill(0, 0, 0)
-              p5.textAlign(p5.CENTER, p5.CENTER)
-              p5.textSize(gridWidth / 2)
-              p5.text(
-                `${dataGrid[row][col].value}`,
-                col * gridWidth + gridPos.x + gridWidth / 2,
-                row * gridWidth + gridPos.y + gridWidth / 2,
-              )
-            })
+            // グリッドの数字を表示
+            // drawBlock(p5, () => {
+            //   p5.noStroke()
+            //   p5.fill(0, 0, 0)
+            //   p5.textAlign(p5.CENTER, p5.CENTER)
+            //   p5.textSize(gridWidth / 2)
+            //   p5.text(
+            //     `${dataGrid[row][col].value}`,
+            //     col * gridWidth + gridPos.x + gridWidth / 2,
+            //     row * gridWidth + gridPos.y + gridWidth / 2,
+            //   )
+            // })
           }
         }
       })
