@@ -128,6 +128,14 @@ const sketch = (isFullScreen: boolean): Sketch => {
     let backgroundColor: { h: number; s: number; b: number }
     const dataGrid: Key[][] = []
 
+    // 縦横の線の数
+    let verticalLineCount: number
+    let horizontalLineCount: number
+
+    // 右斜・左斜の線の数
+    let rightSlantLineCount: number
+    let leftSlantLineCount: number
+
     const setDataGridIsPressed = (value: number, isPressed: boolean) => {
       for (let row = 0; row < dataGrid.length; row++) {
         for (let col = 0; col < dataGrid.length; col++) {
@@ -142,6 +150,11 @@ const sketch = (isFullScreen: boolean): Sketch => {
     // セットアップ
     // ----------
     const setup = initSetup(p5, isFullScreen, async () => {
+      verticalLineCount = 0
+      horizontalLineCount = 0
+      rightSlantLineCount = 0
+      leftSlantLineCount = 0
+
       for (let row = 0; row < GRID_SIZE; row++) {
         const gridHalf = GRID_SIZE / 2
         const r: Key[] = []
@@ -178,6 +191,29 @@ const sketch = (isFullScreen: boolean): Sketch => {
           s: p5.map(calcDataGridResult.get(1) ?? 0, 0, 15, 20, 100),
           b: p5.map(calcDataGridResult.get(2) ?? 0, 0, 15, 20, 100),
         }
+
+        verticalLineCount = p5.map(calcDataGridResult.get(3) ?? 0, 0, 15, 0, 20)
+        horizontalLineCount = p5.map(
+          calcDataGridResult.get(4) ?? 0,
+          0,
+          15,
+          0,
+          20,
+        )
+        rightSlantLineCount = p5.map(
+          calcDataGridResult.get(5) ?? 0,
+          0,
+          15,
+          0,
+          20,
+        )
+        leftSlantLineCount = p5.map(
+          calcDataGridResult.get(6) ?? 0,
+          0,
+          15,
+          0,
+          20,
+        )
       }, dataGrid)
     })
 
@@ -197,7 +233,7 @@ const sketch = (isFullScreen: boolean): Sketch => {
 
         // グリッドの状態を表示
         const gridSize = 8
-        const gridAreaWidth = p5.width / 4
+        const gridAreaWidth = p5.width / 10
         const gridWidth = gridAreaWidth / gridSize
 
         const gridPos = p5.createVector(
@@ -208,10 +244,10 @@ const sketch = (isFullScreen: boolean): Sketch => {
         drawBlock(p5, () => {
           p5.fill(0, 0, 0)
           p5.rect(
-            gridPos.x - 10,
-            gridPos.y - 10,
-            gridAreaWidth + 20,
-            gridAreaWidth + 20,
+            gridPos.x - 5,
+            gridPos.y - 5,
+            gridAreaWidth + 10,
+            gridAreaWidth + 10,
           )
         })
 
@@ -249,9 +285,74 @@ const sketch = (isFullScreen: boolean): Sketch => {
       })
     }
 
+    const drawVerticalLine = () => {
+      drawBlock(p5, () => {
+        // 縦の線を表示 (verticalLineCount)
+        const lineSpace = p5.width / verticalLineCount
+        for (let i = 0; i < verticalLineCount; i++) {
+          const x = lineSpace * i
+          p5.stroke(0, 0, 100)
+          p5.line(x, 0, x, p5.height)
+        }
+      })
+    }
+
+    const drawHorizontalLine = () => {
+      drawBlock(p5, () => {
+        // 横の線を表示 (horizontalLineCount)
+        const lineSpace = p5.height / horizontalLineCount
+        for (let i = 0; i < horizontalLineCount; i++) {
+          const y = lineSpace * i
+          p5.stroke(0, 0, 100)
+          p5.line(0, y, p5.width, y)
+        }
+      })
+    }
+
+    const drawRightSlantLine = () => {
+      drawBlock(p5, () => {
+        // 右斜の線を表示 (rightSlantLineCount)
+        const lineSpace = p5.width / rightSlantLineCount
+        for (let i = 0; i < rightSlantLineCount; i++) {
+          const x = lineSpace * i
+          p5.stroke(0, 0, 100)
+          p5.line(x, 0, p5.width, p5.height - x)
+        }
+        for (let i = 0; i < rightSlantLineCount; i++) {
+          const y = lineSpace * i
+          p5.stroke(0, 0, 100)
+          p5.line(0, y, p5.width - y, p5.height)
+        }
+      })
+    }
+
+    const drawLeftSlantLine = () => {
+      drawBlock(p5, () => {
+        // 左斜の線を表示 (leftSlantLineCount)
+        for (let i = 0; i < leftSlantLineCount; i++) {
+          const lineSpace = p5.width / leftSlantLineCount
+          const x = lineSpace * i
+          p5.stroke(0, 0, 100)
+          p5.line(x, 0, 0, x)
+        }
+        for (let i = 0; i < leftSlantLineCount; i++) {
+          const xLineSpace = p5.width / leftSlantLineCount
+          const x = xLineSpace * i
+          const yLineSpace = p5.height / leftSlantLineCount
+          const y = yLineSpace * i
+          p5.stroke(0, 0, 100)
+          p5.line(p5.width, y, x, p5.height)
+        }
+      })
+    }
+
     p5.draw = () => {
       canvasSize = setup(canvasSize)
       p5.background(backgroundColor.h, backgroundColor.s, backgroundColor.b)
+      drawVerticalLine()
+      drawHorizontalLine()
+      drawRightSlantLine()
+      drawLeftSlantLine()
       drawGrid()
     }
     // ----------
