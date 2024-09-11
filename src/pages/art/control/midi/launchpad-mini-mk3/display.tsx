@@ -136,6 +136,9 @@ const sketch = (isFullScreen: boolean): Sketch => {
     let rightSlantLineCount: number
     let leftSlantLineCount: number
 
+    // 丸を描画数
+    let circleCount: number
+
     const setDataGridIsPressed = (value: number, isPressed: boolean) => {
       for (let row = 0; row < dataGrid.length; row++) {
         for (let col = 0; col < dataGrid.length; col++) {
@@ -154,6 +157,7 @@ const sketch = (isFullScreen: boolean): Sketch => {
       horizontalLineCount = 0
       rightSlantLineCount = 0
       leftSlantLineCount = 0
+      circleCount = 0
 
       for (let row = 0; row < GRID_SIZE; row++) {
         const gridHalf = GRID_SIZE / 2
@@ -214,6 +218,9 @@ const sketch = (isFullScreen: boolean): Sketch => {
           0,
           20,
         )
+
+        // 形
+        circleCount = p5.map(calcDataGridResult.get(7) ?? 0, 0, 15, 0, 50)
       }, dataGrid)
     })
 
@@ -346,6 +353,24 @@ const sketch = (isFullScreen: boolean): Sketch => {
       })
     }
 
+    // 縦横に円を描画
+    const drawCircle = () => {
+      if (circleCount === 0) {
+        return
+      }
+      drawBlock(p5, () => {
+        p5.stroke(255)
+        p5.noFill()
+        // (p5.width / circleCount) の円を敷き詰める
+        const circleWidth = p5.width / circleCount
+        for (let x = 0; x < p5.width + circleWidth; x += circleWidth) {
+          for (let y = 0; y < p5.height + circleWidth; y += circleWidth) {
+            p5.ellipse(x, y, circleWidth)
+          }
+        }
+      })
+    }
+
     p5.draw = () => {
       canvasSize = setup(canvasSize)
       p5.background(backgroundColor.h, backgroundColor.s, backgroundColor.b)
@@ -353,6 +378,7 @@ const sketch = (isFullScreen: boolean): Sketch => {
       drawHorizontalLine()
       drawRightSlantLine()
       drawLeftSlantLine()
+      drawCircle()
       drawGrid()
     }
     // ----------
