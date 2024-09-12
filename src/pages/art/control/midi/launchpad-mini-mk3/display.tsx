@@ -128,16 +128,9 @@ const sketch = (isFullScreen: boolean): Sketch => {
     let backgroundColor: { h: number; s: number; b: number }
     const dataGrid: Key[][] = []
 
-    // 縦横の線の数
-    let verticalLineCount: number
-    let horizontalLineCount: number
+    let calcDataGridResult: Map<number, number>
 
-    // 右斜・左斜の線の数
-    let rightSlantLineCount: number
-    let leftSlantLineCount: number
-
-    // 丸を描画数
-    let circleCount: number
+    let shapeSize: number
 
     const setDataGridIsPressed = (value: number, isPressed: boolean) => {
       for (let row = 0; row < dataGrid.length; row++) {
@@ -153,11 +146,7 @@ const sketch = (isFullScreen: boolean): Sketch => {
     // セットアップ
     // ----------
     const setup = initSetup(p5, isFullScreen, async () => {
-      verticalLineCount = 0
-      horizontalLineCount = 0
-      rightSlantLineCount = 0
-      leftSlantLineCount = 0
-      circleCount = 0
+      shapeSize = 1
 
       for (let row = 0; row < GRID_SIZE; row++) {
         const gridHalf = GRID_SIZE / 2
@@ -179,8 +168,8 @@ const sketch = (isFullScreen: boolean): Sketch => {
       centerPos = p5.createVector(p5.width / 2, p5.height / 2)
       backgroundColor = {
         h: 0,
-        s: 20,
-        b: 20,
+        s: 80,
+        b: 80,
       }
 
       p5.colorMode(p5.HSB)
@@ -189,38 +178,15 @@ const sketch = (isFullScreen: boolean): Sketch => {
         setDataGridIsPressed(i, !getPressedKeyList(dataGrid).includes(i))
 
         // 背景色を変更する
-        const calcDataGridResult = calcDataGrid(dataGrid)
+        calcDataGridResult = calcDataGrid(dataGrid)
         backgroundColor = {
           h: p5.map(calcDataGridResult.get(0) ?? 0, 0, 15, 0, 360),
-          s: p5.map(calcDataGridResult.get(1) ?? 0, 0, 15, 20, 100),
-          b: p5.map(calcDataGridResult.get(2) ?? 0, 0, 15, 20, 100),
+          s: p5.map(calcDataGridResult.get(1) ?? 0, 0, 15, 80, 100),
+          b: p5.map(calcDataGridResult.get(2) ?? 0, 0, 15, 80, 100),
         }
 
-        verticalLineCount = p5.map(calcDataGridResult.get(3) ?? 0, 0, 15, 0, 20)
-        horizontalLineCount = p5.map(
-          calcDataGridResult.get(4) ?? 0,
-          0,
-          15,
-          0,
-          20,
-        )
-        rightSlantLineCount = p5.map(
-          calcDataGridResult.get(5) ?? 0,
-          0,
-          15,
-          0,
-          20,
-        )
-        leftSlantLineCount = p5.map(
-          calcDataGridResult.get(6) ?? 0,
-          0,
-          15,
-          0,
-          20,
-        )
-
         // 形
-        circleCount = p5.map(calcDataGridResult.get(7) ?? 0, 0, 15, 0, 50)
+        shapeSize = p5.map(calcDataGridResult.get(3) ?? 0, 0, 15, 1, 30)
       }, dataGrid)
     })
 
@@ -292,80 +258,83 @@ const sketch = (isFullScreen: boolean): Sketch => {
       })
     }
 
-    const drawVerticalLine = () => {
+    // 四角を描画
+    const drawSquare = (value: number) => {
       drawBlock(p5, () => {
-        // 縦の線を表示 (verticalLineCount)
-        const lineSpace = p5.width / verticalLineCount
-        for (let i = 0; i < verticalLineCount; i++) {
-          const x = lineSpace * i
-          p5.stroke(0, 0, 100)
-          p5.line(x, 0, x, p5.height)
+        const count = p5.ceil(shapeSize)
+
+        const width = p5.width / count
+        const height = p5.height / count
+        const strokeWeight = width / 20
+
+        for (let x = 0; x < count; x++) {
+          for (let y = 0; y < count; y++) {
+            drawBlock(p5, () => {
+              if (value !== 0) {
+                if (value % 2 === 0) {
+                  p5.noFill()
+                  p5.stroke(0, 0, 100)
+                  p5.strokeWeight(strokeWeight)
+                } else {
+                  p5.fill(
+                    // ノイズを加える
+                    backgroundColor.h + p5.noise(x, y) * 100,
+                    backgroundColor.s + p5.noise(x, y) * 100,
+                    backgroundColor.b + p5.noise(x, y) * 100,
+                  )
+                  p5.stroke(0, 0, 100)
+                  p5.strokeWeight(strokeWeight)
+                }
+              } else {
+                p5.noFill()
+                p5.noStroke()
+              }
+              p5.rect(x * width, y * height, width, height)
+            })
+          }
         }
       })
     }
 
-    const drawHorizontalLine = () => {
+    // 円を描画
+    const drawCircle = (value: number, rate: number) => {
       drawBlock(p5, () => {
-        // 横の線を表示 (horizontalLineCount)
-        const lineSpace = p5.height / horizontalLineCount
-        for (let i = 0; i < horizontalLineCount; i++) {
-          const y = lineSpace * i
-          p5.stroke(0, 0, 100)
-          p5.line(0, y, p5.width, y)
-        }
-      })
-    }
+        const count = p5.ceil(shapeSize)
+        const width = p5.width / count
+        const height = p5.height / count
+        const strokeWeight = width / 20
 
-    const drawRightSlantLine = () => {
-      drawBlock(p5, () => {
-        // 右斜の線を表示 (rightSlantLineCount)
-        const lineSpace = p5.width / rightSlantLineCount
-        for (let i = 0; i < rightSlantLineCount; i++) {
-          const x = lineSpace * i
-          p5.stroke(0, 0, 100)
-          p5.line(x, 0, p5.width, p5.height - x)
-        }
-        for (let i = 0; i < rightSlantLineCount; i++) {
-          const y = lineSpace * i
-          p5.stroke(0, 0, 100)
-          p5.line(0, y, p5.width - y, p5.height)
-        }
-      })
-    }
+        for (let x = 0; x < count; x++) {
+          for (let y = 0; y < count; y++) {
+            drawBlock(p5, () => {
+              if (value !== 0) {
+                if (value % 2 === 0) {
+                  p5.noFill()
+                  p5.stroke(0, 0, 100)
+                  p5.strokeWeight(strokeWeight)
+                } else {
+                  p5.fill(
+                    // ノイズを加える
+                    backgroundColor.h + p5.noise(x, y) * 70,
+                    backgroundColor.s + p5.noise(x, y) * 70,
+                    backgroundColor.b + p5.noise(x, y) * 70,
+                  )
+                  p5.stroke(0, 0, 100)
+                  p5.strokeWeight(strokeWeight)
+                }
+              } else {
+                p5.noFill()
+                p5.noStroke()
+              }
 
-    const drawLeftSlantLine = () => {
-      drawBlock(p5, () => {
-        // 左斜の線を表示 (leftSlantLineCount)
-        for (let i = 0; i < leftSlantLineCount; i++) {
-          const lineSpace = p5.width / leftSlantLineCount
-          const x = lineSpace * i
-          p5.stroke(0, 0, 100)
-          p5.line(x, 0, 0, x)
-        }
-        for (let i = 0; i < leftSlantLineCount; i++) {
-          const xLineSpace = p5.width / leftSlantLineCount
-          const x = xLineSpace * i
-          const yLineSpace = p5.height / leftSlantLineCount
-          const y = yLineSpace * i
-          p5.stroke(0, 0, 100)
-          p5.line(p5.width, y, x, p5.height)
-        }
-      })
-    }
-
-    // 縦横に円を描画
-    const drawCircle = () => {
-      if (circleCount === 0) {
-        return
-      }
-      drawBlock(p5, () => {
-        p5.stroke(255)
-        p5.noFill()
-        // (p5.width / circleCount) の円を敷き詰める
-        const circleWidth = p5.width / circleCount
-        for (let x = 0; x < p5.width + circleWidth; x += circleWidth) {
-          for (let y = 0; y < p5.height + circleWidth; y += circleWidth) {
-            p5.ellipse(x, y, circleWidth)
+              p5.ellipse(
+                x * width + width / 2,
+                y * height + height / 2,
+                // ノイズを加える
+                width * rate + p5.noise(x, y) * width * rate,
+                height * rate + p5.noise(x, y) * height * rate,
+              )
+            })
           }
         }
       })
@@ -374,11 +343,13 @@ const sketch = (isFullScreen: boolean): Sketch => {
     p5.draw = () => {
       canvasSize = setup(canvasSize)
       p5.background(backgroundColor.h, backgroundColor.s, backgroundColor.b)
-      drawVerticalLine()
-      drawHorizontalLine()
-      drawRightSlantLine()
-      drawLeftSlantLine()
-      drawCircle()
+
+      drawSquare(p5.ceil(calcDataGridResult?.get(4) ?? 0))
+      drawCircle(
+        p5.ceil(calcDataGridResult?.get(5) ?? 0),
+        p5.map(calcDataGridResult?.get(6) ?? 0, 0, 15, 0.2, 0.5),
+      )
+
       drawGrid()
     }
     // ----------
