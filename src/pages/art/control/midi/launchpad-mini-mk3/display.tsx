@@ -181,8 +181,8 @@ const sketch = (isFullScreen: boolean): Sketch => {
         calcDataGridResult = calcDataGrid(dataGrid)
         backgroundColor = {
           h: p5.map(calcDataGridResult.get(0) ?? 0, 0, 15, 0, 360),
-          s: p5.map(calcDataGridResult.get(1) ?? 0, 0, 15, 80, 100),
-          b: p5.map(calcDataGridResult.get(2) ?? 0, 0, 15, 80, 100),
+          s: 80,
+          b: 80,
         }
 
         // 形
