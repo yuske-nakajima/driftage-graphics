@@ -11,7 +11,8 @@
 	},
 	"formatter": {
 		"enabled": true,
-		"indentStyle": "tab"
+		"indentStyle": "space",
+		"indentSize": 2
 	},
 	"organizeImports": {
 		"enabled": true
@@ -25,8 +26,9 @@
 	"javascript": {
 		"formatter": {
 			"quoteStyle": "single",
+			"jsxQuoteStyle": "single",
 			"semicolons": "asNeeded",
-			"indentWidth": 2
+			"trailingCommas": "all"
 		}
 	}
 }
