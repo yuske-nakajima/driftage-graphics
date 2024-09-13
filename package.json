@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "format": "prettier --write \"src/**/*.{ts,tsx,css}\""
+    "lint": "next lint"
   },
   "dependencies": {
     "@p5-wrapper/next": "^1.0.3",
@@ -22,8 +21,6 @@
     "@types/react": "^18",
     "@types/webmidi": "^2.1.0",
     "postcss": "^8",
-    "prettier": "^3.3.2",
-    "prettier-plugin-organize-imports": "^3.2.4",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }
