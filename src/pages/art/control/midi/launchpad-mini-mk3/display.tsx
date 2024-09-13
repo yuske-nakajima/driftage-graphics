@@ -267,30 +267,34 @@ const sketch = (isFullScreen: boolean): Sketch => {
         const height = p5.height / count
         const strokeWeight = width / 20
 
+        const loopFunc = (x: number, y: number) => {
+          drawBlock(p5, () => {
+            if (value !== 0) {
+              if (value % 2 === 0) {
+                p5.noFill()
+                p5.stroke(0, 0, 100)
+                p5.strokeWeight(strokeWeight)
+              } else {
+                p5.fill(
+                  // ノイズを加える
+                  backgroundColor.h + p5.noise(x, y) * 100,
+                  backgroundColor.s + p5.noise(x, y) * 100,
+                  backgroundColor.b + p5.noise(x, y) * 100,
+                )
+                p5.stroke(0, 0, 100)
+                p5.strokeWeight(strokeWeight)
+              }
+            } else {
+              p5.noFill()
+              p5.noStroke()
+            }
+            p5.rect(x * width, y * height, width, height)
+          })
+        }
+
         for (let x = 0; x < count; x++) {
           for (let y = 0; y < count; y++) {
-            drawBlock(p5, () => {
-              if (value !== 0) {
-                if (value % 2 === 0) {
-                  p5.noFill()
-                  p5.stroke(0, 0, 100)
-                  p5.strokeWeight(strokeWeight)
-                } else {
-                  p5.fill(
-                    // ノイズを加える
-                    backgroundColor.h + p5.noise(x, y) * 100,
-                    backgroundColor.s + p5.noise(x, y) * 100,
-                    backgroundColor.b + p5.noise(x, y) * 100,
-                  )
-                  p5.stroke(0, 0, 100)
-                  p5.strokeWeight(strokeWeight)
-                }
-              } else {
-                p5.noFill()
-                p5.noStroke()
-              }
-              p5.rect(x * width, y * height, width, height)
-            })
+            loopFunc(x, y)
           }
         }
       })
@@ -304,37 +308,41 @@ const sketch = (isFullScreen: boolean): Sketch => {
         const height = p5.height / count
         const strokeWeight = width / 20
 
+        const loopFunc = (x: number, y: number) => {
+          drawBlock(p5, () => {
+            if (value !== 0) {
+              if (value % 2 === 0) {
+                p5.noFill()
+                p5.stroke(0, 0, 100)
+                p5.strokeWeight(strokeWeight)
+              } else {
+                p5.fill(
+                  // ノイズを加える
+                  backgroundColor.h + p5.noise(x, y) * 70,
+                  backgroundColor.s + p5.noise(x, y) * 70,
+                  backgroundColor.b + p5.noise(x, y) * 70,
+                )
+                p5.stroke(0, 0, 100)
+                p5.strokeWeight(strokeWeight)
+              }
+            } else {
+              p5.noFill()
+              p5.noStroke()
+            }
+
+            p5.ellipse(
+              x * width + width / 2,
+              y * height + height / 2,
+              // ノイズを加える
+              width * rate + p5.noise(x, y) * width * rate,
+              height * rate + p5.noise(x, y) * height * rate,
+            )
+          })
+        }
+
         for (let x = 0; x < count; x++) {
           for (let y = 0; y < count; y++) {
-            drawBlock(p5, () => {
-              if (value !== 0) {
-                if (value % 2 === 0) {
-                  p5.noFill()
-                  p5.stroke(0, 0, 100)
-                  p5.strokeWeight(strokeWeight)
-                } else {
-                  p5.fill(
-                    // ノイズを加える
-                    backgroundColor.h + p5.noise(x, y) * 70,
-                    backgroundColor.s + p5.noise(x, y) * 70,
-                    backgroundColor.b + p5.noise(x, y) * 70,
-                  )
-                  p5.stroke(0, 0, 100)
-                  p5.strokeWeight(strokeWeight)
-                }
-              } else {
-                p5.noFill()
-                p5.noStroke()
-              }
-
-              p5.ellipse(
-                x * width + width / 2,
-                y * height + height / 2,
-                // ノイズを加える
-                width * rate + p5.noise(x, y) * width * rate,
-                height * rate + p5.noise(x, y) * height * rate,
-              )
-            })
+            loopFunc(x, y)
           }
         }
       })
