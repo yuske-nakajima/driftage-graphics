@@ -13,7 +13,7 @@ export const pageInfo: PageInfo = {
 }
 
 const clockDrawInit = (p5: P5CanvasInstance): ClockDraw => {
-  const clockDraw = new ClockDraw([])
+  const clockDraw = ClockDraw.create([])
   const size = p5.max(150, p5.width / 5)
   const maxX = Math.ceil(p5.width / size) + 1
   const maxY = Math.ceil(p5.height / size) + 1

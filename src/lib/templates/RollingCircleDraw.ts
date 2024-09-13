@@ -2,8 +2,12 @@ import { ShapeDraw as AbstractShapeDraw } from '@/lib/abstract/ShapeDraw'
 import type { RollingCircle } from '@/lib/shapes/RollingCircle'
 
 export class RollingCircleDraw extends AbstractShapeDraw<number> {
-  constructor(shapes: RollingCircle[]) {
-    super(shapes)
+  // constructor(shapes: RollingCircle[]) {
+  //   super(shapes)
+  // }
+
+  static create(shapes: RollingCircle[]): RollingCircleDraw {
+    return new RollingCircleDraw(shapes)
   }
 
   displayMoveGrid() {

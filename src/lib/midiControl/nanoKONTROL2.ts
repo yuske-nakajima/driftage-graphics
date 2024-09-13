@@ -260,10 +260,9 @@ export const setup = async () => {
   const data = new DtoNanoKONTROL2()
 
   try {
-    // return await navigator.requestMIDIAccess()
     const access = await navigator.requestMIDIAccess() //.then(onMIDISuccess, onMIDIFailure)
 
-    access.inputs.forEach((input) => {
+    for (const [_, input] of access.inputs) {
       if (
         input.name === 'nanoKONTROL2 SLIDER/KNOB' || // mac
         input.name === 'nanoKONTROL2' // windows
@@ -361,7 +360,7 @@ export const setup = async () => {
           }
         }
       }
-    })
+    }
 
     return new NanoKONTROL2(data)
   } catch (e) {

@@ -4,7 +4,7 @@ import { ConcentricCirclesDraw } from '@/lib/templates/ConcentricCirclesDraw'
 import type { P5CanvasInstance } from '@p5-wrapper/react'
 
 export const common = (p5: P5CanvasInstance): ConcentricCirclesDraw => {
-  const concentricCirclesDraw = new ConcentricCirclesDraw([])
+  const concentricCirclesDraw = ConcentricCirclesDraw.create([])
 
   const circleSize = 200
   const circleMaxX = Math.ceil(p5.width / circleSize) + 1

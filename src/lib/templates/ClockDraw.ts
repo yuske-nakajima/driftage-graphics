@@ -2,8 +2,8 @@ import type { Clock1 } from '@/components/items/clock1'
 import { ShapeDraw as AbstractShapeDraw } from '@/lib/abstract/ShapeDraw'
 
 export class ClockDraw extends AbstractShapeDraw<number> {
-  constructor(shapes: Clock1[]) {
-    super(shapes)
+  static create(shapes: Clock1[]) {
+    return new ClockDraw(shapes)
   }
 
   // displayMoveGrid() {

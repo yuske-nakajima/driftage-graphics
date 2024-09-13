@@ -7,7 +7,7 @@ import { RollingCircleDraw } from '@/lib/templates/RollingCircleDraw'
 import type { P5CanvasInstance } from '@p5-wrapper/react'
 
 export const pointSquareCommon = (p5: P5CanvasInstance): PointSquareDraw => {
-  const pointSquareDraw = new PointSquareDraw([])
+  const pointSquareDraw = PointSquareDraw.create([])
   const size = p5.width / 10
   const maxX = Math.ceil(p5.width / size) + 1
   const maxY = Math.ceil(p5.height / size) + 1
@@ -25,7 +25,7 @@ export const pointSquareCommon = (p5: P5CanvasInstance): PointSquareDraw => {
 export const pointParallelogramCommon = (
   p5: P5CanvasInstance,
 ): PointSquareDraw => {
-  const pointParallelogramDraw = new PointParallelogramDraw([])
+  const pointParallelogramDraw = PointParallelogramDraw.create([])
   const size = p5.width / 10
   const maxX = Math.ceil(p5.width / size) + 1
   const maxY = Math.ceil(p5.height / size) + 1
@@ -43,7 +43,7 @@ export const pointParallelogramCommon = (
 export const rollingCircleCommon = (
   p5: P5CanvasInstance,
 ): RollingCircleDraw => {
-  const rollingCircleDraw = new RollingCircleDraw([])
+  const rollingCircleDraw = RollingCircleDraw.create([])
   const size = p5.width / 10
   const maxX = Math.ceil(p5.width / size) + 1
   const maxY = Math.ceil(p5.height / size) + 1

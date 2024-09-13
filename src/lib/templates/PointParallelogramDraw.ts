@@ -2,8 +2,12 @@ import { ShapeDraw as AbstractShapeDraw } from '@/lib/abstract/ShapeDraw'
 import type { PointParallelogram } from '@/lib/shapes/PointParallelogram'
 
 export class PointParallelogramDraw extends AbstractShapeDraw<number> {
-  constructor(shapes: PointParallelogram[]) {
-    super(shapes)
+  // constructor(shapes: PointParallelogram[]) {
+  //   super(shapes)
+  // }
+
+  public static create(shapes: PointParallelogram[]): PointParallelogramDraw {
+    return new PointParallelogramDraw(shapes)
   }
 
   displayMoveGrid() {
