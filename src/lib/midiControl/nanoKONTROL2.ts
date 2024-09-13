@@ -262,7 +262,7 @@ export const setup = async () => {
   try {
     const access = await navigator.requestMIDIAccess() //.then(onMIDISuccess, onMIDIFailure)
 
-    for (const [_, input] of access.inputs) {
+    for (const input of access.inputs.values()) {
       if (
         input.name === 'nanoKONTROL2 SLIDER/KNOB' || // mac
         input.name === 'nanoKONTROL2' // windows
