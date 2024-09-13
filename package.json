@@ -17,6 +17,7 @@
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.9.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/webmidi": "^2.1.0",
