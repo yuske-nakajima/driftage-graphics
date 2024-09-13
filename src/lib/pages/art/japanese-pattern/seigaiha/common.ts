@@ -1,7 +1,7 @@
 import { drawBlock } from '@/lib/functions'
 import { ConcentricCircles } from '@/lib/shapes/ConcentricCircles'
 import { ConcentricCirclesDraw } from '@/lib/templates/ConcentricCirclesDraw'
-import { P5CanvasInstance } from '@p5-wrapper/react'
+import type { P5CanvasInstance } from '@p5-wrapper/react'
 
 export const common = (p5: P5CanvasInstance): ConcentricCirclesDraw => {
   const concentricCirclesDraw = new ConcentricCirclesDraw([])

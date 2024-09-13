@@ -6,10 +6,10 @@ export class ClockDraw extends AbstractShapeDraw<number> {
     super(shapes)
   }
 
-  displayMoveGrid() {
-    this.shapes.forEach((shape) => {
-      const pointSquare = shape as Clock1
-      pointSquare.draw()
-    })
-  }
+  // displayMoveGrid() {
+  //   for (const shape of this.shapes) {
+  //     const pointSquare = shape as Clock1
+  //     pointSquare.draw()
+  //   }
+  // }
 }

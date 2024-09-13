@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { FC, ReactNode } from 'react'
+import type { FC, ReactNode } from 'react'
 
 type Props = {
   title: string
@@ -36,6 +36,7 @@ const index: FC<{ children: ReactNode } & Props> = ({ children, title }) => {
             query: { 'full-screen': 'true' },
           })
         }}
+        onKeyUp={() => {}}
       >
         full screen
       </div>

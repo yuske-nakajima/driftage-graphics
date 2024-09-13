@@ -1,11 +1,11 @@
 import { Clock1 } from '@/components/items/clock1'
 import DefaultPage from '@/components/pages/DefaultPage'
 import { initSetup } from '@/lib/functions'
-import { Shape } from '@/lib/interface'
-import { PageInfo } from '@/lib/types'
+import type { Shape } from '@/lib/interface'
+import type { PageInfo } from '@/lib/types'
 import type { P5CanvasInstance, Sketch } from '@p5-wrapper/react'
 import { useSearchParams } from 'next/navigation'
-import { Vector } from 'p5'
+import type { Vector } from 'p5'
 
 export const pageInfo: PageInfo = {
   title: '回る時計-チューブ-',

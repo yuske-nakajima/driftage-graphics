@@ -11,7 +11,7 @@ const index = () => {
 
   return (
     <>
-      <Head title={'DRIFTAGE GRAPHICS'} description={'生成アートの練習'}></Head>
+      <Head title={'DRIFTAGE GRAPHICS'} description={'生成アートの練習'}/>
       <SiteContainer>
         <div>
           <SiteHeader />

@@ -2,10 +2,10 @@ import DefaultPage from '@/components/pages/DefaultPage'
 import { initSetup } from '@/lib/functions'
 import { common, draw } from '@/lib/pages/art/japanese-pattern/seigaiha/common'
 import { ConcentricCirclesDraw } from '@/lib/templates/ConcentricCirclesDraw'
-import { PageInfo } from '@/lib/types'
+import type { PageInfo } from '@/lib/types'
 import type { P5CanvasInstance, Sketch } from '@p5-wrapper/react'
 import { useSearchParams } from 'next/navigation'
-import { Vector } from 'p5'
+import type { Vector } from 'p5'
 
 export const pageInfo: PageInfo = {
   title: '【日本の文様】青海波-移動-',

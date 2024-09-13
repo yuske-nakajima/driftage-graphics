@@ -1,10 +1,10 @@
 import DefaultPage from '@/components/pages/DefaultPage'
 import { KEY_CODE, KEY_CODE_DISPLAY } from '@/lib/constants'
 import { drawBlock, initSetup } from '@/lib/functions'
-import { PageInfo } from '@/lib/types'
+import type { PageInfo } from '@/lib/types'
 import type { P5CanvasInstance, Sketch } from '@p5-wrapper/react'
 import { useSearchParams } from 'next/navigation'
-import { Vector } from 'p5'
+import type { Vector } from 'p5'
 
 export const pageInfo: PageInfo = {
   title: '円を並べた模様（操作可能）',

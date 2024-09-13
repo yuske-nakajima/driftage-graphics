@@ -1,4 +1,4 @@
-import { ShapeDraw as InterfaceShapeDraw, Shape } from '@/lib/interface'
+import type { ShapeDraw as InterfaceShapeDraw, Shape } from '@/lib/interface'
 
 export abstract class ShapeDraw<T> implements InterfaceShapeDraw<T> {
   public shapes: Shape<T>[] = []
@@ -12,8 +12,8 @@ export abstract class ShapeDraw<T> implements InterfaceShapeDraw<T> {
   }
 
   public displayGrid() {
-    this.shapes.forEach((shape) => {
+    for (const shape of this.shapes) {
       shape.draw()
-    })
+    }
   }
 }

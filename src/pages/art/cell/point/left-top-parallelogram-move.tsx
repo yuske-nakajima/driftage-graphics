@@ -1,11 +1,11 @@
 import DefaultPage from '@/components/pages/DefaultPage'
 import { initSetup } from '@/lib/functions'
 import { pointParallelogramCommon } from '@/lib/pages/art/cell/point/common'
-import { PointParallelogramDraw } from '@/lib/templates/PointParallelogramDraw'
-import { PageInfo } from '@/lib/types'
+import type { PointParallelogramDraw } from '@/lib/templates/PointParallelogramDraw'
+import type { PageInfo } from '@/lib/types'
 import type { P5CanvasInstance, Sketch } from '@p5-wrapper/react'
 import { useSearchParams } from 'next/navigation'
-import { Vector } from 'p5'
+import type { Vector } from 'p5'
 
 export const pageInfo: PageInfo = {
   title: 'グリッド-平行四辺形--移動-',

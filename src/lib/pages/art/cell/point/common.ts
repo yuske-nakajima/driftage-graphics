@@ -4,7 +4,7 @@ import { RollingCircle } from '@/lib/shapes/RollingCircle'
 import { PointParallelogramDraw } from '@/lib/templates/PointParallelogramDraw'
 import { PointSquareDraw } from '@/lib/templates/PointSquareDraw'
 import { RollingCircleDraw } from '@/lib/templates/RollingCircleDraw'
-import { P5CanvasInstance } from '@p5-wrapper/react'
+import type { P5CanvasInstance } from '@p5-wrapper/react'
 
 export const pointSquareCommon = (p5: P5CanvasInstance): PointSquareDraw => {
   const pointSquareDraw = new PointSquareDraw([])

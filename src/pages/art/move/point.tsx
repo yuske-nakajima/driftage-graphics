@@ -1,9 +1,9 @@
 import DefaultPage from '@/components/pages/DefaultPage'
 import { drawBlock, initSetup } from '@/lib/functions'
-import { PageInfo } from '@/lib/types'
+import type { PageInfo } from '@/lib/types'
 import type { P5CanvasInstance, Sketch } from '@p5-wrapper/react'
 import { useSearchParams } from 'next/navigation'
-import { Vector } from 'p5'
+import type { Vector } from 'p5'
 
 export const pageInfo: PageInfo = {
   title: '揺れる点',
@@ -44,7 +44,7 @@ const sketch = (isFullScreen: boolean): Sketch => {
       drawBlock(p5, () => {
         p5.background(95)
         p5.noStroke()
-        dotPointList.forEach((point) => {
+        for (const point of dotPointList) {
           drawBlock(p5, () => {
             p5.fill(0, 100, 0)
             p5.circle(
@@ -59,7 +59,7 @@ const sketch = (isFullScreen: boolean): Sketch => {
             p5.fill(0, 0, 100)
             p5.circle(point.x, point.y, 10)
           })
-        })
+        }
       })
     }
   }

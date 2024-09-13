@@ -6,10 +6,10 @@ import {
   UnitType,
   setup as midiSetup,
 } from '@/lib/midiControl/nanoKONTROL2'
-import { PageInfo } from '@/lib/types'
+import type { PageInfo } from '@/lib/types'
 import type { P5CanvasInstance, Sketch } from '@p5-wrapper/react'
 import { useSearchParams } from 'next/navigation'
-import { Vector } from 'p5'
+import type { Vector } from 'p5'
 
 export const pageInfo: PageInfo = {
   title: 'midi信号を表示（nano kontrol）',
@@ -94,37 +94,37 @@ const sketch = (isFullScreen: boolean): Sketch => {
         const labelX = 50
         const valueX = 240
 
-        p5.text(`track previous:`, labelX, 60)
+        p5.text('track previous:', labelX, 60)
         p5.text(`${trackPrevious}`, valueX, 60)
 
-        p5.text(`track next:`, labelX, 80)
+        p5.text('track next:', labelX, 80)
         p5.text(`${trackNext}`, valueX, 80)
 
-        p5.text(`cycle:`, labelX, 100)
+        p5.text('cycle:', labelX, 100)
         p5.text(`${cycle}`, valueX, 100)
 
-        p5.text(`set:`, labelX, 120)
+        p5.text('set:', labelX, 120)
         p5.text(`${set}`, valueX, 120)
 
-        p5.text(`maker previous:`, labelX, 140)
+        p5.text('maker previous:', labelX, 140)
         p5.text(`${makerPrevious}`, valueX, 140)
 
-        p5.text(`maker next:`, labelX, 160)
+        p5.text('maker next:', labelX, 160)
         p5.text(`${makerNext}`, valueX, 160)
 
-        p5.text(`rewind:`, labelX, 180)
+        p5.text('rewind:', labelX, 180)
         p5.text(`${rewind}`, valueX, 180)
 
-        p5.text(`fast forward:`, labelX, 200)
+        p5.text('fast forward:', labelX, 200)
         p5.text(`${fastForward}`, valueX, 200)
 
-        p5.text(`stop:`, labelX, 220)
+        p5.text('stop:', labelX, 220)
         p5.text(`${stop}`, valueX, 220)
 
-        p5.text(`play:`, labelX, 240)
+        p5.text('play:', labelX, 240)
         p5.text(`${play}`, valueX, 240)
 
-        p5.text(`record:`, labelX, 260)
+        p5.text('record:', labelX, 260)
         p5.text(`${record}`, valueX, 260)
 
         unitDisplayText(unit, 1, p5.createVector(50, 300), 20)

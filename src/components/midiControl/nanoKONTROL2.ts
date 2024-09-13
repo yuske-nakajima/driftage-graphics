@@ -1,7 +1,7 @@
 import { drawBlock } from '@/lib/functions'
 import { NanoKONTROL2, Unit, UnitType } from '@/lib/midiControl/nanoKONTROL2'
-import { P5CanvasInstance } from '@p5-wrapper/react'
-import { Color, Vector } from 'p5'
+import type { P5CanvasInstance } from '@p5-wrapper/react'
+import type { Color, Vector } from 'p5'
 
 const PRODUCT_WIDTH = 1100
 const PRODUCT_HEIGHT = 310
@@ -55,7 +55,7 @@ export class MidiControlNanoKONTROL2 {
   ) => {
     const { p5, buttonPushedColor, buttonNormalColor, button1Size } = this
 
-    let buttonColor = isPushed ? buttonPushedColor : buttonNormalColor
+    const buttonColor = isPushed ? buttonPushedColor : buttonNormalColor
     const { x: width1, y: height1 } = button1Size
     const buttonDiff = 8
     const leftTopPos2 = p5.createVector(
@@ -119,7 +119,7 @@ export class MidiControlNanoKONTROL2 {
   ) => {
     const { p5, buttonPushedColor, buttonNormalColor, button2Size } = this
 
-    let buttonColor = isPushed ? buttonPushedColor : buttonNormalColor
+    const buttonColor = isPushed ? buttonPushedColor : buttonNormalColor
     const { x: width1, y: height1 } = button2Size
     const buttonDiff = 8
     const leftTopPos2 = p5.createVector(
@@ -183,7 +183,7 @@ export class MidiControlNanoKONTROL2 {
   ) => {
     const { p5, buttonPushedColor, buttonNormalColor, button3Size } = this
 
-    let buttonColor = isPushed ? buttonPushedColor : buttonNormalColor
+    const buttonColor = isPushed ? buttonPushedColor : buttonNormalColor
     const { x: width1, y: height1 } = button3Size
     const buttonDiff = 6
     const leftTopPos2 = p5.createVector(

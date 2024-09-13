@@ -1,8 +1,8 @@
 import { drawBlock, nowTime } from '@/lib/functions'
-import { Shape } from '@/lib/interface'
-import { Time } from '@/lib/types'
-import { P5CanvasInstance } from '@p5-wrapper/react'
-import { Vector } from 'p5'
+import type { Shape } from '@/lib/interface'
+import type { Time } from '@/lib/types'
+import type { P5CanvasInstance } from '@p5-wrapper/react'
+import type { Vector } from 'p5'
 
 type TextSize = {
   small: number

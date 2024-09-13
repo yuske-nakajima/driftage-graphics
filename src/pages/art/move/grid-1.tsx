@@ -1,9 +1,9 @@
 import DefaultPage from '@/components/pages/DefaultPage'
 import { drawBlock, initSetup } from '@/lib/functions'
-import { PageInfo } from '@/lib/types'
+import type { PageInfo } from '@/lib/types'
 import type { P5CanvasInstance, Sketch } from '@p5-wrapper/react'
 import { useSearchParams } from 'next/navigation'
-import { Vector } from 'p5'
+import type { Vector } from 'p5'
 
 export const pageInfo: PageInfo = {
   title: '揺れる格子',
@@ -61,12 +61,12 @@ const sketch = (isFullScreen: boolean): Sketch => {
         drawBlock(p5, () => {
           p5.strokeWeight(2)
           p5.stroke(0)
-          xLineList.forEach((x) => {
+          for (const x of xLineList) {
             p5.line(noisyPoint(p5, x), 0, noisyPoint(p5, x), p5.height)
-          })
-          yLineList.forEach((y) => {
+          }
+          for (const y of yLineList) {
             p5.line(0, noisyPoint(p5, y), p5.width, noisyPoint(p5, y))
-          })
+          }
         })
       })
     }

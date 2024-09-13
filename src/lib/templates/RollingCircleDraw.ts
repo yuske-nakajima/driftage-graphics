@@ -1,5 +1,5 @@
 import { ShapeDraw as AbstractShapeDraw } from '@/lib/abstract/ShapeDraw'
-import { RollingCircle } from '@/lib/shapes/RollingCircle'
+import type { RollingCircle } from '@/lib/shapes/RollingCircle'
 
 export class RollingCircleDraw extends AbstractShapeDraw<number> {
   constructor(shapes: RollingCircle[]) {
@@ -7,9 +7,9 @@ export class RollingCircleDraw extends AbstractShapeDraw<number> {
   }
 
   displayMoveGrid() {
-    this.shapes.forEach((shape) => {
+    for (const shape of this.shapes) {
       const rollingCircle = shape as RollingCircle
       rollingCircle.draw()
-    })
+    }
   }
 }

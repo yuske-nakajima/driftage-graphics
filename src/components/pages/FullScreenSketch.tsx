@@ -1,6 +1,6 @@
 import Head from '@/components/atoms/Head'
 import { NextReactP5Wrapper } from '@p5-wrapper/next'
-import { P5CanvasInstance } from '@p5-wrapper/react'
+import type { P5CanvasInstance } from '@p5-wrapper/react'
 
 type Props = {
   title: string

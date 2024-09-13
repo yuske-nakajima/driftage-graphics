@@ -1,6 +1,6 @@
 import { drawBlock } from '@/lib/functions'
 import type { P5CanvasInstance } from '@p5-wrapper/react'
-import { Vector } from 'p5'
+import type { Vector } from 'p5'
 
 export class Heart {
   p5: P5CanvasInstance

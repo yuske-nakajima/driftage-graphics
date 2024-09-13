@@ -1,5 +1,5 @@
 import { ShapeDraw as AbstractShapeDraw } from '@/lib/abstract/ShapeDraw'
-import { ConcentricCircles } from '@/lib/shapes/ConcentricCircles'
+import type { ConcentricCircles } from '@/lib/shapes/ConcentricCircles'
 
 export class ConcentricCirclesDraw extends AbstractShapeDraw<number> {
   constructor(shapes: ConcentricCircles[]) {
@@ -7,9 +7,9 @@ export class ConcentricCirclesDraw extends AbstractShapeDraw<number> {
   }
 
   displayMoveGrid() {
-    this.shapes.forEach((shape) => {
+    for (const shape of this.shapes) {
       const circle = shape as ConcentricCircles
       circle.moveDraw()
-    })
+    }
   }
 }

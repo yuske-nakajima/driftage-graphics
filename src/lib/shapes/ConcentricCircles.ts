@@ -1,6 +1,6 @@
-import { Shape } from '@/lib/interface'
-import { P5CanvasInstance } from '@p5-wrapper/react'
-import { Vector } from 'p5'
+import type { Shape } from '@/lib/interface'
+import type { P5CanvasInstance } from '@p5-wrapper/react'
+import type { Vector } from 'p5'
 
 export class ConcentricCircles implements Shape<number> {
   position: Vector

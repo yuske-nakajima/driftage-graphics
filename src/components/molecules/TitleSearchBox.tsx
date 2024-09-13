@@ -1,6 +1,6 @@
 import { PAGE_LIST } from '@/lib/pageList'
-import { PageInfo } from '@/lib/types'
-import { ChangeEvent, SetStateAction } from 'react'
+import type { PageInfo } from '@/lib/types'
+import type { ChangeEvent, SetStateAction } from 'react'
 
 type SearchBoxProps = {
   setListState: (value: SetStateAction<PageInfo[]>) => void

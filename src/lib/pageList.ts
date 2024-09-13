@@ -1,4 +1,4 @@
-import { PageInfo } from '@/lib/types'
+import type { PageInfo } from '@/lib/types'
 import { pageInfo as artCellPointLeftTopParallelogram } from '@/pages/art/cell/point/left-top-parallelogram'
 import { pageInfo as artCellPointLeftTopParallelogramMove } from '@/pages/art/cell/point/left-top-parallelogram-move'
 import { pageInfo as artCellPointLeftTopRollingSquare1 } from '@/pages/art/cell/point/left-top-rolling-square1'

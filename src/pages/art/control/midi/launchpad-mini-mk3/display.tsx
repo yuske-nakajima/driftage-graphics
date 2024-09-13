@@ -1,9 +1,9 @@
 import DefaultPage from '@/components/pages/DefaultPage'
 import { drawBlock, initSetup } from '@/lib/functions'
-import { PageInfo } from '@/lib/types'
+import type { PageInfo } from '@/lib/types'
 import type { P5CanvasInstance, Sketch } from '@p5-wrapper/react'
 import { useSearchParams } from 'next/navigation'
-import { Vector } from 'p5'
+import type { Vector } from 'p5'
 
 export const pageInfo: PageInfo = {
   title: 'midi信号を表示（launchpad mini mk3）',
@@ -51,7 +51,7 @@ const midiSetup = async (
       })
       .at(0)
     if (!input) {
-      const errorMessage = `inputが見つかりません`
+      const errorMessage = 'inputが見つかりません'
       console.error(errorMessage)
       return errorMessage
     }
@@ -65,7 +65,7 @@ const midiSetup = async (
       })
       .at(0)
     if (!output) {
-      const errorMessage = `outputが見つかりません`
+      const errorMessage = 'outputが見つかりません'
       console.error(errorMessage)
       return errorMessage
     }

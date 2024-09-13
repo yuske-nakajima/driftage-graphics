@@ -1,6 +1,6 @@
-import { Time } from '@/lib/types'
-import { P5CanvasInstance } from '@p5-wrapper/react'
-import { Vector } from 'p5'
+import type { Time } from '@/lib/types'
+import type { P5CanvasInstance } from '@p5-wrapper/react'
+import type { Vector } from 'p5'
 
 export const fitCreateCanvas = (
   p5: P5CanvasInstance,
@@ -95,9 +95,9 @@ export const noiseLine = (
     noiseList.push(p5.createVector(x, y))
   }
   p5.beginShape()
-  noiseList.forEach((v) => {
+  for (const v of noiseList) {
     p5.vertex(v.x, v.y)
-  })
+  }
   p5.endShape()
 }
 

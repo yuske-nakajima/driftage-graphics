@@ -1,9 +1,9 @@
 import DefaultPage from '@/components/pages/DefaultPage'
 import { drawBlock, initSetup } from '@/lib/functions'
-import { PageInfo } from '@/lib/types'
+import type { PageInfo } from '@/lib/types'
 import type { P5CanvasInstance, Sketch } from '@p5-wrapper/react'
 import { useSearchParams } from 'next/navigation'
-import { Vector } from 'p5'
+import type { Vector } from 'p5'
 
 export const pageInfo: PageInfo = {
   title: '三角関数基本',
@@ -23,13 +23,13 @@ const sketch = (isFullScreen: boolean): Sketch => {
       // 三角関数の定数を表示
       drawBlock(p5, () => {
         p5.textSize(20)
-        p5.text('QUARTER_PI: ' + p5.QUARTER_PI, 600, 120)
-        p5.text('HALF_PI: ' + p5.HALF_PI, 600, 150)
-        p5.text('PI: ' + p5.PI, 600, 180)
-        p5.text('TWO_PI: ' + p5.TWO_PI, 600, 210)
-        p5.text('TAU: ' + p5.TAU, 600, 240)
-        p5.text('DEGREES: ' + p5.DEGREES, 600, 270)
-        p5.text('RADIANS: ' + p5.RADIANS, 600, 300)
+        p5.text(`QUARTER_PI: ${p5.QUARTER_PI}`, 600, 120)
+        p5.text(`HALF_PI: ${p5.HALF_PI}`, 600, 150)
+        p5.text(`PI: ${p5.PI}`, 600, 180)
+        p5.text(`TWO_PI: ${p5.TWO_PI}`, 600, 210)
+        p5.text(`TAU: ${p5.TAU}`, 600, 240)
+        p5.text(`DEGREES: ${p5.DEGREES}`, 600, 270)
+        p5.text(`RADIANS: ${p5.RADIANS}`, 600, 300)
       })
 
       // 度数法と弧度法を比較するテーブル描画

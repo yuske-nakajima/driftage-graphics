@@ -1,6 +1,6 @@
 import DefaultSketch from '@/components/pages/DefaultSketch'
 import FullScreenSketch from '@/components/pages/FullScreenSketch'
-import { P5CanvasInstance } from '@p5-wrapper/react'
+import type { P5CanvasInstance } from '@p5-wrapper/react'
 
 type Props = {
   title: string

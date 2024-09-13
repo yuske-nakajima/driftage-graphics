@@ -1,9 +1,9 @@
 import DefaultPage from '@/components/pages/DefaultPage'
 import { drawBlock, initSetup, noisyPoint } from '@/lib/functions'
-import { PageInfo } from '@/lib/types'
+import type { PageInfo } from '@/lib/types'
 import type { P5CanvasInstance, Sketch } from '@p5-wrapper/react'
 import { useSearchParams } from 'next/navigation'
-import { Vector } from 'p5'
+import type { Vector } from 'p5'
 
 export const pageInfo: PageInfo = {
   title: '格子と点',
@@ -62,27 +62,27 @@ const sketch = (isFullScreen: boolean): Sketch => {
         drawBlock(p5, () => {
           p5.strokeWeight(2)
           p5.stroke(0)
-          xLineList.forEach((x) => {
+          for (const x of xLineList) {
             p5.line(
               noisyPoint(p5, x, moveLevel),
               0,
               noisyPoint(p5, x, moveLevel),
               p5.height,
             )
-          })
-          yLineList.forEach((y) => {
+          }
+          for (const y of yLineList) {
             p5.line(
               0,
               noisyPoint(p5, y, moveLevel),
               p5.width,
               noisyPoint(p5, y, moveLevel),
             )
-          })
+          }
         })
 
         drawBlock(p5, () => {
           p5.noStroke()
-          dotPointList.forEach((point) => {
+          for (const point of dotPointList) {
             drawBlock(p5, () => {
               p5.fill(0, 100, 0)
               p5.circle(
@@ -95,7 +95,7 @@ const sketch = (isFullScreen: boolean): Sketch => {
               p5.fill(0, 0, 100)
               p5.circle(point.x, point.y, p5.min(10, smallPoint))
             })
-          })
+          }
         })
       })
     }

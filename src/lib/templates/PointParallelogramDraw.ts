@@ -1,5 +1,5 @@
 import { ShapeDraw as AbstractShapeDraw } from '@/lib/abstract/ShapeDraw'
-import { PointParallelogram } from '@/lib/shapes/PointParallelogram'
+import type { PointParallelogram } from '@/lib/shapes/PointParallelogram'
 
 export class PointParallelogramDraw extends AbstractShapeDraw<number> {
   constructor(shapes: PointParallelogram[]) {
@@ -7,9 +7,9 @@ export class PointParallelogramDraw extends AbstractShapeDraw<number> {
   }
 
   displayMoveGrid() {
-    this.shapes.forEach((shape) => {
+    for (const shape of this.shapes) {
       const pointParallelogram = shape as PointParallelogram
       pointParallelogram.moveDraw()
-    })
+    }
   }
 }

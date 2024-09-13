@@ -2,10 +2,10 @@ import { MidiControlNanoKONTROL2 } from '@/components/midiControl/nanoKONTROL2'
 import DefaultPage from '@/components/pages/DefaultPage'
 import { initSetup } from '@/lib/functions'
 import { setup as midiSetup } from '@/lib/midiControl/nanoKONTROL2'
-import { PageInfo } from '@/lib/types'
+import type { PageInfo } from '@/lib/types'
 import type { P5CanvasInstance, Sketch } from '@p5-wrapper/react'
 import { useSearchParams } from 'next/navigation'
-import { Vector } from 'p5'
+import type { Vector } from 'p5'
 
 export const pageInfo: PageInfo = {
   title: 'nanoKONTROL2 を描画',
@@ -21,14 +21,14 @@ const sketch = (isFullScreen: boolean): Sketch => {
       p5.colorMode(p5.HSB)
       p5.frameRate(24)
 
-      let data = await midiSetup()
+      const data = await midiSetup()
 
       // // 諸々の値
       const productWidth = MidiControlNanoKONTROL2.getWidth
       const productHeight = MidiControlNanoKONTROL2.getHeight
 
-      let center = p5.createVector(p5.width / 2, p5.height / 2)
-      let leftTop = p5.createVector(
+      const center = p5.createVector(p5.width / 2, p5.height / 2)
+      const leftTop = p5.createVector(
         center.x - productWidth / 2,
         center.y - productHeight / 2,
       )

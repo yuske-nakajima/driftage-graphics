@@ -5,10 +5,10 @@ import {
   NanoKONTROL2,
   setup as midiSetup,
 } from '@/lib/midiControl/nanoKONTROL2'
-import { PageInfo } from '@/lib/types'
+import type { PageInfo } from '@/lib/types'
 import type { P5CanvasInstance, Sketch } from '@p5-wrapper/react'
 import { useSearchParams } from 'next/navigation'
-import { Vector } from 'p5'
+import type { Vector } from 'p5'
 
 export const pageInfo: PageInfo = {
   title: 'nanoKONTROL2 + 模様',
@@ -41,7 +41,7 @@ const sketch = (isFullScreen: boolean): Sketch => {
       const productHeight = MidiControlNanoKONTROL2.getHeight
 
       center = p5.createVector(p5.width / 2, p5.height / 2)
-      let leftTop = p5.createVector(
+      const leftTop = p5.createVector(
         center.x - productWidth / 2,
         center.y - productHeight / 2 + productHeight / 1.2,
       )
