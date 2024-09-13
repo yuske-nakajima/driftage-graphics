@@ -2,7 +2,7 @@ import { MidiControlNanoKONTROL2 } from '@/components/midiControl/nanoKONTROL2'
 import DefaultPage from '@/components/pages/DefaultPage'
 import { initSetup } from '@/lib/functions'
 import {
-  NanoKONTROL2,
+  type NanoKONTROL2,
   setup as midiSetup,
 } from '@/lib/midiControl/nanoKONTROL2'
 import type { PageInfo } from '@/lib/types'

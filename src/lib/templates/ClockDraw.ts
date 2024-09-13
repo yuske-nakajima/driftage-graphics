@@ -1,4 +1,4 @@
-import { Clock1 } from '@/components/items/clock1'
+import type { Clock1 } from '@/components/items/clock1'
 import { ShapeDraw as AbstractShapeDraw } from '@/lib/abstract/ShapeDraw'
 
 export class ClockDraw extends AbstractShapeDraw<number> {

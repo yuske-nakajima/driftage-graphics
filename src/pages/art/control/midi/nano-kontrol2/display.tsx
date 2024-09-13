@@ -1,9 +1,9 @@
 import DefaultPage from '@/components/pages/DefaultPage'
 import { drawBlock, initSetup } from '@/lib/functions'
 import {
-  NanoKONTROL2,
-  UnitList,
-  UnitType,
+  type NanoKONTROL2,
+  type UnitList,
+  type UnitType,
   setup as midiSetup,
 } from '@/lib/midiControl/nanoKONTROL2'
 import type { PageInfo } from '@/lib/types'

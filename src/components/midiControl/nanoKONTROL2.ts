@@ -1,5 +1,9 @@
 import { drawBlock } from '@/lib/functions'
-import { NanoKONTROL2, Unit, UnitType } from '@/lib/midiControl/nanoKONTROL2'
+import type {
+  NanoKONTROL2,
+  Unit,
+  UnitType,
+} from '@/lib/midiControl/nanoKONTROL2'
 import type { P5CanvasInstance } from '@p5-wrapper/react'
 import type { Color, Vector } from 'p5'
 

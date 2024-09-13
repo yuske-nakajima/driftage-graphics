@@ -1,7 +1,7 @@
 import DefaultPage from '@/components/pages/DefaultPage'
 import { initSetup } from '@/lib/functions'
 import { common, draw } from '@/lib/pages/art/japanese-pattern/seigaiha/common'
-import { ConcentricCirclesDraw } from '@/lib/templates/ConcentricCirclesDraw'
+import type { ConcentricCirclesDraw } from '@/lib/templates/ConcentricCirclesDraw'
 import type { PageInfo } from '@/lib/types'
 import type { P5CanvasInstance, Sketch } from '@p5-wrapper/react'
 import { useSearchParams } from 'next/navigation'
