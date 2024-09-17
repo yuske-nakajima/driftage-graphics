@@ -12,21 +12,21 @@ export const pageInfo: PageInfo = {
 
 type KeyProps = {
   hue: number
-  shapeCount: number
-  shapeCategory: number
-  shapeCategoryRate: number
-  key4: number
-  key5: number
-  key6: number
-  key7: number
-  key8: number
-  key9: number
-  key10: number
-  key11: number
-  key12: number
-  key13: number
-  key14: number
-  key15: number
+  shapeCount1: number
+  shapeCategory1: number
+  shapeCategoryRate1: number
+  shapeCount2: number
+  shapeCategory2: number
+  shapeCategoryRate2: number
+  shapeCount3: number
+  shapeCategory3: number
+  shapeCategoryRate3: number
+  shapeCount4: number
+  shapeCategory4: number
+  shapeCategoryRate4: number
+  shapeCount5: number
+  shapeCategory5: number
+  shapeCategoryRate5: number
 }
 
 const GRID_SIZE = 8
@@ -140,21 +140,21 @@ const calcDataGrid = (dataGrid: Key[][]): KeyProps => {
 
   return {
     hue: result.get(0) ?? 0,
-    shapeCount: result.get(1) ?? 0,
-    shapeCategory: result.get(2) ?? 0,
-    shapeCategoryRate: result.get(3) ?? 0,
-    key4: result.get(1) ?? 0,
-    key5: result.get(2) ?? 0,
-    key6: result.get(4) ?? 0,
-    key7: result.get(7) ?? 0,
-    key8: result.get(8) ?? 0,
-    key9: result.get(9) ?? 0,
-    key10: result.get(10) ?? 0,
-    key11: result.get(11) ?? 0,
-    key12: result.get(12) ?? 0,
-    key13: result.get(13) ?? 0,
-    key14: result.get(14) ?? 0,
-    key15: result.get(15) ?? 0,
+    shapeCount1: result.get(1) ?? 0,
+    shapeCategory1: result.get(2) ?? 0,
+    shapeCategoryRate1: result.get(3) ?? 0,
+    shapeCount2: result.get(4) ?? 0,
+    shapeCategory2: result.get(5) ?? 0,
+    shapeCategoryRate2: result.get(6) ?? 0,
+    shapeCount3: result.get(7) ?? 0,
+    shapeCategory3: result.get(8) ?? 0,
+    shapeCategoryRate3: result.get(9) ?? 0,
+    shapeCount4: result.get(10) ?? 0,
+    shapeCategory4: result.get(11) ?? 0,
+    shapeCategoryRate4: result.get(12) ?? 0,
+    shapeCount5: result.get(13) ?? 0,
+    shapeCategory5: result.get(14) ?? 0,
+    shapeCategoryRate5: result.get(15) ?? 0,
   }
 }
 
@@ -167,21 +167,21 @@ const sketch = (isFullScreen: boolean): Sketch => {
 
     let calcDataGridResult: KeyProps = {
       hue: 0,
-      shapeCount: 0,
-      shapeCategory: 0,
-      shapeCategoryRate: 0,
-      key4: 0,
-      key5: 0,
-      key6: 0,
-      key7: 0,
-      key8: 0,
-      key9: 0,
-      key10: 0,
-      key11: 0,
-      key12: 0,
-      key13: 0,
-      key14: 0,
-      key15: 0,
+      shapeCount1: 0,
+      shapeCategory1: 0,
+      shapeCategoryRate1: 0,
+      shapeCount2: 0,
+      shapeCategory2: 0,
+      shapeCategoryRate2: 0,
+      shapeCount3: 0,
+      shapeCategory3: 0,
+      shapeCategoryRate3: 0,
+      shapeCount4: 0,
+      shapeCategory4: 0,
+      shapeCategoryRate4: 0,
+      shapeCount5: 0,
+      shapeCategory5: 0,
+      shapeCategoryRate5: 0,
     }
 
     const setDataGridIsPressed = (value: number, isPressed: boolean) => {
@@ -306,7 +306,12 @@ const sketch = (isFullScreen: boolean): Sketch => {
     }
 
     // 形を描画
-    const drawCircle = (value: number, shapeCount: number, rate: number) => {
+    const drawCircle = (
+      value: number,
+      shapeCount: number,
+      rate: number,
+      secondColor: number,
+    ) => {
       drawBlock(p5, () => {
         const _count = p5.ceil(shapeCount)
         const width = p5.width / _count
@@ -321,23 +326,23 @@ const sketch = (isFullScreen: boolean): Sketch => {
 
           // 塗りつぶし
           const fill = () => {
-            p5.fill(0, 0, 100)
+            p5.fill(0, 0, secondColor)
             p5.noStroke()
           }
 
           const noFill = () => {
             p5.noFill()
-            p5.stroke(0, 0, 100)
+            p5.stroke(0, 0, secondColor)
             p5.strokeWeight(strokeWeight)
           }
 
-          const _drawEllipse = () => {
-            p5.ellipse(centerPos.x, centerPos.y, width * rate)
+          const _drawEllipse = (amount = 0) => {
+            p5.ellipse(centerPos.x + amount, centerPos.y + amount, width * rate)
           }
 
-          const _drawRect = () => {
+          const _drawRect = (amount = 0) => {
             p5.rectMode(p5.CENTER)
-            p5.rect(centerPos.x, centerPos.y, width * rate)
+            p5.rect(centerPos.x + amount, centerPos.y + amount, width * rate)
           }
 
           const _drawStar = () => {
@@ -364,104 +369,132 @@ const sketch = (isFullScreen: boolean): Sketch => {
           }
 
           drawBlock(p5, () => {
-            if (value !== 0) {
-              switch (value % 13) {
-                case 1:
-                  // 円
+            switch (value % 16) {
+              case 0:
+                // 何もしない
+                break
+              case 1:
+                // 円
+                fill()
+                _drawEllipse()
+                break
+              case 2:
+                // ずらした円
+                if (
+                  (y % 2 === 0 && x % 2 === 1) ||
+                  (y % 2 === 1 && x % 2 === 0)
+                ) {
                   fill()
                   _drawEllipse()
-                  break
-                case 2:
-                  // ずらした円
-                  if (
-                    (y % 2 === 0 && x % 2 === 1) ||
-                    (y % 2 === 1 && x % 2 === 0)
-                  ) {
-                    fill()
-                    _drawEllipse()
-                  }
-                  break
-                case 3:
-                  // 四角
+                }
+                break
+              case 3:
+                // 四角
+                fill()
+                _drawRect()
+                break
+              case 4:
+                // ずらした四角
+                if (
+                  (y % 2 === 0 && x % 2 === 1) ||
+                  (y % 2 === 1 && x % 2 === 0)
+                ) {
                   fill()
                   _drawRect()
-                  break
-                case 4:
-                  // ずらした四角
-                  if (
-                    (y % 2 === 0 && x % 2 === 1) ||
-                    (y % 2 === 1 && x % 2 === 0)
-                  ) {
-                    fill()
-                    _drawRect()
-                  }
-                  break
-                case 5:
-                  // スター
+                }
+                break
+              case 5:
+                // スター
+                fill()
+                _drawStar()
+                break
+              case 6:
+                // ずらしたスター
+                if (
+                  (y % 2 === 0 && x % 2 === 1) ||
+                  (y % 2 === 1 && x % 2 === 0)
+                ) {
                   fill()
                   _drawStar()
-                  break
-                case 6:
-                  // ずらしたスター
-                  if (
-                    (y % 2 === 0 && x % 2 === 1) ||
-                    (y % 2 === 1 && x % 2 === 0)
-                  ) {
-                    fill()
-                    _drawStar()
-                  }
-                  break
-                case 7:
-                  // 円
+                }
+                break
+              case 7:
+                // 円
+                noFill()
+                _drawEllipse()
+                break
+              case 8:
+                // ずらした円
+                if (
+                  (y % 2 === 0 && x % 2 === 1) ||
+                  (y % 2 === 1 && x % 2 === 0)
+                ) {
                   noFill()
                   _drawEllipse()
-                  break
-                case 8:
-                  // ずらした円
-                  if (
-                    (y % 2 === 0 && x % 2 === 1) ||
-                    (y % 2 === 1 && x % 2 === 0)
-                  ) {
-                    noFill()
-                    _drawEllipse()
-                  }
-                  break
-                case 9:
-                  // 四角
+                }
+                break
+              case 9:
+                // 四角
+                noFill()
+                _drawRect()
+                break
+              case 10:
+                // ずらした四角
+                if (
+                  (y % 2 === 0 && x % 2 === 1) ||
+                  (y % 2 === 1 && x % 2 === 0)
+                ) {
                   noFill()
                   _drawRect()
-                  break
-                case 10:
-                  // ずらした四角
-                  if (
-                    (y % 2 === 0 && x % 2 === 1) ||
-                    (y % 2 === 1 && x % 2 === 0)
-                  ) {
-                    noFill()
-                    _drawRect()
-                  }
-                  break
-                case 11:
-                  // スター
-                  noFill()
-                  _drawStar()
-                  break
-                case 12:
-                  // ずらしたスター
-                  if (
-                    (y % 2 === 0 && x % 2 === 1) ||
-                    (y % 2 === 1 && x % 2 === 0)
-                  ) {
-                    noFill()
-                    _drawStar()
-                  }
-                  break
-                default:
-                  break
-              }
-            } else {
-              p5.noFill()
-              p5.noStroke()
+                }
+                break
+              case 11:
+                // スター
+                noFill()
+                _drawStar()
+                break
+              case 12:
+                // 重なった四角
+                noFill()
+                if (y % 2 === 0 && x % 2 === 1) {
+                  _drawRect((width / 1.5) * -1)
+                }
+                if (y % 2 === 1 && x % 2 === 0) {
+                  _drawRect(width / 1.5)
+                }
+                break
+              case 13:
+                // 重なった円
+                noFill()
+                if (y % 2 === 0 && x % 2 === 1) {
+                  _drawEllipse((width / 1.5) * -1)
+                }
+                if (y % 2 === 1 && x % 2 === 0) {
+                  _drawEllipse(width / 1.5)
+                }
+                break
+              case 14:
+                // 重なった四角
+                fill()
+                if (y % 2 === 0 && x % 2 === 1) {
+                  _drawRect((width / 1.5) * -1)
+                }
+                if (y % 2 === 1 && x % 2 === 0) {
+                  _drawRect(width / 1.5)
+                }
+                break
+              case 15:
+                // 重なった円
+                fill()
+                if (y % 2 === 0 && x % 2 === 1) {
+                  _drawEllipse((width / 1.5) * -1)
+                }
+                if (y % 2 === 1 && x % 2 === 0) {
+                  _drawEllipse(width / 1.5)
+                }
+                break
+              default:
+                break
             }
           })
         }
@@ -479,9 +512,38 @@ const sketch = (isFullScreen: boolean): Sketch => {
       p5.background(backgroundColor.h, backgroundColor.s, backgroundColor.b)
 
       drawCircle(
-        p5.ceil(calcDataGridResult?.shapeCategory),
-        p5.map(calcDataGridResult.shapeCount, 0, 15, 3, 50),
-        p5.map(calcDataGridResult?.shapeCategoryRate, 0, 15, 0.1, 0.95),
+        p5.ceil(calcDataGridResult.shapeCategory1),
+        p5.map(calcDataGridResult.shapeCount1, 0, 15, 3, 50),
+        p5.map(calcDataGridResult.shapeCategoryRate1, 0, 15, 0.5, 0.95),
+        0,
+      )
+
+      drawCircle(
+        p5.ceil(calcDataGridResult.shapeCategory2),
+        p5.map(calcDataGridResult.shapeCount2, 0, 15, 3, 50),
+        p5.map(calcDataGridResult.shapeCategoryRate2, 0, 15, 0.5, 0.95),
+        25,
+      )
+
+      drawCircle(
+        p5.ceil(calcDataGridResult.shapeCategory3),
+        p5.map(calcDataGridResult.shapeCount3, 0, 15, 3, 50),
+        p5.map(calcDataGridResult.shapeCategoryRate3, 0, 15, 0.5, 0.95),
+        50,
+      )
+
+      drawCircle(
+        p5.ceil(calcDataGridResult.shapeCategory4),
+        p5.map(calcDataGridResult.shapeCount4, 0, 15, 3, 50),
+        p5.map(calcDataGridResult.shapeCategoryRate4, 0, 15, 0.5, 0.95),
+        75,
+      )
+
+      drawCircle(
+        p5.ceil(calcDataGridResult.shapeCategory5),
+        p5.map(calcDataGridResult.shapeCount5, 0, 15, 3, 50),
+        p5.map(calcDataGridResult.shapeCategoryRate5, 0, 15, 0.5, 0.95),
+        100,
       )
 
       drawGrid()
