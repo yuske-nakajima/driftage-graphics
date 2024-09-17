@@ -12,13 +12,13 @@ export const pageInfo: PageInfo = {
 
 type KeyProps = {
   hue: number
-  shapeCount1: number
+  shapeCount: number
   shapeCategory1: number
   shapeCategoryRate1: number
-  shapeCount2: number
+  saturation: number
   shapeCategory2: number
   shapeCategoryRate2: number
-  shapeCount3: number
+  brightness: number
   shapeCategory3: number
   shapeCategoryRate3: number
   shapeCount4: number
@@ -140,13 +140,13 @@ const calcDataGrid = (dataGrid: Key[][]): KeyProps => {
 
   return {
     hue: result.get(0) ?? 0,
-    shapeCount1: result.get(1) ?? 0,
+    shapeCount: result.get(1) ?? 0,
     shapeCategory1: result.get(2) ?? 0,
     shapeCategoryRate1: result.get(3) ?? 0,
-    shapeCount2: result.get(4) ?? 0,
+    saturation: result.get(4) ?? 0,
     shapeCategory2: result.get(5) ?? 0,
     shapeCategoryRate2: result.get(6) ?? 0,
-    shapeCount3: result.get(7) ?? 0,
+    brightness: result.get(7) ?? 0,
     shapeCategory3: result.get(8) ?? 0,
     shapeCategoryRate3: result.get(9) ?? 0,
     shapeCount4: result.get(10) ?? 0,
@@ -167,13 +167,13 @@ const sketch = (isFullScreen: boolean): Sketch => {
 
     let calcDataGridResult: KeyProps = {
       hue: 0,
-      shapeCount1: 0,
+      shapeCount: 0,
       shapeCategory1: 0,
       shapeCategoryRate1: 0,
-      shapeCount2: 0,
+      saturation: 0,
       shapeCategory2: 0,
       shapeCategoryRate2: 0,
-      shapeCount3: 0,
+      brightness: 0,
       shapeCategory3: 0,
       shapeCategoryRate3: 0,
       shapeCount4: 0,
@@ -231,8 +231,8 @@ const sketch = (isFullScreen: boolean): Sketch => {
         calcDataGridResult = calcDataGrid(dataGrid)
         backgroundColor = {
           h: p5.map(calcDataGridResult.hue, 0, 15, 0, 360),
-          s: 80,
-          b: 80,
+          s: p5.map(calcDataGridResult.saturation, 0, 15, 60, 100),
+          b: p5.map(calcDataGridResult.brightness, 0, 15, 60, 100),
         }
       }, dataGrid)
     })
@@ -513,35 +513,35 @@ const sketch = (isFullScreen: boolean): Sketch => {
 
       drawCircle(
         p5.ceil(calcDataGridResult.shapeCategory1),
-        p5.map(calcDataGridResult.shapeCount1, 0, 15, 3, 50),
+        p5.map(calcDataGridResult.shapeCount, 0, 15, 3, 50),
         p5.map(calcDataGridResult.shapeCategoryRate1, 0, 15, 0.5, 0.95),
         0,
       )
 
       drawCircle(
         p5.ceil(calcDataGridResult.shapeCategory2),
-        p5.map(calcDataGridResult.shapeCount2, 0, 15, 3, 50),
+        p5.map(calcDataGridResult.shapeCount, 0, 15, 3, 50),
         p5.map(calcDataGridResult.shapeCategoryRate2, 0, 15, 0.5, 0.95),
         25,
       )
 
       drawCircle(
         p5.ceil(calcDataGridResult.shapeCategory3),
-        p5.map(calcDataGridResult.shapeCount3, 0, 15, 3, 50),
+        p5.map(calcDataGridResult.shapeCount, 0, 15, 3, 50),
         p5.map(calcDataGridResult.shapeCategoryRate3, 0, 15, 0.5, 0.95),
         50,
       )
 
       drawCircle(
         p5.ceil(calcDataGridResult.shapeCategory4),
-        p5.map(calcDataGridResult.shapeCount4, 0, 15, 3, 50),
+        p5.map(calcDataGridResult.shapeCount, 0, 15, 3, 50),
         p5.map(calcDataGridResult.shapeCategoryRate4, 0, 15, 0.5, 0.95),
         75,
       )
 
       drawCircle(
         p5.ceil(calcDataGridResult.shapeCategory5),
-        p5.map(calcDataGridResult.shapeCount5, 0, 15, 3, 50),
+        p5.map(calcDataGridResult.shapeCount, 0, 15, 3, 50),
         p5.map(calcDataGridResult.shapeCategoryRate5, 0, 15, 0.5, 0.95),
         100,
       )
