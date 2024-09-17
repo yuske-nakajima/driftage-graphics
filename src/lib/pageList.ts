@@ -11,6 +11,7 @@ import { pageInfo as artClockCircleTube } from '@/pages/art/clock/circle/tube'
 import { pageInfo as artClockCircleTubeSmooth } from '@/pages/art/clock/circle/tube-smooth'
 import { pageInfo as artClockGridTube } from '@/pages/art/clock/grid/tube'
 import { pageInfo as artControlMidiLaunchpadMiniMk3Display } from '@/pages/art/control/midi/launchpad-mini-mk3/display'
+import { pageInfo as artControlMidiLaunchpadMiniMk3Display2 } from '@/pages/art/control/midi/launchpad-mini-mk3/display2'
 import { pageInfo as artControlMidiNanoKontrolDisplay } from '@/pages/art/control/midi/nano-kontrol2/display'
 import { pageInfo as artControlMidiNanoKontrolProduct } from '@/pages/art/control/midi/nano-kontrol2/product'
 import { pageInfo as artControlMidiNanoKontrolProductBackPattern } from '@/pages/art/control/midi/nano-kontrol2/product-back-pattern'
@@ -56,6 +57,7 @@ export const PAGE_LIST: PageInfo[] = [
   artControlMidiNanoKontrolProduct,
   artControlMidiNanoKontrolProductBackPattern,
   artControlMidiLaunchpadMiniMk3Display,
+  artControlMidiLaunchpadMiniMk3Display2,
   artClockCircleSingle,
   artClockCirclePie,
   artClockCircleTube,
