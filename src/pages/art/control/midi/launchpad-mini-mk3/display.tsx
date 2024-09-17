@@ -10,6 +10,25 @@ export const pageInfo: PageInfo = {
   href: 'art/control/midi/launchpad-mini-mk3/display',
 }
 
+type KeyProps = {
+  hue: number
+  key1: number
+  key2: number
+  shape: number
+  shapeSquare: number
+  shapeCircle: number
+  shapeCircleRate: number
+  key7: number
+  key8: number
+  key9: number
+  key10: number
+  key11: number
+  key12: number
+  key13: number
+  key14: number
+  key15: number
+}
+
 const GRID_SIZE = 8
 
 type Key = {
@@ -107,7 +126,7 @@ const midiSetup = async (
   }
 }
 
-const calcDataGrid = (dataGrid: Key[][]): Map<number, number> => {
+const calcDataGrid = (dataGrid: Key[][]): KeyProps => {
   const result = new Map<number, number>()
   for (let i = 0; i < dataGrid.length * 2; i++) {
     result.set(i, 0)
@@ -118,7 +137,25 @@ const calcDataGrid = (dataGrid: Key[][]): Map<number, number> => {
       result.set(item.group, nowValue + item.calcValue)
     }
   }
-  return result
+
+  return {
+    hue: result.get(0) ?? 0,
+    key1: result.get(1) ?? 0,
+    key2: result.get(2) ?? 0,
+    shape: result.get(3) ?? 0,
+    shapeSquare: result.get(4) ?? 0,
+    shapeCircle: result.get(5) ?? 0,
+    shapeCircleRate: result.get(6) ?? 0,
+    key7: result.get(7) ?? 0,
+    key8: result.get(8) ?? 0,
+    key9: result.get(9) ?? 0,
+    key10: result.get(10) ?? 0,
+    key11: result.get(11) ?? 0,
+    key12: result.get(12) ?? 0,
+    key13: result.get(13) ?? 0,
+    key14: result.get(14) ?? 0,
+    key15: result.get(15) ?? 0,
+  }
 }
 
 const sketch = (isFullScreen: boolean): Sketch => {
@@ -128,7 +165,24 @@ const sketch = (isFullScreen: boolean): Sketch => {
     let backgroundColor: { h: number; s: number; b: number }
     const dataGrid: Key[][] = []
 
-    let calcDataGridResult: Map<number, number>
+    let calcDataGridResult: KeyProps = {
+      hue: 0,
+      key1: 0,
+      key2: 0,
+      shape: 0,
+      shapeSquare: 0,
+      shapeCircle: 0,
+      shapeCircleRate: 0,
+      key7: 0,
+      key8: 0,
+      key9: 0,
+      key10: 0,
+      key11: 0,
+      key12: 0,
+      key13: 0,
+      key14: 0,
+      key15: 0,
+    }
 
     let shapeSize: number
 
@@ -180,13 +234,13 @@ const sketch = (isFullScreen: boolean): Sketch => {
         // 背景色を変更する
         calcDataGridResult = calcDataGrid(dataGrid)
         backgroundColor = {
-          h: p5.map(calcDataGridResult.get(0) ?? 0, 0, 15, 0, 360),
+          h: p5.map(calcDataGridResult.hue, 0, 15, 0, 360),
           s: 80,
           b: 80,
         }
 
         // 形
-        shapeSize = p5.map(calcDataGridResult.get(3) ?? 0, 0, 15, 1, 30)
+        shapeSize = p5.map(calcDataGridResult.shape, 0, 15, 1, 30)
       }, dataGrid)
     })
 
@@ -352,10 +406,10 @@ const sketch = (isFullScreen: boolean): Sketch => {
       canvasSize = setup(canvasSize)
       p5.background(backgroundColor.h, backgroundColor.s, backgroundColor.b)
 
-      drawSquare(p5.ceil(calcDataGridResult?.get(4) ?? 0))
+      drawSquare(p5.ceil(calcDataGridResult?.shapeSquare))
       drawCircle(
-        p5.ceil(calcDataGridResult?.get(5) ?? 0),
-        p5.map(calcDataGridResult?.get(6) ?? 0, 0, 15, 0.2, 0.5),
+        p5.ceil(calcDataGridResult?.shapeCircle),
+        p5.map(calcDataGridResult?.shapeCircleRate, 0, 15, 0.2, 0.5),
       )
 
       drawGrid()
