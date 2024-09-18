@@ -604,9 +604,9 @@ const sketch = (isFullScreen: boolean): Sketch => {
         calcDataGridResult = calcDataGrid(dataGrid)
         const resultData = _4thResult(calcDataGridResult)
         backgroundColor = {
-          h: p5.map(resultData._1, 0, 90, 0, 360),
-          s: p5.map(resultData._2, 0, 75, 80, 100),
-          b: p5.map(resultData._3, 0, 75, 80, 100),
+          h: p5.map(resultData._1, 0, 60, 0, 3600) % 360,
+          s: p5.map(resultData._2, 0, 60, 90, 100),
+          b: p5.map(resultData._3, 0, 60, 90, 100),
         }
       }, dataGrid)
     })
