@@ -648,7 +648,18 @@ const sketch = (isFullScreen: boolean): Sketch => {
       )
 
       // no fill - background color
-      drawShape(p5, p5.ceil(resultData._2), 20, 0.85, backgroundColor, false)
+      drawShape(
+        p5,
+        p5.ceil(resultData._2),
+        20,
+        0.85,
+        {
+          h: backgroundColor.h,
+          s: 40,
+          b: 40,
+        },
+        false,
+      )
     }
   }
 }
