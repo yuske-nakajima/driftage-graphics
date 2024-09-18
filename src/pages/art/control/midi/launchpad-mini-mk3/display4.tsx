@@ -377,7 +377,6 @@ const drawShape = (
   shapeCount: number,
   rate: number,
   secondColor: HsbType,
-  blendMode: 'source-over' | 'screen' | 'overlay' = 'source-over',
   isFill = true,
 ) => {
   if (value === 0) {
@@ -398,7 +397,6 @@ const drawShape = (
   }
 
   drawBlock(p5, () => {
-    p5.blendMode(blendMode)
     if (isFill) {
       p5.fill(secondColor.h, secondColor.s, secondColor.b)
     } else {
@@ -453,6 +451,7 @@ const sketch = (isFullScreen: boolean): Sketch => {
     // セットアップ
     // ----------
     const setup = initSetup(p5, isFullScreen, async () => {
+      // データグリッドの初期化
       for (let row = 0; row < GRID_SIZE; row++) {
         const gridHalf = GRID_SIZE / 2
         const r: Key[] = []
@@ -484,6 +483,8 @@ const sketch = (isFullScreen: boolean): Sketch => {
 
         // 背景色を変更する
         calcDataGridResult = calcDataGrid(dataGrid)
+        console.log(calcDataGridResult)
+
         const resultData = _4thResult(calcDataGridResult)
         backgroundColor = {
           h: p5.map(resultData._1, 0, 90, 0, 360),
@@ -507,23 +508,18 @@ const sketch = (isFullScreen: boolean): Sketch => {
       const resultData = _4thResult(calcDataGridResult)
 
       // fill
-      drawShape(
-        p5,
-        p5.ceil(resultData._1),
-        20,
-        0.95,
-        { h: 0, s: 0, b: 50 },
-        p5.SCREEN,
-      )
+      drawShape(p5, p5.ceil(resultData._1), 20, 0.95, { h: 0, s: 0, b: 0 })
 
       // no fill - background color
+      drawShape(p5, p5.ceil(resultData._2), 20, 0.85, backgroundColor, false)
+
+      // no fill - white
       drawShape(
         p5,
-        p5.ceil(resultData._2),
+        p5.ceil(resultData._4),
         20,
         0.85,
-        backgroundColor,
-        p5.BLEND,
+        { h: 0, s: 0, b: 100 },
         false,
       )
 
@@ -534,18 +530,6 @@ const sketch = (isFullScreen: boolean): Sketch => {
         20,
         0.85,
         { h: 0, s: 0, b: 0 },
-        p5.OVERLAY,
-        false,
-      )
-
-      // no fill - white
-      drawShape(
-        p5,
-        p5.ceil(resultData._4),
-        20,
-        0.85,
-        { h: 0, s: 0, b: 80 },
-        p5.SCREEN,
         false,
       )
     }
