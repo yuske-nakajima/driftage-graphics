@@ -21,21 +21,7 @@ type KeyProps = {
   key1: number
   key2: number
   key3: number
-  key4: number
-  key5: number
-  key6: number
-  key7: number
-  key8: number
-  key9: number
-  key10: number
-  key11: number
-  key12: number
-  key13: number
-  key14: number
-  key15: number
 }
-
-const GRID_SIZE = 8
 
 type Key = {
   value: number
@@ -44,17 +30,82 @@ type Key = {
   isPressed: boolean
 }
 
+const initDataGrid: Key[] = [
+  { value: 85, calcValue: 1, group: 0, isPressed: false },
+  { value: 70, calcValue: 2, group: 0, isPressed: false },
+  { value: 51, calcValue: 4, group: 0, isPressed: false },
+  { value: 97, calcValue: 8, group: 0, isPressed: false },
+  { value: 38, calcValue: 16, group: 0, isPressed: false },
+  { value: 80, calcValue: 32, group: 0, isPressed: false },
+  { value: 43, calcValue: 64, group: 0, isPressed: false },
+  { value: 67, calcValue: 128, group: 0, isPressed: false },
+  { value: 46, calcValue: 256, group: 0, isPressed: false },
+  { value: 77, calcValue: 512, group: 0, isPressed: false },
+  { value: 79, calcValue: 1024, group: 0, isPressed: false },
+  { value: 96, calcValue: 2048, group: 0, isPressed: false },
+  { value: 36, calcValue: 4096, group: 0, isPressed: false },
+  { value: 59, calcValue: 8192, group: 0, isPressed: false },
+  { value: 86, calcValue: 16384, group: 0, isPressed: false },
+  { value: 54, calcValue: 32768, group: 0, isPressed: false },
+  { value: 76, calcValue: 1, group: 1, isPressed: false },
+  { value: 52, calcValue: 2, group: 1, isPressed: false },
+  { value: 87, calcValue: 4, group: 1, isPressed: false },
+  { value: 93, calcValue: 8, group: 1, isPressed: false },
+  { value: 61, calcValue: 16, group: 1, isPressed: false },
+  { value: 45, calcValue: 32, group: 1, isPressed: false },
+  { value: 74, calcValue: 64, group: 1, isPressed: false },
+  { value: 95, calcValue: 128, group: 1, isPressed: false },
+  { value: 63, calcValue: 256, group: 1, isPressed: false },
+  { value: 50, calcValue: 512, group: 1, isPressed: false },
+  { value: 41, calcValue: 1024, group: 1, isPressed: false },
+  { value: 60, calcValue: 2048, group: 1, isPressed: false },
+  { value: 44, calcValue: 4096, group: 1, isPressed: false },
+  { value: 49, calcValue: 8192, group: 1, isPressed: false },
+  { value: 78, calcValue: 16384, group: 1, isPressed: false },
+  { value: 58, calcValue: 32768, group: 1, isPressed: false },
+  { value: 42, calcValue: 1, group: 2, isPressed: false },
+  { value: 94, calcValue: 2, group: 2, isPressed: false },
+  { value: 71, calcValue: 4, group: 2, isPressed: false },
+  { value: 57, calcValue: 8, group: 2, isPressed: false },
+  { value: 47, calcValue: 16, group: 2, isPressed: false },
+  { value: 89, calcValue: 32, group: 2, isPressed: false },
+  { value: 81, calcValue: 64, group: 2, isPressed: false },
+  { value: 53, calcValue: 128, group: 2, isPressed: false },
+  { value: 98, calcValue: 256, group: 2, isPressed: false },
+  { value: 82, calcValue: 512, group: 2, isPressed: false },
+  { value: 39, calcValue: 1024, group: 2, isPressed: false },
+  { value: 37, calcValue: 2048, group: 2, isPressed: false },
+  { value: 91, calcValue: 4096, group: 2, isPressed: false },
+  { value: 72, calcValue: 8192, group: 2, isPressed: false },
+  { value: 64, calcValue: 16384, group: 2, isPressed: false },
+  { value: 75, calcValue: 32768, group: 2, isPressed: false },
+  { value: 69, calcValue: 1, group: 3, isPressed: false },
+  { value: 40, calcValue: 2, group: 3, isPressed: false },
+  { value: 65, calcValue: 4, group: 3, isPressed: false },
+  { value: 48, calcValue: 8, group: 3, isPressed: false },
+  { value: 99, calcValue: 16, group: 3, isPressed: false },
+  { value: 55, calcValue: 32, group: 3, isPressed: false },
+  { value: 84, calcValue: 64, group: 3, isPressed: false },
+  { value: 62, calcValue: 128, group: 3, isPressed: false },
+  { value: 88, calcValue: 256, group: 3, isPressed: false },
+  { value: 92, calcValue: 512, group: 3, isPressed: false },
+  { value: 66, calcValue: 1024, group: 3, isPressed: false },
+  { value: 83, calcValue: 2048, group: 3, isPressed: false },
+  { value: 68, calcValue: 4096, group: 3, isPressed: false },
+  { value: 56, calcValue: 8192, group: 3, isPressed: false },
+  { value: 73, calcValue: 16384, group: 3, isPressed: false },
+  { value: 90, calcValue: 32768, group: 3, isPressed: false },
+]
+
 const isPressed = (data: number) => {
   return data === 127
 }
 
-const getPressedKeyList = (dataGrid: Key[][]): number[] => {
+const getPressedKeyList = (dataGrid: Key[]): number[] => {
   const result: number[] = []
-  for (const row of dataGrid) {
-    for (const col of row) {
-      if (col.isPressed) {
-        result.push(col.value)
-      }
+  for (const item of dataGrid) {
+    if (item.isPressed) {
+      result.push(item.value)
     }
   }
   return result
@@ -62,7 +113,7 @@ const getPressedKeyList = (dataGrid: Key[][]): number[] => {
 
 const midiSetup = async (
   pressedCallback: (i: number) => void,
-  dataGrid: Key[][],
+  dataGrid: Key[],
 ) => {
   try {
     const access = await navigator.requestMIDIAccess()
@@ -132,12 +183,12 @@ const midiSetup = async (
   }
 }
 
-const calcDataGrid = (dataGrid: Key[][]): KeyProps => {
+const calcDataGrid = (dataGrid: Key[]): KeyProps => {
   const result = new Map<number, number>()
-  for (let i = 0; i < dataGrid.length * 2; i++) {
+  for (let i = 0; i < 4; i++) {
     result.set(i, 0)
   }
-  for (const item of dataGrid.flat()) {
+  for (const item of dataGrid) {
     const nowValue = result.get(item.group)
     if (item.isPressed && nowValue !== undefined) {
       result.set(item.group, nowValue + item.calcValue)
@@ -149,27 +200,6 @@ const calcDataGrid = (dataGrid: Key[][]): KeyProps => {
     key1: result.get(1) ?? 0,
     key2: result.get(2) ?? 0,
     key3: result.get(3) ?? 0,
-    key4: result.get(4) ?? 0,
-    key5: result.get(5) ?? 0,
-    key6: result.get(6) ?? 0,
-    key7: result.get(7) ?? 0,
-    key8: result.get(8) ?? 0,
-    key9: result.get(9) ?? 0,
-    key10: result.get(10) ?? 0,
-    key11: result.get(11) ?? 0,
-    key12: result.get(12) ?? 0,
-    key13: result.get(13) ?? 0,
-    key14: result.get(14) ?? 0,
-    key15: result.get(15) ?? 0,
-  }
-}
-
-const _4thResult = (result: KeyProps) => {
-  return {
-    _1: result.key0 + result.key4 + result.key8 + result.key12,
-    _2: result.key1 + result.key5 + result.key9 + result.key13,
-    _3: result.key2 + result.key6 + result.key10 + result.key14,
-    _4: result.key3 + result.key7 + result.key11 + result.key15,
   }
 }
 
@@ -307,6 +337,37 @@ const funcArray = (
 
   const result: (() => void)[] = []
 
+  const commonFuncList = [
+    () => {
+      // ずらした四角1
+      if ((y % 2 === 0 && x % 2 === 1) || (y % 2 === 1 && x % 2 === 0)) {
+        drawRect(p5, centerPos, width * rate)
+      }
+    },
+    () => {
+      // ずらした四角2
+      if ((y % 2 === 0 && x % 2 === 0) || (y % 2 === 1 && x % 2 === 1)) {
+        drawRect(p5, centerPos, width * rate)
+      }
+    },
+    () => {
+      // ずらしたひし形1
+      if ((y % 2 === 0 && x % 2 === 1) || (y % 2 === 1 && x % 2 === 0)) {
+        drawRhombus(p5, centerPos, (width / 2) * rate)
+      }
+    },
+    () => {
+      // ずらしたひし形2
+      if ((y % 2 === 0 && x % 2 === 0) || (y % 2 === 1 && x % 2 === 1)) {
+        drawRhombus(p5, centerPos, (width / 2) * rate)
+      }
+    },
+  ]
+
+  for (const func of commonFuncList) {
+    result.push(func)
+  }
+
   if (isFill) {
     for (const func of [
       // 円系
@@ -363,18 +424,6 @@ const funcArray = (
         drawRect(p5, centerPos, width * rate)
       },
       () => {
-        // ずらした四角1
-        if ((y % 2 === 0 && x % 2 === 1) || (y % 2 === 1 && x % 2 === 0)) {
-          drawRect(p5, centerPos, width * rate)
-        }
-      },
-      () => {
-        // ずらした四角2
-        if ((y % 2 === 0 && x % 2 === 0) || (y % 2 === 1 && x % 2 === 1)) {
-          drawRect(p5, centerPos, width * rate)
-        }
-      },
-      () => {
         // 四隅に四角
         drawRectSquare(p5, centerPos, width)
       },
@@ -409,18 +458,6 @@ const funcArray = (
       // ひし形
       () => {
         drawRhombus(p5, centerPos, (width / 2) * rate)
-      },
-      () => {
-        // ずらしたひし形1
-        if ((y % 2 === 0 && x % 2 === 1) || (y % 2 === 1 && x % 2 === 0)) {
-          drawRhombus(p5, centerPos, (width / 2) * rate)
-        }
-      },
-      () => {
-        // ずらしたひし形2
-        if ((y % 2 === 0 && x % 2 === 0) || (y % 2 === 1 && x % 2 === 1)) {
-          drawRhombus(p5, centerPos, (width / 2) * rate)
-        }
       },
       () => {
         // 四隅にひし形
@@ -578,15 +615,15 @@ const colorArray = (): ColorType[] => {
         _3: '#00629b',
       },
       {
-        _1: '#fcd475',
-        _2: '#7ec2b2',
-        _3: '#2f9da3',
+        _1: '#1f9cb7',
+        _2: '#fff2cc',
+        _3: '#1757a7',
       },
-      // {
-      //   _1: '#000',
-      //   _2: '#000',
-      //   _3: '#000',
-      // },
+      {
+        _1: '#faf054',
+        _2: '#e7242e',
+        _3: '#224e29',
+      },
     ],
     // {
     //   _1: '#000000',
@@ -600,7 +637,7 @@ const sketch = (isFullScreen: boolean): Sketch => {
   return (p5: P5CanvasInstance) => {
     let canvasSize: Vector
     let centerPos: Vector
-    const dataGrid: Key[][] = []
+    const dataGrid: Key[] = [...initDataGrid]
 
     let color: ColorType
 
@@ -609,26 +646,12 @@ const sketch = (isFullScreen: boolean): Sketch => {
       key1: 0,
       key2: 0,
       key3: 0,
-      key4: 0,
-      key5: 0,
-      key6: 0,
-      key7: 0,
-      key8: 0,
-      key9: 0,
-      key10: 0,
-      key11: 0,
-      key12: 0,
-      key13: 0,
-      key14: 0,
-      key15: 0,
     }
 
     const setDataGridIsPressed = (value: number, isPressed: boolean) => {
-      for (let row = 0; row < dataGrid.length; row++) {
-        for (let col = 0; col < dataGrid.length; col++) {
-          if (dataGrid[row][col].value === value) {
-            dataGrid[row][col].isPressed = isPressed
-          }
+      for (let i = 0; i < dataGrid.length; i++) {
+        if (dataGrid[i].value === value) {
+          dataGrid[i].isPressed = isPressed
         }
       }
     }
@@ -638,24 +661,6 @@ const sketch = (isFullScreen: boolean): Sketch => {
     // ----------
     const setup = initSetup(p5, isFullScreen, async () => {
       p5.colorMode(p5.RGB)
-
-      // データグリッドの初期化
-      for (let row = 0; row < GRID_SIZE; row++) {
-        const gridHalf = GRID_SIZE / 2
-        const r: Key[] = []
-        for (let col = 0; col < GRID_SIZE; col++) {
-          let value = 36 + row * gridHalf + col
-          const calcValue = [8, 4, 2, 1][(value - 36) % 4]
-          let group = row
-          const isPressed = false
-          if (col >= gridHalf) {
-            value += 28
-            group += 8
-          }
-          r.push({ value, calcValue, group, isPressed })
-        }
-        dataGrid.unshift(r)
-      }
 
       centerPos = p5.createVector(p5.width / 2, p5.height / 2)
       color = {
@@ -671,9 +676,10 @@ const sketch = (isFullScreen: boolean): Sketch => {
 
         // 背景色を変更する
         calcDataGridResult = calcDataGrid(dataGrid)
-        const resultData = _4thResult(calcDataGridResult)
         const _colorArray = colorArray()
-        const _color = _colorArray.at(resultData._1 % _colorArray.length)
+        const _color = _colorArray.at(
+          calcDataGridResult.key0 % _colorArray.length,
+        )
         if (!_color) {
           return
         }
@@ -692,50 +698,14 @@ const sketch = (isFullScreen: boolean): Sketch => {
       canvasSize = setup(canvasSize)
       p5.background(color._1)
 
-      const resultData = _4thResult(calcDataGridResult)
-
       // fill - color2
-      drawShape(p5, p5.ceil(resultData._2), 20, 0.95, color._2, true)
+      drawShape(p5, p5.ceil(calcDataGridResult.key1), 20, 0.85, color._2, true)
 
-      // no fill - color1
-      drawShape(p5, p5.ceil(resultData._3), 20, 0.8, color._1, false)
+      // fill - color3
+      drawShape(p5, p5.ceil(calcDataGridResult.key2), 20, 1.5, color._3, false)
 
-      // no fill - color3
-      drawShape(p5, p5.ceil(resultData._4), 20, 0.3, color._3, true)
-
-      // // no fill - white
-      // drawShape(
-      //   p5,
-      //   p5.ceil(resultData._4),
-      //   20,
-      //   0.85,
-      //   { h: 0, s: 0, b: 100 },
-      //   false,
-      // )
-      //
-      // // no fill - black
-      // drawShape(
-      //   p5,
-      //   p5.ceil(resultData._3),
-      //   20,
-      //   0.85,
-      //   { h: 0, s: 0, b: 0 },
-      //   false,
-      // )
-      //
-      // // no fill - background color
-      // drawShape(
-      //   p5,
-      //   p5.ceil(resultData._2),
-      //   20,
-      //   0.85,
-      //   {
-      //     h: backgroundColor.h,
-      //     s: 40,
-      //     b: 40,
-      //   },
-      //   false,
-      // )
+      // fill - color3
+      drawShape(p5, p5.ceil(calcDataGridResult.key3), 20, 0.3, color._3, true)
     }
   }
 }
