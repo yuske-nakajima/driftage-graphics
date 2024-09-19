@@ -291,6 +291,69 @@ const drawHalfEllipseRhombus = (
   drawHalfEllipse(p5, p5.createVector(pos.x, pos.y + width / 3), width / 3)
 }
 
+const drawHalfEllipseBottom = (
+  p5: P5CanvasInstance,
+  pos: Vector,
+  width: number,
+) => {
+  // 半円（下）
+  p5.arc(pos.x, pos.y, width, width, 0, p5.PI)
+}
+
+const drawHalfEllipseBottomSquare = (
+  p5: P5CanvasInstance,
+  pos: Vector,
+  width: number,
+) => {
+  drawHalfEllipseBottom(
+    p5,
+    p5.createVector(pos.x - width / 3, pos.y - width / 3),
+    width / 3,
+  )
+  drawHalfEllipseBottom(
+    p5,
+    p5.createVector(pos.x + width / 3, pos.y - width / 3),
+    width / 3,
+  )
+  drawHalfEllipseBottom(
+    p5,
+    p5.createVector(pos.x - width / 3, pos.y + width / 3),
+    width / 3,
+  )
+  drawHalfEllipseBottom(
+    p5,
+    p5.createVector(pos.x + width / 3, pos.y + width / 3),
+    width / 3,
+  )
+}
+
+const drawHalfEllipseBottomRhombus = (
+  p5: P5CanvasInstance,
+  pos: Vector,
+  width: number,
+) => {
+  drawHalfEllipseBottom(
+    p5,
+    p5.createVector(pos.x - width / 3, pos.y),
+    width / 3,
+  )
+  drawHalfEllipseBottom(
+    p5,
+    p5.createVector(pos.x + width / 3, pos.y),
+    width / 3,
+  )
+  drawHalfEllipseBottom(
+    p5,
+    p5.createVector(pos.x, pos.y - width / 3),
+    width / 3,
+  )
+  drawHalfEllipseBottom(
+    p5,
+    p5.createVector(pos.x, pos.y + width / 3),
+    width / 3,
+  )
+}
+
 const drawRect = (p5: P5CanvasInstance, pos: Vector, width: number) => {
   p5.rectMode(p5.CENTER)
   p5.rect(pos.x, pos.y, width)
@@ -461,7 +524,7 @@ const funcArray = (
           drawEllipseRhombus(p5, centerPos, width)
         }
       },
-      // 半円
+      // 半円（上）
       () => {
         drawHalfEllipse(p5, centerPos, width * rate)
       },
@@ -507,6 +570,48 @@ const funcArray = (
         // ひし形に半円を配置（4つ）（ずらした）2
         if ((y % 2 === 0 && x % 2 === 0) || (y % 2 === 1 && x % 2 === 1)) {
           drawHalfEllipseRhombus(p5, centerPos, width)
+        }
+      },
+      // 半円（下）
+      () => {
+        drawHalfEllipseBottom(p5, centerPos, width * rate)
+      },
+      () => {
+        // ずらした半円1（下）
+        if ((y % 2 === 0 && x % 2 === 1) || (y % 2 === 1 && x % 2 === 0)) {
+          drawHalfEllipseBottom(p5, centerPos, width * rate)
+        }
+      },
+      () => {
+        // ずらした半円2（下）
+        if ((y % 2 === 0 && x % 2 === 0) || (y % 2 === 1 && x % 2 === 1)) {
+          drawHalfEllipseBottom(p5, centerPos, width * rate)
+        }
+      },
+      () => {
+        // 四隅に半円（下）
+        drawHalfEllipseBottomSquare(p5, centerPos, width)
+      },
+      () => {
+        // 四隅に半円（下）（ずらした）1
+        if ((y % 2 === 0 && x % 2 === 1) || (y % 2 === 1 && x % 2 === 0)) {
+          drawHalfEllipseBottomSquare(p5, centerPos, width)
+        }
+      },
+      () => {
+        // 四隅に半円（下）（ずらした）2
+        if ((y % 2 === 0 && x % 2 === 0) || (y % 2 === 1 && x % 2 === 1)) {
+          drawHalfEllipseBottomSquare(p5, centerPos, width)
+        }
+      },
+      () => {
+        // ひし形に半円を配置（4つ）（下）
+        drawHalfEllipseBottomRhombus(p5, centerPos, width)
+      },
+      () => {
+        // ひし形に半円を配置（4つ）（下）（ずらした）1
+        if ((y % 2 === 0 && x % 2 === 1) || (y % 2 === 1 && x % 2 === 0)) {
+          drawHalfEllipseBottomRhombus(p5, centerPos, width)
         }
       },
       // 四角系
