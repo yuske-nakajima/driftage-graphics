@@ -10,10 +10,10 @@ export const pageInfo: PageInfo = {
   href: 'art/control/midi/launchpad-mini-mk3/display5',
 }
 
-type HsbType = {
-  h: number
-  s: number
-  b: number
+type ColorType = {
+  _1: string
+  _2: string
+  _3: string
 }
 
 type KeyProps = {
@@ -291,18 +291,12 @@ const drawRhombusRhombus = (
   drawRhombus(p5, p5.createVector(pos.x, pos.y + width / 3), width / 3)
 }
 
-const noFill = (p5: P5CanvasInstance, width: number, color: HsbType) => {
-  p5.noFill()
-  p5.stroke(color.h, color.s, color.b)
-  p5.strokeWeight(width / 20)
-}
-
 const funcArray = (
   p5: P5CanvasInstance,
   pos: Vector,
   width: number,
   rate: number,
-  color: HsbType,
+  isFill: boolean,
 ): (() => void)[] => {
   const { x, y } = pos
   const leftTopPos = p5.createVector(x * width, y * width)
@@ -311,183 +305,195 @@ const funcArray = (
     y * width + width / 2,
   )
 
-  return [
-    // 線形
-    () => {
-      // バッテン
-      noFill(p5, width, color)
-      p5.line(
-        leftTopPos.x + width,
-        leftTopPos.y,
-        leftTopPos.x,
-        leftTopPos.y + width,
-      )
-      p5.line(
-        leftTopPos.x,
-        leftTopPos.y,
-        leftTopPos.x + width,
-        leftTopPos.y + width,
-      )
-    },
-    () => {
-      // 左上から左下
-      noFill(p5, width, color)
-      p5.line(leftTopPos.x, leftTopPos.y, leftTopPos.x, leftTopPos.y + width)
-      // 左下から右下
-      p5.line(
-        leftTopPos.x,
-        leftTopPos.y + width,
-        leftTopPos.x + width,
-        leftTopPos.y + width,
-      )
-    },
-    // 円系
-    () => {
-      // 円
-      drawEllipse(p5, centerPos, width * rate)
-    },
-    () => {
-      // ずらした円1
-      if ((y % 2 === 0 && x % 2 === 1) || (y % 2 === 1 && x % 2 === 0)) {
+  const result: (() => void)[] = []
+
+  if (isFill) {
+    for (const func of [
+      // 円系
+      () => {
         drawEllipse(p5, centerPos, width * rate)
-      }
-    },
-    () => {
-      // ずらした円2
-      if ((y % 2 === 0 && x % 2 === 0) || (y % 2 === 1 && x % 2 === 1)) {
-        drawEllipse(p5, centerPos, width * rate)
-      }
-    },
-    () => {
-      // 四隅に円
-      drawEllipseSquare(p5, centerPos, width)
-    },
-    () => {
-      //四隅に円（ずらした）1
-      if ((y % 2 === 0 && x % 2 === 1) || (y % 2 === 1 && x % 2 === 0)) {
+      },
+      () => {
+        // ずらした円1
+        if ((y % 2 === 0 && x % 2 === 1) || (y % 2 === 1 && x % 2 === 0)) {
+          drawEllipse(p5, centerPos, width * rate)
+        }
+      },
+      () => {
+        // ずらした円2
+        if ((y % 2 === 0 && x % 2 === 0) || (y % 2 === 1 && x % 2 === 1)) {
+          drawEllipse(p5, centerPos, width * rate)
+        }
+      },
+      () => {
+        // 四隅に円
         drawEllipseSquare(p5, centerPos, width)
-      }
-    },
-    () => {
-      //四隅に円（ずらした）2
-      if ((y % 2 === 0 && x % 2 === 0) || (y % 2 === 1 && x % 2 === 1)) {
-        drawEllipseSquare(p5, centerPos, width)
-      }
-    },
-    () => {
-      // ひし形に円を配置（4つ）
-      drawEllipseRhombus(p5, centerPos, width)
-    },
-    () => {
-      // ひし形に円を配置（4つ）（ずらした）1
-      if ((y % 2 === 0 && x % 2 === 1) || (y % 2 === 1 && x % 2 === 0)) {
+      },
+      () => {
+        //四隅に円（ずらした）1
+        if ((y % 2 === 0 && x % 2 === 1) || (y % 2 === 1 && x % 2 === 0)) {
+          drawEllipseSquare(p5, centerPos, width)
+        }
+      },
+      () => {
+        //四隅に円（ずらした）2
+        if ((y % 2 === 0 && x % 2 === 0) || (y % 2 === 1 && x % 2 === 1)) {
+          drawEllipseSquare(p5, centerPos, width)
+        }
+      },
+      () => {
+        // ひし形に円を配置（4つ）
         drawEllipseRhombus(p5, centerPos, width)
-      }
-    },
-    () => {
-      // ひし形に円を配置（4つ）（ずらした）2
-      if ((y % 2 === 0 && x % 2 === 0) || (y % 2 === 1 && x % 2 === 1)) {
-        drawEllipseRhombus(p5, centerPos, width)
-      }
-    },
-    // 四角系
-    () => {
-      // 四角
-      drawRect(p5, centerPos, width * rate)
-    },
-    () => {
-      // ずらした四角1
-      if ((y % 2 === 0 && x % 2 === 1) || (y % 2 === 1 && x % 2 === 0)) {
+      },
+      () => {
+        // ひし形に円を配置（4つ）（ずらした）1
+        if ((y % 2 === 0 && x % 2 === 1) || (y % 2 === 1 && x % 2 === 0)) {
+          drawEllipseRhombus(p5, centerPos, width)
+        }
+      },
+      () => {
+        // ひし形に円を配置（4つ）（ずらした）2
+        if ((y % 2 === 0 && x % 2 === 0) || (y % 2 === 1 && x % 2 === 1)) {
+          drawEllipseRhombus(p5, centerPos, width)
+        }
+      },
+      // 四角系
+      () => {
+        // 四角
         drawRect(p5, centerPos, width * rate)
-      }
-    },
-    () => {
-      // ずらした四角2
-      if ((y % 2 === 0 && x % 2 === 0) || (y % 2 === 1 && x % 2 === 1)) {
-        drawRect(p5, centerPos, width * rate)
-      }
-    },
-    () => {
-      // 四隅に四角
-      drawRectSquare(p5, centerPos, width)
-    },
-    () => {
-      // 四隅に四角（ずらした）1
-      if ((y % 2 === 0 && x % 2 === 1) || (y % 2 === 1 && x % 2 === 0)) {
+      },
+      () => {
+        // ずらした四角1
+        if ((y % 2 === 0 && x % 2 === 1) || (y % 2 === 1 && x % 2 === 0)) {
+          drawRect(p5, centerPos, width * rate)
+        }
+      },
+      () => {
+        // ずらした四角2
+        if ((y % 2 === 0 && x % 2 === 0) || (y % 2 === 1 && x % 2 === 1)) {
+          drawRect(p5, centerPos, width * rate)
+        }
+      },
+      () => {
+        // 四隅に四角
         drawRectSquare(p5, centerPos, width)
-      }
-    },
-    () => {
-      // 四隅に四角（ずらした）2
-      if ((y % 2 === 0 && x % 2 === 0) || (y % 2 === 1 && x % 2 === 1)) {
-        drawRectSquare(p5, centerPos, width)
-      }
-    },
-    () => {
-      // ひし形に四角を配置（4つ）
-      drawRectRhombus(p5, centerPos, width)
-    },
-    () => {
-      // ひし形に四角を配置（4つ）（ずらした）1
-      if ((y % 2 === 0 && x % 2 === 1) || (y % 2 === 1 && x % 2 === 0)) {
+      },
+      () => {
+        // 四隅に四角（ずらした）1
+        if ((y % 2 === 0 && x % 2 === 1) || (y % 2 === 1 && x % 2 === 0)) {
+          drawRectSquare(p5, centerPos, width)
+        }
+      },
+      () => {
+        // 四隅に四角（ずらした）2
+        if ((y % 2 === 0 && x % 2 === 0) || (y % 2 === 1 && x % 2 === 1)) {
+          drawRectSquare(p5, centerPos, width)
+        }
+      },
+      () => {
+        // ひし形に四角を配置（4つ）
         drawRectRhombus(p5, centerPos, width)
-      }
-    },
-    () => {
-      // ひし形に四角を配置（4つ）（ずらした）2
-      if ((y % 2 === 0 && x % 2 === 0) || (y % 2 === 1 && x % 2 === 1)) {
-        drawRectRhombus(p5, centerPos, width)
-      }
-    },
-    // ひし形
-    () => {
-      drawRhombus(p5, centerPos, (width / 2) * rate)
-    },
-    () => {
-      // ずらしたひし形1
-      if ((y % 2 === 0 && x % 2 === 1) || (y % 2 === 1 && x % 2 === 0)) {
+      },
+      () => {
+        // ひし形に四角を配置（4つ）（ずらした）1
+        if ((y % 2 === 0 && x % 2 === 1) || (y % 2 === 1 && x % 2 === 0)) {
+          drawRectRhombus(p5, centerPos, width)
+        }
+      },
+      () => {
+        // ひし形に四角を配置（4つ）（ずらした）2
+        if ((y % 2 === 0 && x % 2 === 0) || (y % 2 === 1 && x % 2 === 1)) {
+          drawRectRhombus(p5, centerPos, width)
+        }
+      },
+      // ひし形
+      () => {
         drawRhombus(p5, centerPos, (width / 2) * rate)
-      }
-    },
-    () => {
-      // ずらしたひし形2
-      if ((y % 2 === 0 && x % 2 === 0) || (y % 2 === 1 && x % 2 === 1)) {
-        drawRhombus(p5, centerPos, (width / 2) * rate)
-      }
-    },
-    () => {
-      // 四隅にひし形
-      drawRhombusSquare(p5, centerPos, width)
-    },
-    () => {
-      // 四隅にひし形（ずらした）1
-      if ((y % 2 === 0 && x % 2 === 1) || (y % 2 === 1 && x % 2 === 0)) {
+      },
+      () => {
+        // ずらしたひし形1
+        if ((y % 2 === 0 && x % 2 === 1) || (y % 2 === 1 && x % 2 === 0)) {
+          drawRhombus(p5, centerPos, (width / 2) * rate)
+        }
+      },
+      () => {
+        // ずらしたひし形2
+        if ((y % 2 === 0 && x % 2 === 0) || (y % 2 === 1 && x % 2 === 1)) {
+          drawRhombus(p5, centerPos, (width / 2) * rate)
+        }
+      },
+      () => {
+        // 四隅にひし形
         drawRhombusSquare(p5, centerPos, width)
-      }
-    },
-    () => {
-      // 四隅にひし形（ずらした）2
-      if ((y % 2 === 0 && x % 2 === 0) || (y % 2 === 1 && x % 2 === 1)) {
-        drawRhombusSquare(p5, centerPos, width)
-      }
-    },
-    () => {
-      // ひし形にひし形を配置（4つ）
-      drawRhombusRhombus(p5, centerPos, width)
-    },
-    () => {
-      // ひし形にひし形を配置（4つ）（ずらした）1
-      if ((y % 2 === 0 && x % 2 === 1) || (y % 2 === 1 && x % 2 === 0)) {
+      },
+      () => {
+        // 四隅にひし形（ずらした）1
+        if ((y % 2 === 0 && x % 2 === 1) || (y % 2 === 1 && x % 2 === 0)) {
+          drawRhombusSquare(p5, centerPos, width)
+        }
+      },
+      () => {
+        // 四隅にひし形（ずらした）2
+        if ((y % 2 === 0 && x % 2 === 0) || (y % 2 === 1 && x % 2 === 1)) {
+          drawRhombusSquare(p5, centerPos, width)
+        }
+      },
+      () => {
+        // ひし形にひし形を配置（4つ）
         drawRhombusRhombus(p5, centerPos, width)
-      }
-    },
-    () => {
-      // ひし形にひし形を配置（4つ）（ずらした）2
-      if ((y % 2 === 0 && x % 2 === 0) || (y % 2 === 1 && x % 2 === 1)) {
-        drawRhombusRhombus(p5, centerPos, width)
-      }
-    },
-  ]
+      },
+      () => {
+        // ひし形にひし形を配置（4つ）（ずらした）1
+        if ((y % 2 === 0 && x % 2 === 1) || (y % 2 === 1 && x % 2 === 0)) {
+          drawRhombusRhombus(p5, centerPos, width)
+        }
+      },
+      () => {
+        // ひし形にひし形を配置（4つ）（ずらした）2
+        if ((y % 2 === 0 && x % 2 === 0) || (y % 2 === 1 && x % 2 === 1)) {
+          drawRhombusRhombus(p5, centerPos, width)
+        }
+      },
+    ]) {
+      result.push(func)
+    }
+  }
+
+  if (!isFill) {
+    for (const func of [
+      // 線形
+      () => {
+        // バッテン
+        p5.line(
+          leftTopPos.x + width,
+          leftTopPos.y,
+          leftTopPos.x,
+          leftTopPos.y + width,
+        )
+        p5.line(
+          leftTopPos.x,
+          leftTopPos.y,
+          leftTopPos.x + width,
+          leftTopPos.y + width,
+        )
+      },
+      () => {
+        // 左上から左下
+        p5.line(leftTopPos.x, leftTopPos.y, leftTopPos.x, leftTopPos.y + width)
+        // 左下から右下
+        p5.line(
+          leftTopPos.x,
+          leftTopPos.y + width,
+          leftTopPos.x + width,
+          leftTopPos.y + width,
+        )
+      },
+    ]) {
+      result.push(func)
+    }
+  }
+
+  return result
 }
 
 const drawShape = (
@@ -495,8 +501,8 @@ const drawShape = (
   value: number,
   shapeCount: number,
   rate: number,
-  secondColor: HsbType,
-  isFill = true,
+  color: string,
+  isFill: boolean,
 ) => {
   if (value === 0) {
     return
@@ -507,7 +513,7 @@ const drawShape = (
   const count = p5.createVector(_count, p5.height / width)
 
   const loopFunc = (pos: Vector) => {
-    const _funcArray = funcArray(p5, pos, width, rate, secondColor)
+    const _funcArray = funcArray(p5, pos, width, rate, isFill)
     const func = _funcArray.at(value % _funcArray.length)
     if (!func) {
       return
@@ -517,11 +523,14 @@ const drawShape = (
 
   drawBlock(p5, () => {
     if (isFill) {
-      p5.fill(secondColor.h, secondColor.s, secondColor.b)
+      p5.noStroke()
+      p5.fill(color)
     } else {
-      p5.stroke(secondColor.h, secondColor.s, secondColor.b)
-      noFill(p5, width, secondColor)
+      p5.noFill()
+      p5.stroke(color)
+      p5.strokeWeight(width / 20)
     }
+
     for (let x = 0; x < count.x; x++) {
       for (let y = 0; y < count.y; y++) {
         loopFunc(p5.createVector(x, y))
@@ -530,12 +539,70 @@ const drawShape = (
   })
 }
 
+const colorArray = (): ColorType[] => {
+  return [
+    {
+      _1: '#ffffff',
+      _2: '#000000',
+      _3: '#aaaaaa',
+    },
+    ...[
+      {
+        _1: '#dff2fc',
+        _2: '#504c94',
+        _3: '#3c73a8',
+      },
+      {
+        _1: '#f9cfcf',
+        _2: '#f5b19b',
+        _3: '#c95784',
+      },
+      {
+        _1: '#fff2ad',
+        _2: '#5391c8',
+        _3: '#0f1d3e',
+      },
+      {
+        _1: '#b1585b',
+        _2: '#88513e',
+        _3: '#34455c',
+      },
+      {
+        _1: '#ea903a',
+        _2: '#e99aad',
+        _3: '#7faf7b',
+      },
+      {
+        _1: '#ffeb00',
+        _2: '#64c2c5',
+        _3: '#00629b',
+      },
+      {
+        _1: '#fcd475',
+        _2: '#7ec2b2',
+        _3: '#2f9da3',
+      },
+      // {
+      //   _1: '#000',
+      //   _2: '#000',
+      //   _3: '#000',
+      // },
+    ],
+    // {
+    //   _1: '#000000',
+    //   _2: '#ffffff',
+    //   _3: '#aaaaaa',
+    // },
+  ]
+}
+
 const sketch = (isFullScreen: boolean): Sketch => {
   return (p5: P5CanvasInstance) => {
     let canvasSize: Vector
     let centerPos: Vector
-    let backgroundColor: HsbType
     const dataGrid: Key[][] = []
+
+    let color: ColorType
 
     let calcDataGridResult: KeyProps = {
       key0: 0,
@@ -570,6 +637,8 @@ const sketch = (isFullScreen: boolean): Sketch => {
     // セットアップ
     // ----------
     const setup = initSetup(p5, isFullScreen, async () => {
+      p5.colorMode(p5.RGB)
+
       // データグリッドの初期化
       for (let row = 0; row < GRID_SIZE; row++) {
         const gridHalf = GRID_SIZE / 2
@@ -589,10 +658,10 @@ const sketch = (isFullScreen: boolean): Sketch => {
       }
 
       centerPos = p5.createVector(p5.width / 2, p5.height / 2)
-      backgroundColor = {
-        h: 0,
-        s: 80,
-        b: 80,
+      color = {
+        _1: '#ffffff',
+        _2: '#000000',
+        _3: '#aaaaaa',
       }
 
       p5.colorMode(p5.HSB)
@@ -603,11 +672,12 @@ const sketch = (isFullScreen: boolean): Sketch => {
         // 背景色を変更する
         calcDataGridResult = calcDataGrid(dataGrid)
         const resultData = _4thResult(calcDataGridResult)
-        backgroundColor = {
-          h: p5.map(resultData._1, 0, 60, 0, 3600) % 360,
-          s: p5.map(resultData._2, 0, 60, 90, 100),
-          b: p5.map(resultData._3, 0, 60, 90, 100),
+        const _colorArray = colorArray()
+        const _color = _colorArray.at(resultData._1 % _colorArray.length)
+        if (!_color) {
+          return
         }
+        color = _color
       }, dataGrid)
     })
 
@@ -620,46 +690,52 @@ const sketch = (isFullScreen: boolean): Sketch => {
 
     p5.draw = () => {
       canvasSize = setup(canvasSize)
-      p5.background(backgroundColor.h, backgroundColor.s, backgroundColor.b)
+      p5.background(color._1)
 
       const resultData = _4thResult(calcDataGridResult)
 
-      // fill
-      drawShape(p5, p5.ceil(resultData._1), 20, 0.95, { h: 0, s: 0, b: 0 })
+      // fill - color2
+      drawShape(p5, p5.ceil(resultData._2), 20, 0.95, color._2, true)
 
-      // no fill - white
-      drawShape(
-        p5,
-        p5.ceil(resultData._4),
-        20,
-        0.85,
-        { h: 0, s: 0, b: 100 },
-        false,
-      )
+      // no fill - color1
+      drawShape(p5, p5.ceil(resultData._3), 20, 0.8, color._1, false)
 
-      // no fill - black
-      drawShape(
-        p5,
-        p5.ceil(resultData._3),
-        20,
-        0.85,
-        { h: 0, s: 0, b: 0 },
-        false,
-      )
+      // no fill - color3
+      drawShape(p5, p5.ceil(resultData._4), 20, 0.3, color._3, true)
 
-      // no fill - background color
-      drawShape(
-        p5,
-        p5.ceil(resultData._2),
-        20,
-        0.85,
-        {
-          h: backgroundColor.h,
-          s: 40,
-          b: 40,
-        },
-        false,
-      )
+      // // no fill - white
+      // drawShape(
+      //   p5,
+      //   p5.ceil(resultData._4),
+      //   20,
+      //   0.85,
+      //   { h: 0, s: 0, b: 100 },
+      //   false,
+      // )
+      //
+      // // no fill - black
+      // drawShape(
+      //   p5,
+      //   p5.ceil(resultData._3),
+      //   20,
+      //   0.85,
+      //   { h: 0, s: 0, b: 0 },
+      //   false,
+      // )
+      //
+      // // no fill - background color
+      // drawShape(
+      //   p5,
+      //   p5.ceil(resultData._2),
+      //   20,
+      //   0.85,
+      //   {
+      //     h: backgroundColor.h,
+      //     s: 40,
+      //     b: 40,
+      //   },
+      //   false,
+      // )
     }
   }
 }
