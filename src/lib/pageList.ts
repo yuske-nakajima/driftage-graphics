@@ -33,7 +33,9 @@ import { pageInfo as artPatternCircleLineUpInteractive } from '@/pages/art/patte
 import { pageInfo as artPatternCircleLineUpMove } from '@/pages/art/pattern/circle/line-up-move'
 import { pageInfo as artShapeHeartMove } from '@/pages/art/shape/heart/move'
 import { pageInfo as artTrigBasic } from '@/pages/art/trig/basic'
+import { pageInfo as artTrigBasic2 } from '@/pages/art/trig/basic2'
 import { pageInfo as artTrigPoint } from '@/pages/art/trig/point'
+import { pageInfo as artDrumVer1 } from '@/pages/art/drum/ver1'
 
 export const PAGE_LIST: PageInfo[] = [
   artMovePoint,
@@ -70,5 +72,7 @@ export const PAGE_LIST: PageInfo[] = [
   artClockCircleTubeSmooth,
   artClockGridTube,
   artTrigBasic,
+  artTrigBasic2,
   artTrigPoint,
+  artDrumVer1,
 ]
